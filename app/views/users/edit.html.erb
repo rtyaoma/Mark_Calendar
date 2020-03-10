@@ -1,0 +1,31 @@
+<h1>Users#edit</h1>
+<div class="main users-new">
+  <div class="container">
+    <div class="form-heading">編集</div>
+    <div class="form users-form">
+        <div class="form-body">
+            <%= form_with model: @user, url:"/users/#{@user.id}/update", multipart: true do |form| %>
+                <div class="field" >
+                <%= form.label :name %>
+                <%= form.text_field :name %>
+                </div>
+                <div class="field" >
+                <%= form.label :email %>
+                <%= form.text_field :email %>
+                </div>
+                <div class="field" >
+                <%= form.label :password %>
+                <%= form.text_field :password %>
+                </div>
+                <div class="field" >
+                <%= form.label :画像 %>
+                <%= form.file_field :image %>
+                </div>
+                <div class="action" >
+                <%= form.submit value:"登録" %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+  </div>
+</div>

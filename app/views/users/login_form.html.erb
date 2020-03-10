@@ -1,0 +1,23 @@
+<div class="main users-new">
+    <div class="container">
+        <div class="form-heading">ログイン</div>
+            <div class="form users-form">
+                <div class="form-body">
+                    <%= form_with model: @user, url:"/login" do |form| %>
+                        <div class="field" >
+                            <%= form.label :email %>
+                            <%= form.email_field :email %>
+                        </div>
+                        <div class="field" >
+                            <%= form.label :password %>
+                            <%= form.password_field :password %>
+                        </div>
+                        <div class="action" >
+                            <%= form.submit value:"ログイン" %>
+                        </div>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

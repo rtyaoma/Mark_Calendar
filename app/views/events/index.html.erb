@@ -1,4 +1,30 @@
-<h1>Events#index</h1>
-<p>Find me in app/views/events/index.html.erb</p>
-
-<div id="calendar"></div>
+<div class="main events-index">
+  <div =class"container">
+    <section class="sec_content">
+      <div class="split-box westan">
+        <h1>Events#index</h1>
+        <div id="calendar" style="width:600px;height:auto;"></div>
+      </div>
+      <div class="split-box eastan">
+        <% @events.each do |event| %>
+          <table>
+            <tr>
+              <th>user<th>
+              <th>title</th>
+              <th>time</th>
+            </tr>
+            <tr>
+              <td><%= link_to(event.user.name,"/users/#{event.user.id}") %>
+              <td><%= event.title %></td>
+              <td><%= event.start %></td>
+              <td><%= event.end %></td>
+              <td><%= link_to("show","/events/#{event.id}") %></td>
+              <td><%= link_to("edit","/events/#{event.id}/edit") %></td>
+              <td><%= link_to("Destroy", "/events/#{event.id}/destroy",{method: "post"}) %></td>
+            </tr>
+          </table>
+        <% end %>
+      </div>
+    </section>
+  </div>
+</div>

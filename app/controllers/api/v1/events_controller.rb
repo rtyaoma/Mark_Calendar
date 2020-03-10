@@ -4,9 +4,9 @@ class Api::V1::EventsController < ApplicationController
     module Api
         module V1
             class EventsController < ApplicationController
-                load_and_authorize_resource
+                # load_and_authorize_resource
                 # CSRF対策
-                protect_from_forgery except: [:create, :update]
+                # protect_from_forgery except: [:create, :update]
 
                 def index
                     @events = Event.order(:id).limit(params[:limit]).offset(params[:offset])
@@ -28,8 +28,8 @@ class Api::V1::EventsController < ApplicationController
                     event_params.require(:title)
                     event_params.require(:start)
                     event_params.require(:end)
-                    # event_params.require(:color)
-                    # event_params.require(:allday)
+                    event_params.require(:color)
+                    event_params.require(:allday)
                     respond_to do |format|
                         format.any
                         if @event.update!(event_params)
@@ -49,16 +49,16 @@ class Api::V1::EventsController < ApplicationController
                     event_params.require(:title)
                     event_params.require(:start)
                     event_params.require(:end)
-                    # event_params.require(:color)
-                    # event_params.require(:allday)
+                    event_params.require(:color)
+                    event_params.require(:allday)
                     @event = Event.new(event_params)
                     respond_to do |format|
-                    format.any
-                    if @event.save!
-                        render json: @event
-                    else
-                        render json: {status: "ng", code: 500, content: {message: "エラーだよ"}}
-                    end
+                        format.any
+                        if @event.save!
+                            render json: @event
+                        else
+                            render json: {status: "ng", code: 500, content: {message: "エラーだよ"}}
+                        end
                     end
                 end
 

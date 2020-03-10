@@ -1,2 +1,27 @@
-<h1>Events#show</h1>
-<p>Find me in app/views/events/show.html.erb</p>
+<div class="main events-index">
+  <div =class"container">
+    <section class="sec_content">
+        <div class="split-box westan">
+            <h1>Events#show</h1>
+            <div id="calendar" style="width:600px;height:auto;"></div>
+        </div>
+        <div class="split-box eastan">
+            <div class="post-user-name">
+                <img src="<%= "/user_images/#{@user.image_name}" %>">
+                <%= link_to(@user.name, "/users/#{@user.id}") %>
+            </div>
+            <p><%= @event.title %></p>
+            <div class="event-time">
+                <%= @event.start %>
+                <%= @event.end %>
+            </div>
+            <% if @event.user_id == @current_user.id %>
+                <div class="event_menu">
+                    <%= link_to("edit","/events/#{@event.id}/edit") %>
+                    <%= link_to("Destroy", "/events/#{@event.id}/destroy", {method: "post"}) %>
+                </div>
+            <% end %>
+        </div>
+    </section>
+  </div>
+</div>

@@ -17,3 +17,10 @@
 //= require moment
 //= require fullcalendar
 //= require_tree .
+//$(document).on('tubolinks:load',function(){
+
+$(function() {
+    $('#calendar').fullCalendar({
+        events: '/events/index',
+    });
+});
