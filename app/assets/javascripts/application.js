@@ -17,10 +17,7 @@
 //= require moment
 //= require fullcalendar
 //= require_tree .
-//$(document).on('tubolinks:load',function(){
 
-$(function() {
-    $('#calendar').fullCalendar({
-        events: '/events/index',
-    });
-});
+$(function(){
+    setTimeout("$('.time-limit').fadeOut('slow')", 1000) 
+  })

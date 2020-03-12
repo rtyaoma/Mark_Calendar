@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'calendars/index'
   namespace :api, { format: 'json' } do
     namespace :v1 do
         resources :events
@@ -7,9 +8,18 @@ Rails.application.routes.draw do
   format 'json' do
     get 'events/index'
   end
+
+
   get 'login' => 'users#login_form'
   post 'login' => 'users#login'
   post 'logout' => 'users#logout'
+
+  patch 'calendars/:id/update' => 'calendars#update'
+  get 'calendars/:id/edit' => 'calendars#edit'
+  post 'calendars/create' => 'calendars#create'
+  get 'calendars/index' => 'calendars#index'
+  get 'calendars/new' => 'calendars#new'
+  get 'calendars/:id' => 'calendars#show'
 
   patch "users/:id/update" => "users#update"
   get "users/:id/edit" => "users#edit"

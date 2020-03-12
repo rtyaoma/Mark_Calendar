@@ -1,0 +1,15 @@
+<div class="main calendars-edit">
+  <div class="container">
+  <%= form_with model: @calendar, url:"/calendars/#{@calendar.id}/update" do |form| %>
+    <div class="field" >
+      <%= form.label :title %>
+      <%= form.text_field :title %>
+    </div>
+    <div class="field" >
+      <div class="action" >
+        <%= form.submit value:"登録" %>
+      </div>
+    </div>
+  <% end %>
+  </div>
+</div>

@@ -16,6 +16,7 @@ class Api::V1::EventsController < ApplicationController
 
                 def show
                     @event = Event.find(params[:id])
+                    @user = @event.user
                     render json: @event.to_json
                 end
 
@@ -52,6 +53,7 @@ class Api::V1::EventsController < ApplicationController
                     event_params.require(:color)
                     event_params.require(:allday)
                     @event = Event.new(event_params)
+                    @event.user_id = @current_user.id
                     respond_to do |format|
                         format.any
                         if @event.save!

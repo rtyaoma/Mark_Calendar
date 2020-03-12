@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy] #パラメータのidからレコードを特定するメソッド
-  #before_action :authenticate_user
+  before_action :authenticate_user
   before_action :ensure_correct_user, {only: [:edit, :update, :destroy]}
   def index
     @events = Event.all
