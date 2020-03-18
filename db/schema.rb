@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_11_010218) do
+ActiveRecord::Schema.define(version: 2020_03_18_104851) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "calendar_events", force: :cascade do |t|
+    t.bigint "calendar_id"
+    t.bigint "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["calendar_id"], name: "index_calendar_events_on_calendar_id"
+    t.index ["event_id"], name: "index_calendar_events_on_event_id"
+  end
 
   create_table "calendars", force: :cascade do |t|
     t.string "title"
@@ -33,6 +42,7 @@ ActiveRecord::Schema.define(version: 2020_03_11_010218) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.integer "calendar_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -44,4 +54,6 @@ ActiveRecord::Schema.define(version: 2020_03_11_010218) do
     t.string "image_name"
   end
 
+  add_foreign_key "calendar_events", "calendars"
+  add_foreign_key "calendar_events", "events"
 end

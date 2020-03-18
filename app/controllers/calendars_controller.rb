@@ -12,12 +12,13 @@ class CalendarsController < ApplicationController
   end
 
   def create
-    @calendar = Calendar.new(title: params[:title])
+    @calendar = Calendar.new(calendar_params)
     if @calendar.save
+      session[:calendar_id] = @calendar.id
       flash[:notice] = "カレンダーを登録しました"
-      redirect_to("/calendar/#{@calendar.id}")
+      redirect_to("/calendars/#{@calendar.id}")
     else
-      render("calendar/new")
+      render("calendars/new")
     end
   end
 
@@ -34,5 +35,18 @@ class CalendarsController < ApplicationController
     else
       render("calendars/edit")
     end
+  end
+
+  def search
+    @calendar = Calendar.find_by(calendar_params)
+     session[:calendar_id] = @calendar.id
+    redirect_to "index"
+  end
+
+  private
+  def calendar_params
+    params.require(:calendar).permit(
+      :title
+    )
   end
 end

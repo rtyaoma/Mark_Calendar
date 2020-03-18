@@ -1,0 +1,11 @@
+<%= form_with(model: @event, url:'/select') do |form| %>
+    <div class="field">
+        <%= collection_check_boxes(:event, :calendar_ids, Calendar.all, :id, :title) do |b| %>
+            <%= b.label { b.check_box + b.text } %>
+        <% end %>
+    </div>
+ 
+<div class="actions">
+  <%= form.submit %>
+</div>
+<% end %>

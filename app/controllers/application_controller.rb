@@ -1,9 +1,14 @@
 class ApplicationController < ActionController::Base
     before_action :set_current_user
+    before_action :set_current_calendar
         def set_current_user
             @current_user = User.find_by(id: session[:user_id])
         end
 
+        def set_current_calendar
+          @current_calendar = Calendar.find_by(id: session[:calendar_id])
+        end
+        
         def authenticate_user
             if @current_user == nil
               flash[:notice] = "ログインが必要です"

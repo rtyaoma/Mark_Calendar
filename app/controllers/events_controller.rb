@@ -3,8 +3,8 @@ class EventsController < ApplicationController
   before_action :authenticate_user
   before_action :ensure_correct_user, {only: [:edit, :update, :destroy]}
   def index
-    @events = Event.all
-
+    #@events = Event.all
+    @events = Event.where(user_id: @current_user.id, calendar_id: @current_calendar.id)
     respond_to do |format|
       format.html
       format.xml { render :xml => @events }
@@ -35,6 +35,7 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     @event.user_id = @current_user.id
+    @event.calendar_id = @current_calendar.id
     respond_to do |format|
       if @event.save
         format.html { redirect_to '/events/index',notice: 'Event was successfully created.' }
@@ -75,7 +76,7 @@ class EventsController < ApplicationController
     end
   end
 
-  private
+    private
     def set_event
       @event = Event.find_by(id:params[:id])
     end

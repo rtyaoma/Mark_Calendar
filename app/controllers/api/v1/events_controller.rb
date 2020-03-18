@@ -1,6 +1,5 @@
 class Api::V1::EventsController < ApplicationController
     require "#{Rails.root}/app/controllers/application_controller.rb"
-
     module Api
         module V1
             class EventsController < ApplicationController
@@ -29,8 +28,8 @@ class Api::V1::EventsController < ApplicationController
                     event_params.require(:title)
                     event_params.require(:start)
                     event_params.require(:end)
-                    event_params.require(:color)
-                    event_params.require(:allday)
+                    #event_params.require(:color)
+                    #event_params.require(:allday)
                     respond_to do |format|
                         format.any
                         if @event.update!(event_params)
@@ -50,10 +49,9 @@ class Api::V1::EventsController < ApplicationController
                     event_params.require(:title)
                     event_params.require(:start)
                     event_params.require(:end)
-                    event_params.require(:color)
-                    event_params.require(:allday)
+                    #event_params.require(:color)
+                    #event_params.require(:allday)
                     @event = Event.new(event_params)
-                    @event.user_id = @current_user.id
                     respond_to do |format|
                         format.any
                         if @event.save!
@@ -76,9 +74,7 @@ class Api::V1::EventsController < ApplicationController
                     .permit(
                         :title,
                         :start,
-                        :end,
-                        :color,
-                        :allday
+                        :end
                     )
                     end
             end

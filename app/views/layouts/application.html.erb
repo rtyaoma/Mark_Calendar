@@ -19,9 +19,10 @@
     <div class="header-menus">
        <% if @current_user %>
         <li><%= link_to("about", "/events/index") %></li>
-        <li><%= link_to("calendar", "/events/index") %></li>
+        <li><%= link_to("calendar", "/calendars/index") %></li>
         <li><%= link_to("task", "/events/index") %></li>
         <li><%= link_to("user","/users/index") %></li>
+        <li><%= link_to("new","/events/new") %></li>
         <li><%= link_to("logout", "/logout", {method: :post}) %></li>
       <% else %>
         <li><%= link_to("about", "/events/index") %></li>

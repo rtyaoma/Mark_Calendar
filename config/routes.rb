@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'calendars/index'
   namespace :api, { format: 'json' } do
     namespace :v1 do
         resources :events
@@ -9,7 +8,7 @@ Rails.application.routes.draw do
     get 'events/index'
   end
 
-
+  post 'select' => 'calendars#search'
   get 'login' => 'users#login_form'
   post 'login' => 'users#login'
   post 'logout' => 'users#logout'
@@ -35,5 +34,6 @@ Rails.application.routes.draw do
   get 'events/:id/edit' => 'events#edit'
   patch 'events/:id/update' => 'events#update'
   post 'events/:id/destroy' => 'events#destroy'
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -34,7 +34,7 @@ class UsersController < ApplicationController
     @user.update(user_params)
     if params[:image]
       @user.image_name = "#{@user.id}.jpg"
-      image =
+      image = param[:image]
       File.binwrite("public/user_images/#{@user.image_name}", image.read)
     end
     if @user.save
