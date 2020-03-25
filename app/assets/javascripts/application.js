@@ -19,5 +19,12 @@
 //= require_tree .
 
 $(function(){
-    setTimeout("$('.time-limit').fadeOut('slow')", 1000) 
-  })
+    setTimeout("$('.time-limit').fadeOut('slow')", 1000),
+  $(document).on('change','.label-checkbox',function(){
+    $('.label-checkbox option:checked').each(function(){
+      var v = $(this).val();
+      alert(v);  
+    });
+    //window.alert('チェックされたよ！');
+  });
+});

@@ -1,11 +1,11 @@
-class Api::V1::EventsController < ApplicationController
+#class Api::V1::EventsController < ApplicationController
     require "#{Rails.root}/app/controllers/application_controller.rb"
     module Api
-        module V1
+         module V1
             class EventsController < ApplicationController
                 # load_and_authorize_resource
                 # CSRF対策
-                # protect_from_forgery except: [:create, :update]
+                protect_from_forgery except: [:create, :update]
 
                 def index
                     @events = Event.order(:id).limit(params[:limit]).offset(params[:offset])
@@ -78,6 +78,6 @@ class Api::V1::EventsController < ApplicationController
                     )
                     end
             end
-        end
+         end
     end
-end
+#end

@@ -38,7 +38,7 @@ class CalendarsController < ApplicationController
   end
 
   def search
-    @calendar = Calendar.find_by(calendar_params)
+    @calendar = Calendar.where(id:params[:calendar_id])
      session[:calendar_id] = @calendar.id
     redirect_to "index"
   end
