@@ -1,43 +1,43 @@
-  <div class="main events-index">
-  <div =class"container">
-    <section class="sec_content">
-      <div class="split-box content_left">
-        <h1>Events#new</h1>
-        <div id="calendar" style="width:600px;height:auto;"></div>
-      </div>
-      <div class="split-box content_right">
-        <%= form_with model: @event, url:"/events/create" do |form| %>
-          <div class="field" >
-            <%= form.label :title %>
-            <%= form.text_field :title %>
-          </div>
-          <div class="field" >
-            <%= form.label :start %>
-            <%= form.datetime_select :start, selected: Date.today %>
-          </div>
-          <div class="field" >
-            <%= form.label :end %>
-            <%= form.datetime_select :end, selected: Date.today %>
-          </div>
-          <div class="field" >
-            <%= form.label :place %>
-            <%= form.text_area :place %>
-          </div>
-          <div class="field" >
-            <%= form.label :description %>
-            <%= form.text_area :description %>
-          </div>
+<div class="main events-index">
+<div =class"container">
+  <section class="sec_content">
+    <div class="split-box content_left">
+      <h1>Events#new</h1>
+      <div id="calendar" style="width:600px;height:auto;"></div>
+    </div>
+    <div class="split-box content_right">
+      <%= form_with model: @event, url:"/events/create" do |form| %>
+        <div class="field" >
+          <%= form.label :title %>
+          <%= form.text_field :title %>
+        </div>
+        <div class="field" >
+          <%= form.label :starts_at %>
+          <%= form.datetime_select :starts_at, selected: Date.today %>
+        </div>
+        <div class="field" >
+          <%= form.label :ends_at %>
+          <%= form.datetime_select :ends_at, selected: Date.today %>
+        </div>
+        <div class="field" >
+          <%= form.label :place %>
+          <%= form.text_area :place %>
+        </div>
+        <div class="field" >
+          <%= form.label :description %>
+          <%= form.text_area :description %>
+        </div>
 
-          <div class="field">
-            <%= form.label :allday %>
-            <%= form.check_box :allday, :as => :boolean %>
-          </div>
-        
-          <div class="action" >
-            <%= form.submit value:"投稿" %>
-          </div>
-        <% end %>
-      </div>
-    </section>
-  </div>
+        <div class="field">
+          <%= form.label :allday %>
+          <%= form.check_box :allday, :as => :boolean %>
+        </div>
+      
+        <div class="action" >
+          <%= form.submit value:"投稿" %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+</div>
 </div>

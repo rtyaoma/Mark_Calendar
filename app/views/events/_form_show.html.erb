@@ -1,0 +1,15 @@
+<div class="post-user-name">
+<img src="<%= "/user_images/#{@user.image_name}" %>">
+<%= link_to(@user.name, "/users/#{@user.id}") %>
+</div>
+<p><%= @event.title %></p>
+<div class="event-time">
+<%= @event.starts_at %>
+<%= @event.ends_at %>
+</div>
+<% if @event.user_id == @current_user.id %>
+<div class="event_menu">
+    <%= link_to("edit","/events/#{@event.id}/edit") %>
+    <%= link_to("Destroy", "/events/#{@event.id}/destroy", {method: "post"}) %>
+</div>
+<% end %>

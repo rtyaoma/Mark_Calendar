@@ -1,14 +1,14 @@
 $(document).on('turbolinks:load', function() {
 
-  var calendar = $('#calendar').fullCalendar({
+    var calendar = $('#calendar').fullCalendar({
     events: '/events/index.json',
     timeFormat: 'H:mm',
-    lang: 'ja',
     header: {
       left: 'prev,next today',
       center: 'title',
       right: 'month,agendaWeek,agendaDay'
     },
+    setAllDay: "false",
     axisFormat: 'H:mm',
     monthNames: ['１月','２月','３月','４月','５月','６月','７月','８月','９月','１０月','１１月','１２月'],
     monthNamesShort: ['１月','２月','３月','４月','５月','６月','７月','８月','９月','１０月','１１月','１２月'],
@@ -40,7 +40,7 @@ $(document).on('turbolinks:load', function() {
     minTime: "00:00:00",                   // スケジュールの開始時間
     maxTime: "24:00:00",                   // スケジュールの最終時間
     defaultTimedEventDuration: '10:00:00', // 画面上に表示する初めの時間(スクロールされている場所)
-    allDaySlot: false,                     // 終日スロットを非表示
+    //allDaySlot: false,                     // 終日スロットを非表示
     allDayText:'allday',                   // 終日スロットのタイトル
     slotMinutes: 15,                       // スロットの分
     snapMinutes: 15,                       // 選択する時間間隔
@@ -51,22 +51,28 @@ $(document).on('turbolinks:load', function() {
       const day = moment(start).date();
       $.ajax ({
         type: 'GET',
-        url: '/events/new',
+        url: '/events/click',
       }).done(function (res){
         $('.content_right').html(res);
         //window.location.href = '/events/new';
-        $('#event_start_1i').val(year);
-        $('#event_start_2i').val(month);
-        $('#event_start_3i').val(day);
-        $('#event_end_3i').val(day);
+        $('#event_starts_at_1i').val(year);
+        $('#event_starts_at_2i').val(month);
+        $('#event_starts_at_3i').val(day);
+        $('#event_ends_at_3i').val(day);
         }).fail(function (result){
           alert('エラーが発生しました')
         });
     },
     eventClick: function(event) { //イベントをクリックしたときに実行
       var id = event.id
-      var show_url = "/events/"+id
-      location.href = show_url;
+      var show_url = "/events/click/"+id;
+      $.ajax ({
+        type:'GET',
+        url: show_url,
+      }).done(function(res){
+        $('.content_right').html(res);
+      });
+      //location.href = show_url;
     },
     eventDrop: function(event) { //イベントをドラッグ&ドロップした際に実行
       var id = event.id
@@ -90,8 +96,8 @@ $(document).on('turbolinks:load', function() {
       var data = {
         event: {
           title: event.title,
-          start: start,
-          end: end_time,
+          starts_at: start,
+          ends_at: end_time,
           allday: false
         }
       }

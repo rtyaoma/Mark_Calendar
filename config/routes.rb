@@ -30,7 +30,9 @@ Rails.application.routes.draw do
 
   get 'events/index'
   get 'events/new' => 'events#new'
+  get 'events/click' => 'events#click_new'
   get 'events/:id' => 'events#show'
+  get 'events/click/:id' => 'events#click_show'
   post 'events/create' => 'events#create'
   get 'events/:id/edit' => 'events#edit'
   patch 'events/:id/update' => 'events#update'

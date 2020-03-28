@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy] #パラメータのidからレコードを特定するメソッド
-  before_action :authenticate_user
-  before_action :ensure_correct_user, {only: [:edit, :update, :destroy]}
+  #before_action :authenticate_user
+  #before_action :ensure_correct_user, {only: [:edit, :update, :destroy]}
   def index
     @events = Event.all
     #@events = Event.where(user_id: @current_user.id, calendar_id: @current_calendar.id)
@@ -15,18 +15,19 @@ class EventsController < ApplicationController
   def show
     @event = Event.find_by(id:params[:id])
     @user = @event.user
-
     respond_to do |format|
       format.html
       format.xml { render :xml => @events }
       format.json { render :json => @events }
     end
-
   end
+
 
   def new
     @event = Event.new
-    render plain: render_to_string(partial: 'form_new', layout: false, locals: { event: @event })
+    #time0 = Time.current.beginning_of_hour
+    #@event.starts_at = time0.advance(hours: 1)
+    #@event.ends_at = time0.advance(hours: 2)
   end
 
   def edit
@@ -77,6 +78,22 @@ class EventsController < ApplicationController
     end
   end
 
+  def click_new
+    @event = Event.new
+    render plain: render_to_string(partial: 'form_new', layout: false, locals: { event: @event })
+  end
+
+  def click_show
+    @event = Event.find_by(id:params[:id])
+    @user = @event.user
+    render plain: render_to_string(partial: 'form_show', layout: false, locals: { event: @event })
+    respond_to do |format|
+      format.html
+      format.xml { render :xml => @events }
+      format.json { render :json => @events }
+    end
+  end
+
     private
     def set_event
       @event = Event.find_by(id:params[:id])
@@ -85,12 +102,12 @@ class EventsController < ApplicationController
     def event_params
       params.require(:event).permit(
         :title,
-        :start,
-        :end
-        #:place,
-        #:description
+        :starts_at,
+        :ends_at,
+        :place,
+        :description,
         #:color,
-        #:allday
+        :allday
       )
     end
 

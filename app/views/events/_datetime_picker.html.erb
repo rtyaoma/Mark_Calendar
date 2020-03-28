@@ -1,0 +1,14 @@
+<div class='row'>
+  <div class='col-12 col-md-7'>
+    <div class='input-group date-picker'>
+      <%= f.date_select "#{attr_name}_date_part", class: 'form-control' %>
+      <span class='input-group-addon'><i class='fa fa-calendar'></i></span>
+    </div>
+  </div>
+  <div class="col-12 col-md-5">
+    <div class='input-group time-picker'>
+      <%= f.time_select "#{attr_name}_time_part", class: 'form-control' %>
+      <span class='input-group-addon'><i class='fa fa-clock-o'></i></span>
+    </div>
+  </div>
+</div>

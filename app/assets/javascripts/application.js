@@ -20,11 +20,12 @@
 
 $(function(){
     setTimeout("$('.time-limit').fadeOut('slow')", 1000),
-  $(document).on('change','.label-checkbox',function(){
-    $('.label-checkbox option:checked').each(function(){
-      var v = $(this).val();
-      alert(v);  
+    $('input[name="event[calendar_id][]"]').change(function() {
+      $('input[name="event[calendar_id][]"]:checked').map(function() {
+        var v = $(this).val();
+        var vlist = $.makeArray(v);
+        console.log(vlist);
+      })
     });
     //window.alert('チェックされたよ！');
-  });
 });

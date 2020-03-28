@@ -7,9 +7,6 @@
         <div id="calendar" style="width:600px;height:auto;"></div>
       </div>
       <div class="split-box content_right">
-      <div id="modal">
-      <div class="modal-body"></div>
-      </div>
         <% @events.each do |event| %>
           <table>
             <tr>
@@ -18,10 +15,10 @@
               <th>time</th>
             </tr>
             <tr>
-              <td><%= link_to(event.user.name,"/users/#{event.user.id}") %>
+              <td><%= link_to(event.user.name,"/users/#{event.user.id}") %></td>
               <td><%= event.title %></td>
-              <td><%= event.start %></td>
-              <td><%= event.end %></td>
+              <td><%= event.starts_at %></td>
+              <td><%= event.ends_at %></td>
               <td><%= link_to("show","/events/#{event.id}") %></td>
               <td><%= link_to("edit","/events/#{event.id}/edit") %></td>
               <td><%= link_to("Destroy", "/events/#{event.id}/destroy",{method: "post"}) %></td>

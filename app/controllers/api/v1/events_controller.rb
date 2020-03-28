@@ -26,10 +26,10 @@
                 def update
                     @event = Event.find(params[:id])
                     event_params.require(:title)
-                    event_params.require(:start)
-                    event_params.require(:end)
+                    event_params.require(:starts_at)
+                    event_params.require(:ends_at)
                     #event_params.require(:color)
-                    #event_params.require(:allday)
+                    event_params.require(:allday)
                     respond_to do |format|
                         format.any
                         if @event.update!(event_params)
@@ -47,10 +47,10 @@
 
                 def create
                     event_params.require(:title)
-                    event_params.require(:start)
-                    event_params.require(:end)
+                    event_params.require(:starts_at)
+                    event_params.require(:ends_at)
                     #event_params.require(:color)
-                    #event_params.require(:allday)
+                    event_params.require(:allday)
                     @event = Event.new(event_params)
                     respond_to do |format|
                         format.any
@@ -73,9 +73,10 @@
                     params[:event]
                     .permit(
                         :title,
-                        :start,
-                        :end
-                    )
+                        :starts_at,
+                        :ends_at,
+                        #:allday
+                    ),
                     end
             end
          end

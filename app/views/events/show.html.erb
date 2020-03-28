@@ -12,8 +12,8 @@
             </div>
             <p><%= @event.title %></p>
             <div class="event-time">
-                <%= @event.start %>
-                <%= @event.end %>
+                <%= @event.starts_at %>
+                <%= @event.ends_at %>
             </div>
             <% if @event.user_id == @current_user.id %>
                 <div class="event_menu">
