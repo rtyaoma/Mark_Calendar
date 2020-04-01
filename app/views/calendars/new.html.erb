@@ -1,6 +1,6 @@
 <div class="main calendar-new">
   <div calss="container">
-    <%= form_with model: @calendar, url:"/calendars/create" do |form| %>
+    <%= form_with model: @calendar, url:"/calendars_create" do |form| %>
       <div class="field" >
         <%= form.label :title %>
         <%= form.text_field :title, value: "プライベート" %>

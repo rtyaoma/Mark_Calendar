@@ -1,6 +1,6 @@
 $(document).on('turbolinks:load', function() {
 
-    var calendar = $('#calendar').fullCalendar({
+  var calendar = $('#calendar').fullCalendar({
     events: '/events/index.json',
     timeFormat: 'H:mm',
     header: {
@@ -15,9 +15,10 @@ $(document).on('turbolinks:load', function() {
     dayNames: ['日曜日','月曜日','火曜日','水曜日','木曜日','金曜日','土曜日'],
     editable: true,        // 編集可
     selectable: true,      // 選択可
-    //selectHelper: true,    // 選択時にプレースホルダーを描画
+    droppable: true,
+    selectHelper: true,    // 選択時にプレースホルダーを描画
     ignoreTimezone: false, // 自動選択解除
-   //select: select,        // 選択時に関数にパラメータ引き渡す
+    select: select,        // 選択時に関数にパラメータ引き渡す
     buttonText: {
       prev:     '<',   // &lsaquo;
       next:     '>',   // &rsaquo;
@@ -40,7 +41,7 @@ $(document).on('turbolinks:load', function() {
     minTime: "00:00:00",                   // スケジュールの開始時間
     maxTime: "24:00:00",                   // スケジュールの最終時間
     defaultTimedEventDuration: '10:00:00', // 画面上に表示する初めの時間(スクロールされている場所)
-    //allDaySlot: false,                     // 終日スロットを非表示
+    allDaySlot: false,                     // 終日スロットを非表示
     allDayText:'allday',                   // 終日スロットのタイトル
     slotMinutes: 15,                       // スロットの分
     snapMinutes: 15,                       // 選択する時間間隔
@@ -55,10 +56,11 @@ $(document).on('turbolinks:load', function() {
       }).done(function (res){
         $('.content_right').html(res);
         //window.location.href = '/events/new';
-        $('#event_starts_at_1i').val(year);
-        $('#event_starts_at_2i').val(month);
-        $('#event_starts_at_3i').val(day);
-        $('#event_ends_at_3i').val(day);
+        $('#event_start_1i').val(year);
+        $('#event_start_2i').val(month);
+        $('#event_start_3i').val(day);
+        $('#event_end_3i').val(day);
+        //$('#event_end_4i') = '00';
         }).fail(function (result){
           alert('エラーが発生しました')
         });
@@ -75,29 +77,52 @@ $(document).on('turbolinks:load', function() {
       //location.href = show_url;
     },
     eventDrop: function(event) { //イベントをドラッグ&ドロップした際に実行
-      var id = event.id
-      var update_url = "/api/v1/events/"+id
-      var start = moment(start).format("YYYY-MM-DD HH:mm");
-      var end = start.clone();
-      var event_start_time = event._start._d
-      var year = event_start_time.getYear() + 1900;
-      var month = event_start_time.getMonth() + 1;
-      var day   = event_start_time.getDate();
-      var hour  = ( event_start_time.getHours()   < 10 ) ? '0' + event_start_time.getHours()   : event_start_time.getHours();
-      var min   = ( event_start_time.getMinutes() < 10 ) ? '0' + event_start_time.getMinutes() : event_start_time.getMinutes();
-      var event_end_time = event._end._d
-      var year = event_end_time.getYear() + 1900;
-      var month = event_end_time.getMonth() + 1;
-      var day   = event_end_time.getDate();
-      var hour  = ( event_end_time.getHours()   < 10 ) ? '0' + event_end_time.getHours()   : event_end_time.getHours();
-      var min   = ( event_end_time.getMinutes() < 10 ) ? '0' + event_end_time.getMinutes() : event_end_time.getMinutes();
-      var moment_end = year+"-"+month+"-"+day+" "+hour+":"+min;
-      var end_time = moment(moment_end).add(-9, 'hour').format("YYYY-MM-DD HH:mm");
+      var id = event.id;
+      var update_url = "/api/v1/events/"+id;
+      var start = event.start;
+      var start_year = moment(start).year();
+      var start_month = moment(start).month()+1
+      var start_day = moment(start).date();
+      var start_hour = (moment(start).hours()   < 10 ) ? '0' + moment(start).hours() : moment(start).hours();
+      var start_min = (moment(start).minutes()   < 10 ) ? '0' + moment(start).minutes() : moment(start).minutes();
+      var moment_start = start_year+"-"+start_month+"-"+start_day+" "+start_hour+":"+start_min;
+        //console.log(moment_start,moment_end);
+        //"YYYY-MM-DD HH:mm"
       var data = {
         event: {
           title: event.title,
-          starts_at: start,
-          ends_at: end_time,
+          start: moment_start,
+          end: moment_start,
+          allday: false
+        }
+      }
+      $.ajax({
+       type: "PATCH",
+       url: update_url,
+       data: data,
+       success: function() {
+         calendar.fullCalendar('refetchEvents');
+       }
+      });
+      calendar.fullCalendar('unselect');
+    },
+    eventResize: function(event) {
+      var id = event.id;
+      var update_url = "/api/v1/events/"+id;
+      var start = event.start;
+      var start_year = moment(start).year();
+      var start_month = moment(start).month()+1
+      var start_day = moment(start).date();
+      var start_hour = (moment(start).hours()   < 10 ) ? '0' + moment(start).hours() : moment(start).hours();
+      var start_min = (moment(start).minutes()   < 10 ) ? '0' + moment(start).minutes() : moment(start).minutes();
+      var moment_start = start_year+"-"+start_month+"-"+start_day+" "+start_hour+":"+start_min;
+        //console.log(moment_start,moment_end);
+        //"YYYY-MM-DD HH:mm"
+      var data = {
+        event: {
+          title: event.title,
+          start: moment_start,
+          end: moment_start,
           allday: false
         }
       }
@@ -112,5 +137,11 @@ $(document).on('turbolinks:load', function() {
       calendar.fullCalendar('unselect');
     },
   });
+  var select = function(info) {
+    start_time = info.startStr()
+    end_time = end.unix()
+    var d = new Date( start_time * 1000 );
+  console.log(start_time);
+  }
 });
 // カレンダー表示部分

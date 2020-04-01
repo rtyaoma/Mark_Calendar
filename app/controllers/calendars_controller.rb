@@ -1,4 +1,5 @@
 class CalendarsController < ApplicationController
+  skip_before_action :verify_authenticity_token
   def index
     @calendars = Calendar.all
   end
@@ -14,7 +15,7 @@ class CalendarsController < ApplicationController
   def create
     @calendar = Calendar.new(calendar_params)
     if @calendar.save
-      session[:calendar_id] = @calendar.id
+      #session[:calendar_id] = @calendar.id
       flash[:notice] = "カレンダーを登録しました"
       redirect_to("/calendars/#{@calendar.id}")
     else
@@ -38,9 +39,8 @@ class CalendarsController < ApplicationController
   end
 
   def search
-    @calendar = Calendar.where(id:params[:calendar_id])
-     session[:calendar_id] = @calendar.id
-    redirect_to "index"
+    session[:calendar_id] = Calendar.find(params[:calendar_id])
+    redirect_to controller: :events, action: :index
   end
 
   private

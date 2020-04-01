@@ -30,7 +30,9 @@ html,body {
     padding-right: 15px;
     clear: both;
   }
-  
+  .container-md {
+    margin-top: 20px;
+  }
   body {
     display: flex;
     min-height: 100vh;
@@ -142,4 +144,51 @@ header div:first-child {
     border-radius: 0 0 2px 2px;
     font-size: 14px;
   }
-  
+// new_form--------------------------
+dl {
+  width: 500px;
+}
+
+dl dt {
+  float: left;
+  padding: 1em;
+  color: #000000;
+}
+
+dl dd {
+  margin: 0;
+  padding: 1em 0 1em 5em;
+}
+
+input[type="email"] {
+  width: 50%;
+}
+
+input {
+  font-size: 1em;
+  padding: 5px;
+}
+
+textarea {
+  width: 10em;
+  font-size: 1em;
+  padding: 5px;
+}
+
+p.submit {
+  text-align: center;
+}
+
+input[type="submit"] {
+  padding: 10px 30px;
+  background: #3a87ad;
+  font-size: 1em;
+  color: #ffffff;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  opacity: 0.8;
+}

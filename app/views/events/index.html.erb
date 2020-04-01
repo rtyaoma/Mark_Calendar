@@ -1,9 +1,8 @@
-<div class="main events-index">
-  <div =class"container">
-  <%= render 'events/select' %>
-    <section class="sec_content">
+<div class="container-md">
+  <div =class"main">
+  <section class="sec_content">
       <div class="split-box content_left">
-        <h1>Events#index</h1>
+        <%= render 'events/select' %>
         <div id="calendar" style="width:600px;height:auto;"></div>
       </div>
       <div class="split-box content_right">
@@ -17,8 +16,9 @@
             <tr>
               <td><%= link_to(event.user.name,"/users/#{event.user.id}") %></td>
               <td><%= event.title %></td>
-              <td><%= event.starts_at %></td>
-              <td><%= event.ends_at %></td>
+           
+              <td><%= event.start.strftime('%Y 年 %m 月 %d 日 %H:%M') %></td>
+              <td><%= event.end.strftime('%Y 年 %m 月 %d 日 %H:%M') %></td>
               <td><%= link_to("show","/events/#{event.id}") %></td>
               <td><%= link_to("edit","/events/#{event.id}/edit") %></td>
               <td><%= link_to("Destroy", "/events/#{event.id}/destroy",{method: "post"}) %></td>

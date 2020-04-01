@@ -1,25 +1,26 @@
-<div class="main user-show">
-  <div class="container">
-    <div class="split-box content_left">
-      <h1>Users#show</h1>
-      <div id="calendar" style="width:600px;height:auto;"></div>
-    </div>
-    <div class="split-box content_right">
-      <div class="user">
-        <img src="<%= "/user_images/#{@user.image_name}" %>" >
-        <h2><%= @user.name%></h2>
-        <p><%= @user.email%></p>
-        <% if @user.id == @current_user.id %>
-        <%= link_to("編集","/users/#{@user.id}/edit") %>
+<div class="container-md">
+  <div class="main">
+    <section class="sec_content">
+      <div class="split-box content_left">
+        <div id="calendar" style="width:600px;height:auto;"></div>
+      </div>
+      <div class="split-box content_right">
+        <div class="user">
+          <img src="<%= "/user_images/#{@user.image_name}" %>" >
+          <h2><%= @user.name%></h2>
+          <p><%= @user.email%></p>
+          <% if @user.id == @current_user.id %>
+          <%= link_to("編集","/users/#{@user.id}/edit") %>
+          <% end %>
+        </div>
+
+        <% @user.events.each do |event| %>
+            <div class="events-index-item">
+              <%= link_to(event.user.name, "/users/#{event.user.id}") %>
+              <%= link_to(event.title, "/events/#{event.id}") %>
+            </div>
         <% end %>
       </div>
-
-      <% @user.events.each do |event| %>
-          <div class="events-index-item">
-            <%= link_to(event.user.name, "/users/#{event.user.id}") %>
-            <%= link_to(event.title, "/events/#{event.id}") %>
-          </div>
-      <% end %>
-    </div>
+    </section>
   </div>
 </div>

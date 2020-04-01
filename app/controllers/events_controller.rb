@@ -1,10 +1,15 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :edit, :update, :destroy] #パラメータのidからレコードを特定するメソッド
+  skip_before_action :verify_authenticity_token
+  before_action :set_event, {only: [:show, :edit, :update, :destroy, :click_show]} #パラメータのidからレコードを特定するメソッド
   #before_action :authenticate_user
-  #before_action :ensure_correct_user, {only: [:edit, :update, :destroy]}
+  #before_action :set_current_calendar
+  before_action :ensure_correct_user, {only: [:edit, :update, :destroy]} #ログインしているユーザーのみ権限がある
   def index
-    @events = Event.all
-    #@events = Event.where(user_id: @current_user.id, calendar_id: @current_calendar.id)
+    #@events = Event.where(calendar_id: params[:calendar_id])
+    #@events = Event.all
+    logger.info "値を見たい #{params[session[:calendar_id]]}"
+    logger.info "@eventsの中身が見たい #{@events.inspect}" 
+    @events = Event.where(user_id: @current_user.id, calendar_id: params[session[:calendar_id]])
     respond_to do |format|
       format.html
       format.xml { render :xml => @events }
@@ -13,7 +18,6 @@ class EventsController < ApplicationController
   end
 
   def show
-    @event = Event.find_by(id:params[:id])
     @user = @event.user
     respond_to do |format|
       format.html
@@ -25,18 +29,29 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
-    #time0 = Time.current.beginning_of_hour
-    #@event.starts_at = time0.advance(hours: 1)
-    #@event.ends_at = time0.advance(hours: 2)
+    time0 = Time.current.beginning_of_hour
+    @event.start = time0.advance(hours: 1)
+    @event.end = time0.advance(hours: 2)
+    @event.start_on = Date.today
+    @event.end_on = @event.start_on
+    @event.calendar_id = session[:calendar_id]
   end
 
   def edit
-    @event = Event.find_by(id:params[:id])
+    unless @event.allday?
+      @event.start_on = @event.start.to_date
+      if @event.end.seconds_since_midnight == 0
+         @event.end_on = @event.end.yesterday.to_date
+      else
+        @event.end_on = @event.end.to_date
+      end
+    end
   end
 
   def create
     @event = Event.new(event_params)
     @event.user_id = @current_user.id
+    @event.calendar_id = session[:calendar_id]
     #@event.calendar_id = @current_calendar.id
     respond_to do |format|
       if @event.save
@@ -62,7 +77,6 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    @event = Event.find_by(id:params[:id])
     @event.destroy
     respond_to do |format|
       format.html { redirect_to '/events/index', notice: 'Event was successfully destroyed.' }
@@ -80,11 +94,11 @@ class EventsController < ApplicationController
 
   def click_new
     @event = Event.new
+    @event.calendar_id = session[:calendar_id]
     render plain: render_to_string(partial: 'form_new', layout: false, locals: { event: @event })
   end
 
   def click_show
-    @event = Event.find_by(id:params[:id])
     @user = @event.user
     render plain: render_to_string(partial: 'form_show', layout: false, locals: { event: @event })
     respond_to do |format|
@@ -94,6 +108,7 @@ class EventsController < ApplicationController
     end
   end
 
+
     private
     def set_event
       @event = Event.find_by(id:params[:id])
@@ -102,13 +117,19 @@ class EventsController < ApplicationController
     def event_params
       params.require(:event).permit(
         :title,
-        :starts_at,
-        :ends_at,
+        :start,
+        :end,
         :place,
         :description,
         #:color,
-        :allday
+        :allday,
+        :start_on, :end_on,
+        :calendar_id
       )
     end
+
+    #def set_current_calendar
+     #@current_calendar = Calendar.find_by(id: session[:calendar_id])
+    #end
 
 end

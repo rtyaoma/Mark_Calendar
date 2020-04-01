@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user, {only: [:index, :show, :edit, :update]}
-  before_action :forbid_login_user,{only: [:new,:create,:login_form,:login]}
+  before_action :forbid_login_user, {only: [:new, :create, :login_form, :login]}
   def index
     @users = User.all
   end
@@ -68,19 +68,15 @@ class UsersController < ApplicationController
     redirect_to("/login")
   end
 
-  def ensure_correct_user
-    if @current_user.id != params[:id].to_i
-      flash[:notice] = "権限がありません"
-      redirect_to("/events/index")
-    end
-  end
+
   private
 
   def user_params
     params.require(:user).permit(
       :name,
       :email,
-      :password
+      :password,
+      :image
     )
   end
 end

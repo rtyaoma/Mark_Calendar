@@ -1,8 +1,8 @@
-<div class="main events-index">
-  <div =class"container">
+<div class="container-md">
+  <div =class"main">
+  <%= render 'events/select' %>
     <section class="sec_content">
         <div class="split-box content_left">
-            <h1>Events#show</h1>
             <div id="calendar" style="width:600px;height:auto;"></div>
         </div>
         <div class="split-box content_right">
@@ -12,8 +12,8 @@
             </div>
             <p><%= @event.title %></p>
             <div class="event-time">
-                <%= @event.starts_at %>
-                <%= @event.ends_at %>
+                <%= @event.start.strftime('%Y 年 %m 月 %d 日 %H:%M') %>
+                <%= @event.end.strftime('%Y 年 %m 月 %d 日 %H:%M') %>
             </div>
             <% if @event.user_id == @current_user.id %>
                 <div class="event_menu">

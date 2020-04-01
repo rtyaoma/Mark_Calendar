@@ -1,7 +1,7 @@
 #class Api::V1::EventsController < ApplicationController
-    require "#{Rails.root}/app/controllers/application_controller.rb"
+require "#{Rails.root}/app/controllers/application_controller.rb"
     module Api
-         module V1
+        module V1
             class EventsController < ApplicationController
                 # load_and_authorize_resource
                 # CSRF対策
@@ -26,8 +26,8 @@
                 def update
                     @event = Event.find(params[:id])
                     event_params.require(:title)
-                    event_params.require(:starts_at)
-                    event_params.require(:ends_at)
+                    event_params.require(:start)
+                    event_params.require(:end)
                     #event_params.require(:color)
                     event_params.require(:allday)
                     respond_to do |format|
@@ -47,10 +47,10 @@
 
                 def create
                     event_params.require(:title)
-                    event_params.require(:starts_at)
-                    event_params.require(:ends_at)
+                    event_params.require(:start)
+                    event_params.require(:end)
                     #event_params.require(:color)
-                    event_params.require(:allday)
+                    #event_params.require(:allday)
                     @event = Event.new(event_params)
                     respond_to do |format|
                         format.any
@@ -73,12 +73,12 @@
                     params[:event]
                     .permit(
                         :title,
-                        :starts_at,
-                        :ends_at,
-                        #:allday
-                    ),
+                        :start,
+                        :end,
+                        :allday
+                    )
                     end
             end
-         end
+        end
     end
 #end

@@ -1,20 +1,21 @@
-<div class="main users-new">
-  <div class="container">
+<div class="container-md">
+  <div class="main">
     <div class="form-heading">ログイン</div>
     <div class="form users-form">
       <div class="form-body">
-        <%= form_with model: @user, url:"/login" do |form| %>
-          <div class="field" >
-            <%= form.label :email %>
-            <%= form.email_field :email %>
-          </div>
-          <div class="field" >
-            <%= form.label :password %>
-            <%= form.password_field :password %>
-          </div>
-          <div class="action" >
-            <%= form.submit value:"ログイン" %>
-          </div>
+        <div class="form-error">
+        <% if @error_message %>
+            <%= @error_message %>
+        <% end %>
+        </div>
+        <%= form_with model: @user, url:"/login" do |f| %>
+          <dl>
+            <dt>email</dt>
+            <dd><%= f.email_field :email %></dd>
+            <dt>password</dt>
+            <dd><%= f.password_field :password %></dd>
+            <p class="action" ><%= f.submit value:"login" %></div>
+          </dl>
         <% end %>
       </div>
     </div>

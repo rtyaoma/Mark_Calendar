@@ -1,18 +1,21 @@
-        <h1>新規イベント追加</h1>
-    <%= form_with(model: event, url: '/events/create') do |f| %>
-            <div class="form-group">
-                <%= f.label :title %>
-                <%= f.text_field :title, required: true %>
-            </div>
-            <div class="form-group">
-                <%= f.label :starts_at %>
-                <%= f.datetime_select :starts_at %>
-            </div>
-            <div class="form-group">
-            <%= f.label :ends_at %>
-            <%= f.datetime_select :ends_at %>
-        </div>
-            <div class="form-group">
-                <%= f.submit value:"投稿" %>
-            </div>
-    <% end %>
+<%= form_with model: @event, url:"/events/create" do |f| %>
+	<dl>
+		<dt>予定</dt>
+		<dd><%= f.text_field :title %></dd>
+		<dt>終日</dt>
+		<dd><%= f.check_box :allday, :as => :boolean %></dd>
+		<dt class="hidden-if-allday">開始日時</dt>
+		<dd class="hidden-if-allday"><%= f.datetime_select :start %></dd>
+		<dt class="hidden-if-allday">終了日時</dt>
+		<dd class="hidden-if-allday"><%= f.datetime_select :end %></dd>
+		<dt class="visible-if-allday">開始日</dt>
+		<dd class="visible-if-allday"><%= f.datetime_select :start_on %></dd>
+		<dt class="visible-if-allday">終了日</dt>
+		<dd class="visible-if-allday"><%= f.datetime_select :end_on %></dd>
+		<dt>場所</dt>
+		<dd><%= f.text_field :place %></dd>
+		<dt>詳細</dt>
+		<dd><%= f.text_area :description %></dd>
+	</dl>
+	<p class="action" ><%= f.submit value:"投稿" %></p>
+<% end %>

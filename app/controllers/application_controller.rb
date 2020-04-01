@@ -5,9 +5,9 @@ class ApplicationController < ActionController::Base
             @current_user = User.find_by(id: session[:user_id])
         end
 
-        def set_current_calendar
-          @current_calendar = Calendar.find_by(id: session[:calendar_id])
-        end
+        #def set_current_calendar
+          #@current_calendar = Calendar.find_by(id: session[:calendar_id])
+        #end
         
         def authenticate_user
             if @current_user == nil
