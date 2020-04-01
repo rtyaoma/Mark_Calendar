@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :set_event, {only: [:show, :edit, :update, :destroy, :click_show]} #パラメータのidからレコードを特定するメソッド
-  #before_action :authenticate_user
+  before_action :authenticate_user
   #before_action :set_current_calendar
   before_action :ensure_correct_user, {only: [:edit, :update, :destroy]} #ログインしているユーザーのみ権限がある
   def index
