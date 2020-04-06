@@ -1,4 +1,0 @@
-<%= form_with model:@calendars, url:'/select' do |form| %>
-    <%= form.collection_select(:title,Calendar.all,:title,:title) %>
-    <%= form.submit value="選択" %>
-<% end %>

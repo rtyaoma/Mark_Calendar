@@ -3,26 +3,18 @@
     <div class="form-heading">編集</div>
     <div class="form users-form">
       <div class="form-body">
-        <%= form_with model: @user, url:"/users/#{@user.id}/update", multipart: true do |form| %>
-          <div class="field" >
-            <%= form.label :name %>
-            <%= form.text_field :name %>
-          </div>
-          <div class="field" >
-            <%= form.label :email %>
-            <%= form.text_field :email %>
-          </div>
-          <div class="field" >
-            <%= form.label :password %>
-            <%= form.text_field :password %>
-          </div>
-          <div class="field" >
-            <%= form.label :画像 %>
-            <%= form.file_field :image %>
-          </div>
-            <div class="action" >
-            <%= form.submit value:"登録" %>
-          </div>
+        <%= form_with model: @user, url:"/users/#{@user.id}/update", multipart: true do |f| %>
+          <dl>
+            <dt>name</dt>
+            <dd><%= f.text_field :name %></dd>
+            <dt>email</dt>
+            <dd><%= f.email_field :email %></dd>
+            <dt>password</dt>
+            <dd><%= f.password_field :password %></dd>
+            <dt>image</dt>
+            <dd><%= f.file_field :image %></dd>
+            <p class="action"><%= f.submit value:"登録" %></p>
+          </dl>
         <% end %>
       </div>
     </div>

@@ -6,7 +6,11 @@
       </div>
       <div class="split-box content_right">
         <div class="user">
-          <img src="<%= "/user_images/#{@user.image_name}" %>" >
+          <% if @user.image.attached? %>
+            <%= image_tag @user.image %>
+          <% else %>
+            <%= image_tag "/user_images/default_user.jpg" %>
+          <% end %>
           <h2><%= @user.name%></h2>
           <p><%= @user.email%></p>
           <% if @user.id == @current_user.id %>
@@ -24,3 +28,4 @@
     </section>
   </div>
 </div>
+

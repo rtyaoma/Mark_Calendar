@@ -14,6 +14,7 @@ class CalendarsController < ApplicationController
 
   def create
     @calendar = Calendar.new(calendar_params)
+    @calendar.user_id = @current_user.id
     if @calendar.save
       #session[:calendar_id] = @calendar.id
       flash[:notice] = "カレンダーを登録しました"
@@ -38,9 +39,8 @@ class CalendarsController < ApplicationController
     end
   end
 
-  def search
-    session[:calendar_id] = Calendar.find(params[:calendar_id])
-    redirect_to controller: :events, action: :index
+  def select
+    session[:calendar_id] = params[:calendar_id]
   end
 
   private

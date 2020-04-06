@@ -6,6 +6,7 @@
         <div id="calendar" style="width:600px;height:auto;"></div>
       </div>
       <div class="split-box content_right new_event">
+
         <%= form_with model: @event, url:"/events/create" do |f| %>
           <dl>
             <dt>予定</dt>
@@ -14,12 +15,16 @@
             <dd><%= f.check_box :allday, :as => :boolean %></dd>
             <dt class="hidden-if-allday">開始日時</dt>
             <dd class="hidden-if-allday"><%= f.datetime_select :start %></dd>
-            <dt class="hidden-if-allday">終了日時</dt>
-            <dd class="hidden-if-allday"><%= f.datetime_select :end %></dd>
+            #<dt class="hidden-if-allday">終了日時</dt>
+            #<dd class="hidden-if-allday"><%= f.datetime_select :end %></dd>
             <dt class="visible-if-allday">開始日</dt>
             <dd class="visible-if-allday"><%= f.datetime_select :start_on %></dd>
-            <dt class="visible-if-allday">終了日</dt>
-            <dd class="visible-if-allday"><%= f.datetime_select :end_on %></dd>
+            #<dt class="visible-if-allday">終了日</dt>
+            #<dd class="visible-if-allday"><%= f.datetime_select :end_on %></dd>
+            <%= f.collection_radio_buttons(:calendar_id, Calendar.where(user_id: @current_user.id), :id, :title,include_hidden: false) do |b| %>
+              <dd><%= b.label {b.radio_button + b.text} %>
+              </dd>
+            <% end %>
             <dt>場所</dt>
             <dd><%= f.text_field :place %></dd>
             <dt>詳細</dt>

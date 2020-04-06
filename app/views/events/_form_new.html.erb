@@ -9,9 +9,9 @@
 		<dt class="hidden-if-allday">終了日時</dt>
 		<dd class="hidden-if-allday"><%= f.datetime_select :end %></dd>
 		<dt class="visible-if-allday">開始日</dt>
-		<dd class="visible-if-allday"><%= f.datetime_select :start_on %></dd>
+		<dd class="visible-if-allday"><%= f.date_select :start_on %></dd>
 		<dt class="visible-if-allday">終了日</dt>
-		<dd class="visible-if-allday"><%= f.datetime_select :end_on %></dd>
+		<dd class="visible-if-allday"><%= f.date_select :end_on %></dd>
 		<dt>場所</dt>
 		<dd><%= f.text_field :place %></dd>
 		<dt>詳細</dt>

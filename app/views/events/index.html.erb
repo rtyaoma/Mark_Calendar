@@ -16,7 +16,6 @@
             <tr>
               <td><%= link_to(event.user.name,"/users/#{event.user.id}") %></td>
               <td><%= event.title %></td>
-           
               <td><%= event.start.strftime('%Y 年 %m 月 %d 日 %H:%M') %></td>
               <td><%= event.end.strftime('%Y 年 %m 月 %d 日 %H:%M') %></td>
               <td><%= link_to("show","/events/#{event.id}") %></td>

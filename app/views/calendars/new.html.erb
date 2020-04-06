@@ -1,15 +1,11 @@
 <div class="main calendar-new">
   <div calss="container">
-    <%= form_with model: @calendar, url:"/calendars_create" do |form| %>
-      <div class="field" >
-        <%= form.label :title %>
-        <%= form.text_field :title, value: "プライベート" %>
-      </div>
-      <div class="field" >
-        <div class="action" >
-          <%= form.submit value:"登録" %>
-        </div>
-      </div>
+    <%= form_with model: @calendar, url:"/calendars/create" do |f| %>
+      <dl>
+        <dt>title</dt>
+        <dd><%= f.text_field :title, value: "プライベート" %></dd>
+        <p class="action"><%= f.submit value:"投稿" %></p>
+      </dl>
     <% end %>
   </div>
 </div>

@@ -9,9 +9,7 @@ Rails.application.routes.draw do
   format 'json' do
     get 'events/index'
   end
-  post 'select', to: 'calendars#search'
-  get 'login' => 'users#login_form'
-  post 'login' => 'users#login'
+  post 'select', to: 'events#select'
   post 'logout' => 'users#logout'
 
   patch 'calendars/:id/update' => 'calendars#update'
@@ -34,13 +32,12 @@ Rails.application.routes.draw do
   get 'events/click' => 'events#click_new'
   get 'events/:id' => 'events#show'
   get 'events/click/:id' => 'events#click_show'
+  get 'login' => 'users#login_form'
+  post 'login' => 'users#login'
   post 'events/create' => 'events#create'
   get 'events/:id/edit' => 'events#edit'
   patch 'events/:id/update' => 'events#update'
   post 'events/:id/destroy' => 'events#destroy'
   
-  get 'login' => 'users#login_form'
-  post 'login' => 'users#login'
-
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

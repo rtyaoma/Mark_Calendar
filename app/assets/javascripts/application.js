@@ -20,25 +20,22 @@
 //= require fullcalendar
 //= require_tree .
 
-$(document).on('turbolinks:load', function(){
-    setTimeout("$('.time-limit').fadeOut('slow')", 1000),
-    $('input[name="event[calendar_id][]"]').change(function() {
-      var vals = $('input[name="event[calendar_id][]"]:checked').map(function() {
-        return $(this).val();
-      }).get();
-      $.ajax({
-        type: "POST",
-        url: "/select",
-        data:{'calendar_id': vals},
-        dataType: "json"
-      }).done(function() {
-        calendar.fullCalendar('refetchEvents');
+$(document).on('turbolinks:load', function() {
+  // 
+  var duration = 300;
+
+  // aside ----------------------------------------
+  var $aside = $('.page-main > aside');
+  var $asidButton = $aside.find('button')
+      .on('click', function(){
+          $aside.toggleClass('open');
+          if($aside.hasClass('open')){
+              $aside.stop(true).animate({left: '-70px'}, duration, 'easeOutBack');
+              $asidButton.find('img').attr('src', 'img/btn_close.png');
+          }else{
+              $aside.stop(true).animate({left: '-350px'}, duration, 'easeInBack');
+              $asidButton.find('img').attr('src', 'img/btn_open.png');
+          };
       });
-      calendar.fullCalendar('unselect');
-      //console.log(vals);
-        //var v = $(this).val();
-        //var vlist = $.makeArray(v);
-        //console.log(v);
-    });
-    //window.alert('チェックされたよ！');
-  });
+
+});
