@@ -2,7 +2,8 @@
   <div class="container">
     <div class="calendar">
       <h2><%= @calendar.title %></h2>
-      <%= link_to("編集","/calendars/#{@calendar.id}/edit") %>
+      <%= link_to("編集","/calendars/#{@calendar.id}/edit",class: 'btn') %>
+      <%= link_to("戻る", "/events/index",class: 'btn') %>
     </div>
   </div>
 </div>

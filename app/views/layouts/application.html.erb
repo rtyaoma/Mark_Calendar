@@ -6,8 +6,7 @@
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Noto+Sans+JP:400,700" rel="stylesheet">
   </head>
 <body>
   <header>
@@ -21,7 +20,7 @@
     <div class="header-menus">
        <% if @current_user %>
         <li><%= link_to("about", "/events/index") %></li>
-        <li><%= link_to("task", "/events/index") %></li>
+        <li><%= link_to("task", "/tasks/index") %></li>
         <li><%= link_to("new","/events/new") %></li>
         <li><%= link_to("logout", "/logout", {method: :post}) %></li>
       <% else %>
@@ -32,7 +31,7 @@
     </div>
     <div class="user-menus">
       <% if @current_user %>
-        <li><%= link_to(@current_user.name, "/users/#{@current_user.id}") %></li>
+        <li><%= link_to(image_tag(@current_user.image), "/users/#{@current_user.id}") %></li>
       <% end %>
     </div>
   </header>

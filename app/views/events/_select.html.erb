@@ -1,10 +1,15 @@
-<%= form_with(model: @event, url:'/select') do |form| %>
-    <div class="checkbox">
+<div class="calendar-select">
+  <div class="checkbox">
+    <%= form_with(model: @event, url:'/select') do |form| %>
         <%= collection_check_boxes(:event, :calendar_id, Calendar.where(user_id: @current_user.id), :id, :title,include_hidden: false) do |b| %>
-            <%= b.label class:"label-checkbox" do %>
-                <%= b.check_box + b.text %>
-            <% end %>
+          <%= b.check_box + b.label{b.text} %>
         <% end %>
-    </div>
-<% end %>
-<%= link_to("新規作成","/calendars/new") %>
+    <% end %>
+  </div>
+  <div class="button1">
+    <%= button_to "全てチェック" %>
+  </div>
+  <div class="nav">
+    <%= link_to("カレンダーを追加する","/calendars/new") %>
+  </div>
+</div>

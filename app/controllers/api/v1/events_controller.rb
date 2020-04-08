@@ -29,7 +29,7 @@ require "#{Rails.root}/app/controllers/application_controller.rb"
                     event_params.require(:start)
                     event_params.require(:end)
                     #event_params.require(:color)
-                    event_params.require(:allday)
+                    event_params.require(:allDay)
                     respond_to do |format|
                         format.any
                         if @event.update!(event_params)
@@ -49,8 +49,8 @@ require "#{Rails.root}/app/controllers/application_controller.rb"
                     event_params.require(:title)
                     event_params.require(:start)
                     event_params.require(:end)
-                    #event_params.require(:color)
-                    #event_params.require(:allday)
+                    event_params.require(:color)
+                    event_params.require(:allDay)
                     @event = Event.new(event_params)
                     respond_to do |format|
                         format.any
@@ -75,7 +75,8 @@ require "#{Rails.root}/app/controllers/application_controller.rb"
                         :title,
                         :start,
                         :end,
-                        :allday
+                        :color,
+                        :allDay
                     )
                     end
             end

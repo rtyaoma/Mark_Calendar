@@ -17,13 +17,6 @@
           <%= link_to("編集","/users/#{@user.id}/edit") %>
           <% end %>
         </div>
-
-        <% @user.events.each do |event| %>
-            <div class="events-index-item">
-              <%= link_to(event.user.name, "/users/#{event.user.id}") %>
-              <%= link_to(event.title, "/events/#{event.id}") %>
-            </div>
-        <% end %>
       </div>
     </section>
   </div>

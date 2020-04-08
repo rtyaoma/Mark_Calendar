@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_31_140157) do
+ActiveRecord::Schema.define(version: 2020_04_08_041439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,13 +59,26 @@ ActiveRecord::Schema.define(version: 2020_03_31_140157) do
     t.string "color"
     t.string "place"
     t.text "description"
-    t.boolean "allday", default: false
+    t.boolean "allDay", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
     t.integer "calendar_id"
     t.date "start_on"
     t.date "end_on"
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string "title"
+    t.datetime "deadline_date"
+    t.text "description"
+    t.boolean "status"
+    t.integer "user_id"
+    t.integer "calendar_id"
+    t.integer "tag_id"
+    t.integer "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

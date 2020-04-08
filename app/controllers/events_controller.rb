@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :set_event, {only: [:show, :edit, :update, :destroy, :click_show]} #パラメータのidからレコードを特定するメソッド
+  before_action :set_event, {only: [:show, :edit, :update, :destroy, :click_show, :ensure_correct_user]} #パラメータのidからレコードを特定するメソッド
   #before_action :authenticate_user
   before_action :set_current_calendars, {only: [:new]}
   before_action :ensure_correct_user, {only: [:edit, :update, :destroy]} #ログインしているユーザーのみ権限がある
@@ -40,7 +40,7 @@ class EventsController < ApplicationController
   end
 
   def edit
-    unless @event.allday?
+    unless @event.allDay?
       @event.start_on = @event.start.to_date
       if @event.end.seconds_since_midnight == 0
          @event.end_on = @event.end.yesterday.to_date
@@ -87,7 +87,6 @@ class EventsController < ApplicationController
   end
 
   def ensure_correct_user
-    @event = Event.find_by(id: params[:id])
     if @event.user_id != @current_user.id
       flash[:notice] = "権限がありません"
       redirect_to("/login")
@@ -126,8 +125,8 @@ class EventsController < ApplicationController
         :end,
         :place,
         :description,
-        #:color,
-        :allday,
+        :color,
+        :allDay,
         :start_on, :end_on,
         :calendar_id
       )

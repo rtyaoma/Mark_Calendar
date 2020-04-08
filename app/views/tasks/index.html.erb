@@ -1,0 +1,30 @@
+<div class="container-md">
+  <div =class"main">
+    <section class="sec_content">
+      <div class="split-box content_left">
+        <%= render 'events/select' %>
+        <div id="calendar" style="width:600px;height:auto;"></div>
+      </div>
+      <div class="split-box content_right new_event">
+      <% @tasks.each do |task| %>
+        <table>
+          <tr>
+            <th>user<th>
+            <th>task</th>
+            <th>締切</th>
+          </tr>
+          <tr>
+            <td><%= link_to(task.user.name,"/users/#{task.user.id}") %></td>
+            <td><%= task.title %></td>
+            <td><%= task.deadline_date.strftime('%Y 年 %m 月 %d 日 %H:%M') %></td>
+            <td><%= link_to("show","/tasks/#{task.id}") %></td>
+            <td><%= link_to("edit","/tasks/#{task.id}/edit") %></td>
+            <td><%= link_to("Destroy", "/tasks/#{task.id}/destroy",{method: "post"}) %></td>
+            <td><%= check_box_tag(:status) %></td>
+          </tr>
+        </table>
+      <% end %>
+      </div>
+    </section>
+  </div>
+</div>

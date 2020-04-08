@@ -15,6 +15,9 @@ $(document).on('turbolinks:load', function() {
     });
     calendar.fullCalendar('unselect'); // 現在の選択を解除
   });
+  $('.button1').click(function(){
+    $('[name="event[calendar_id][]"]').prop('checked', true);
+  });
 
 // calendarの全体の表示
   var calendar = $('#calendar').fullCalendar({
@@ -29,12 +32,27 @@ $(document).on('turbolinks:load', function() {
       addEventButton: {
         text: 'add event...',
         click: function() {
-          var dateStr = prompt('Enter a date in YYYY-MM-DD format');
-          var date = new Date(dateStr + 'T00:00:00'); // will be in local time
+          //var dateStr = prompt('Enter a date in YYYY-MM-DD format');
+          var title = prompt();
+          //var date = new Date(dateStr + 'T00:00:00'); // will be in local time
+          //var data = {
+            //event: {
+              //title: title,
+              //start: date,
+              //end: date,
+              //allDay: true
+            //}
+          //}
+            //$.ajax({
+              //type: "POST",
+              //url: '/events/create',
+              //data: data,
+            //})
             $('#calendar').fullCalendar('renderEvent', {
               title: 'dynamic event',
-              start: date,
-              allDay: true
+              //start: date,
+              daysOfWeek: [4],
+              //allDay: true
             });
             alert('Great. Now, update your database...');
         },
@@ -50,7 +68,7 @@ $(document).on('turbolinks:load', function() {
     droppable: true,
     selectHelper: false,    // 選択時にプレースホルダーを描画
     ignoreTimezone: false, // 自動選択解除
-    select: select,        // 選択時に関数にパラメータ引き渡す
+    //select: select,        // 選択時に関数にパラメータ引き渡す
     buttonText: {
       prev:     '<',   // &lsaquo;
       next:     '>',   // &rsaquo;
@@ -61,7 +79,12 @@ $(document).on('turbolinks:load', function() {
       week:     '週',
       day:      '日'
     },
-
+    //eventDataTransform: function(event){
+      //if(event.allDay){
+        //event.end = moment(event.end).add(1,'day')
+      //}
+      //return event;
+    //},
     height: 960,                           // 高さ
     defaultView: 'month',             // 初期表示ビュー
     eventLimit: true,                      // allow "more" link when too many events
@@ -80,6 +103,7 @@ $(document).on('turbolinks:load', function() {
     snapMinutes: 15,                       // 選択する時間間隔
     firstHour: 9,
     alldayMaintainDuration: true,
+    //contentHeight: auto,
 
     dayClick: function(date){
       var start = date.format();
@@ -160,11 +184,13 @@ $(document).on('turbolinks:load', function() {
       var id = info.id;
       var update_url = "/api/v1/events/"+id;
       var data = {
+      eventBorderColor: "#000000",
         event: {
           title: info.title,
           start: info.start.toISOString(),
           end: info.end.toISOString(),
-          allday: false
+          allDay: false,
+          color: "#F596AA"
         }
       }
       if (confirm("移動しますか?")){
@@ -178,6 +204,8 @@ $(document).on('turbolinks:load', function() {
       }),
       calendar.fullCalendar('unselect');
     }
+    else
+    calendar.fullCalendar('refetchEvents');
     },
     eventResize: function(info) {
       var title = info.title;
@@ -190,7 +218,7 @@ $(document).on('turbolinks:load', function() {
           title: title,
           start: start,
           end: end,
-          allday: false
+          allDay: false
         }
       }
       if (confirm("登録しますか?")){
@@ -204,14 +232,16 @@ $(document).on('turbolinks:load', function() {
       });
       calendar.fullCalendar('unselect');
     }
+    else
+    calendar.fullCalendar('refetchEvents');
     },
   });
-  var select = function(info) {
-    start_time = info.startStr()
-    end_time = end.unix()
-    var d = new Date( start_time * 1000 );
-  console.log(start_time);
-  }
+  //var select = function(info) {
+    //start_time = info.startStr()
+    //end_time = end.unix()
+    //var d = new Date( start_time * 1000 );
+  //console.log(start_time);
+  //}
 });
 // カレンダー表示部分
 //<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">

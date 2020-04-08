@@ -1,0 +1,38 @@
+<div class="container-md">
+  <div =class"main">
+    <section class="sec_content">
+      <div class="split-box content_left">
+        <%= render 'events/select' %>
+        <div id="calendar" style="width:600px;height:auto;"></div>
+      </div>
+      <div class="split-box content_right new_event">
+      <div class="user-image">
+          <%= link_to(image_tag(@user.image), "/users/#{@user.id}") %>
+        </div>
+				<div class="evnet-content">
+					<table class="event-description">
+						<tr>
+							<th>予定</th>
+							<td><%= @task.title %></td>
+						</tr>
+						<tr>
+							<th>日時</th>
+							<td><%= @task.deadline_date.strftime('%Y 年 %m 月 %d 日 %H:%M') %></td>
+						</tr>
+						<tr>
+							<th>詳細</th>
+							<td><%= @task.description %></td>
+						</tr>
+					</table>
+				</div>
+        <% if @task.user_id == @current_user.id %>
+		      <div class="event_menu">
+            <%= link_to("edit","/tasks/#{@task.id}/edit") %>
+            <%= link_to("Destroy", "/tasks/#{@task.id}/destroy", {method: "post"}) %>
+            <%= link_to("戻る", "/tasks/index") %>
+          </div>
+        <% end %>
+      </div>
+    </section>
+  </div>
+</div>

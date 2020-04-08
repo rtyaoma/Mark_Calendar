@@ -15,8 +15,12 @@ img {
     height: 80px;
     border-radius: 40%;
     box-shadow: 0 2px 6px #c1ced7;
-    margin: 20px 0 10px;
+    margin: 10px 0 10px;
     object-fit: cover;
+}
+.user-menus img {
+    width: 40px;
+    height: 40px;
 }
 .main {
     display: block;

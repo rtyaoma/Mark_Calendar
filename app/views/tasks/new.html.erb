@@ -1,0 +1,24 @@
+<div class="container-md">
+  <div =class"main">
+    <section class="sec_content">
+      <div class="split-box content_left">
+        <%= render 'events/select' %>
+        <div id="calendar" style="width:600px;height:auto;"></div>
+      </div>
+      <div class="split-box content_right new_event">
+        <%= form_with model: @task, url:"/tasks/create" do |f| %>
+            <dl>
+            <dt>task</dt>
+            <dd><%= f.text_field :title %></dd>
+            <dt>締切</dt>
+            <dd><%= f.date_select :deadline_date %></dd>
+            <dd><%= f.hidden_field :status, :value => false %></dd>
+            <dt>詳細</dt>
+            <dd><%= f.text_area :description %></dd>
+            </dl>
+            <p class="action" ><%= f.submit value:"投稿" %></p>
+        <% end %>
+      </div>
+    </section>
+  </div>
+</div>

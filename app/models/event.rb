@@ -12,9 +12,9 @@ class Event < ApplicationRecord
     end
 
     before_save do 
-        if allday?
+        if allDay?
             self.start = start_on.beginning_of_day if start_on
-            self.end = nil #end_on.tomorrow.beginning_of_day if end_on
+            self.end = end_on.tomorrow.beginning_of_day if end_on
         else
             self.start_on = nil
             self.end_on = nil
