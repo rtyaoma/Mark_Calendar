@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :set_task, {only: [:show, :edit, :update, :destroy, :ensure_correct_user]} #パラメータのidからレコードを特定するメソッド
+  before_action :set_task, {only: [:show, :edit, :update, :destroy, :ensure_correct_user, :done, :begin]} #パラメータのidからレコードを特定するメソッド
   #before_action :authenticate_user
   #before_action :set_current_calendars, {only: [:new]}
   #before_action :ensure_correct_user, {only: [:edit, :update, :destroy]} #ログインしているユーザーのみ権限がある
@@ -77,6 +77,37 @@ class TasksController < ApplicationController
       redirect_to("/login")
     end
   end
+
+  def done
+    @task.update(status: true)
+    @tasks= Task.where(user_id: @current_user.id)
+    render :index
+  end
+
+  def begin
+    @task.update(status: false)
+    @tasks= Task.where(user_id: @current_user.id)
+    render :index
+  end
+
+  def today
+    t0 = Time.current.beginning_of_day
+    t1 = t0.advance(hours: 24)
+    @tasks = Task.where('deadline_date >= ? and deadline_date < ?', t0,t1)
+    #@continued_tasks = Task.where('deadline_date < ?',t0).order(:start)
+    render action: :index
+  end
+
+  def complete
+    @tasks = Task.where(status: true)
+    render action: :index
+  end
+
+  def incomplete
+    @tasks = Task.where(status: false)
+    render action: :index
+  end
+
 
     private
     def set_task

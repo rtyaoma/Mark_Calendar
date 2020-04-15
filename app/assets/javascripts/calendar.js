@@ -11,6 +11,7 @@ $(document).on('turbolinks:load', function() {
       data:{'calendar_id': vals},
       dataType: "json"
     }).done(function() {
+        $('.content_right').html();
       calendar.fullCalendar('refetchEvents');　//再レンダリング
     });
     calendar.fullCalendar('unselect'); // 現在の選択を解除
@@ -81,7 +82,7 @@ $(document).on('turbolinks:load', function() {
     },
     //eventDataTransform: function(event){
       //if(event.allDay){
-        //event.end = moment(event.end).add(1,'day')
+        //event.end = moment(event.end).add(-1,'day')
       //}
       //return event;
     //},
@@ -97,12 +98,12 @@ $(document).on('turbolinks:load', function() {
     minTime: "00:00:00",                   // スケジュールの開始時間
     maxTime: "24:00:00",                   // スケジュールの最終時間
     defaultTimedEventDuration: '10:00:00', // 画面上に表示する初めの時間(スクロールされている場所)
-    allDaySlot: true,                     // 終日スロットを非表示
+    allDaySlot: TextTrackCue,                     // 終日スロットを非表示
     allDayText:'allday',                   // 終日スロットのタイトル
     slotMinutes: 15,                       // スロットの分
     snapMinutes: 15,                       // 選択する時間間隔
     firstHour: 9,
-    alldayMaintainDuration: true,
+    alldayMaintainDuration: false,
     //contentHeight: auto,
 
     dayClick: function(date){
@@ -137,8 +138,9 @@ $(document).on('turbolinks:load', function() {
         alert('エラーが発生しました')
       });
     },
-    select: function(startDate, endDate) {
-      alert('selected ' + startDate.format() + ' to ' + endDate.format());
+    select: function(startDate, endDate, allDay) {
+      var allDay = true;
+      alert('selected ' + startDate.format() + ' to ' + endDate.format() + "+" + allDay);
       var start = startDate.format();
       var end = endDate.format();
       var start_year = moment(start).year();
@@ -181,32 +183,55 @@ $(document).on('turbolinks:load', function() {
       });
     },
     eventDrop: function(info) { //イベントをドラッグ&ドロップした際に実行
-      var id = info.id;
-      var update_url = "/api/v1/events/"+id;
-      var data = {
-      eventBorderColor: "#000000",
-        event: {
-          title: info.title,
-          start: info.start.toISOString(),
-          end: info.end.toISOString(),
-          allDay: false,
-          color: "#F596AA"
+        var id = info.id;
+        var update_url = "/api/v1/events/"+id;
+        var start_year = moment(info.start).year();
+        var end_year = moment(info.end).year();
+        var start_month = moment(info.start).month()+1;
+        var end_month = moment(info.end).month()+1;
+        var start_day = moment(info.start).date();
+        var end_day = moment(info.end).date();
+        var edit_end_day = moment(info.start).date()+1;
+        var start_hour = (moment(info.start).hours()   < 10 ) ? '0' + moment(info.start).hours() : moment(info.start).hours();
+        var end_hour = (moment(info.end).hours()   < 10 ) ? '0' + moment(info.end).hours() : moment(info.end).hours();
+        var edit_end_hour = (moment(info.start).hours()   < 10 ) ? '0' + (moment(info.start).hours()+1) : moment(info.start).hours()+1;
+        var start_min = (moment(info.start).minutes()   < 10 ) ? '0' + moment(info.start).minutes() : moment(info.start).minutes();
+        var end_min = (moment(info.end).minutes()   < 10 ) ? '0' + moment(info.end).minutes() : moment(info.end).minutes();
+        var moment_start = start_year+"-"+start_month+"-"+start_day+" "+start_hour+":"+start_min;
+        if (info.end == null && info.allDay == false){
+          var moment_end = start_year+"-"+start_month+"-"+start_day+" "+edit_end_hour+":"+start_min;
+        } else if (info.end == null && info.allDay == true) {
+          var moment_end = start_year+"-"+start_month+"-"+edit_end_day+" "+start_hour+":"+start_min;
+        }else {
+          var moment_end = end_year+"-"+end_month+"-"+end_day+" "+end_hour+":"+end_min;
         }
+        alert('eventDrop' + "+" + moment_start + "+" +info.end+ "or" + moment_end + "+" + info.title + "+" + info.allDay);
+        var data = {
+        eventBorderColor: "#000000",
+          event: {
+            title: info.title,
+            start: moment_start,
+            end: moment_end,
+            allDay: info.allDay,
+            color: "#F596AA"
+          }
+        }
+    
+        if (confirm("移動しますか?")){
+        $.ajax({
+         type: "PATCH",
+         url: update_url,
+         data: data,
+         dataType: "json",
+         success: function() {
+           calendar.fullCalendar('refetchEvents');
+         }
+        }),
+        calendar.fullCalendar('unselect');
       }
-      if (confirm("移動しますか?")){
-      $.ajax({
-       type: "PATCH",
-       url: update_url,
-       data: data,
-       success: function() {
-         calendar.fullCalendar('refetchEvents');
-       }
-      }),
-      calendar.fullCalendar('unselect');
-    }
-    else
-    calendar.fullCalendar('refetchEvents');
-    },
+      else
+      calendar.fullCalendar('refetchEvents');
+      },
     eventResize: function(info) {
       var title = info.title;
       var start = info.start.toISOString();
@@ -218,7 +243,8 @@ $(document).on('turbolinks:load', function() {
           title: title,
           start: start,
           end: end,
-          allDay: false
+          allDay: false,
+          color: "#F596AA"
         }
       }
       if (confirm("登録しますか?")){
@@ -226,6 +252,7 @@ $(document).on('turbolinks:load', function() {
        type: "PATCH",
        url: update_url,
        data: data,
+       dataType: "json",
        success: function() {
          calendar.fullCalendar('refetchEvents');
        }
@@ -245,4 +272,22 @@ $(document).on('turbolinks:load', function() {
 });
 // カレンダー表示部分
 //<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+      //var id = info.id;
+      //var update_url = "/api/v1/events/"+id;
+      //var start_at = info.hasTime();
+      //var start = info.start.toISOString();
+      //var end = info.end.toISOString();
+      //var start_year = moment(start).year();
+      //var end_year = moment(end).year();
+      //var start_month = moment(start).month()+1;
+      //var end_month = moment(end).month()+1;
+      //var start_day = moment(start).date();
+      //var end_day = moment(end).date();
+      //var start_hour = (moment(start).hours()   < 10 ) ? '0' + moment(start).hours() : moment(start).hours();
+      //var end_hour = (moment(end).hours()   < 10 ) ? '0' + moment(end).hours() : moment(end).hours();
+      //var start_min = (moment(start).minutes()   < 10 ) ? '0' + moment(start).minutes() : moment(start).minutes();
+      //var end_min = (moment(end).minutes()   < 10 ) ? '0' + moment(end).minutes() : moment(end).minutes();
+      //var moment_start = start_year+"-"+start_month+"-"+start_day+" "+start_hour+":"+start_min;
+      //var moment_end = end_year+"-"+end_month+"-"+end_day+" "+end_hour+":"+end_min;
+      //alert('eventDrop' + "+"+start_at+"+" + moment_start + "+" +moment_end + "+" + info.title + "+" + info.allDay);
+      //allDay: info.allDay ? true : false,

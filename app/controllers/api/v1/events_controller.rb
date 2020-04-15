@@ -28,7 +28,7 @@ require "#{Rails.root}/app/controllers/application_controller.rb"
                     event_params.require(:title)
                     event_params.require(:start)
                     event_params.require(:end)
-                    #event_params.require(:color)
+                    event_params.require(:color)
                     event_params.require(:allDay)
                     respond_to do |format|
                         format.any

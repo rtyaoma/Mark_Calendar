@@ -29,11 +29,15 @@
         <li><%= link_to("signup","/signup") %></li>
       <% end %>
     </div>
+    <% if @current_user %>
     <div class="user-menus">
-      <% if @current_user %>
-        <li><%= link_to(image_tag(@current_user.image), "/users/#{@current_user.id}") %></li>
-      <% end %>
+    <% if @current_user.image.attached? %>
+      <li><%= link_to(image_tag(@current_user.image), "/users/#{@current_user.id}") %></li>
+    <% else %>
+      <li><%= link_to(image_tag("/user_images/default_user.jpg"),"/users/#{@current_user.id}") %></li>
+    <% end %>
     </div>
+    <% end %>
   </header>
     <% if flash[:notice] %>
       <div class="flash time-limit">

@@ -5,14 +5,15 @@
         <%= render 'events/select' %>
         <div id="calendar" style="width:600px;height:auto;"></div>
       </div>
-      <div class="split-box content_right">
-        <% @events.each do |event| %>
+      <div class="split-box content_right index_event">
+      <%= render 'index_nav' %>
           <table>
             <tr>
               <th>user<th>
               <th>title</th>
               <th>time</th>
             </tr>
+            <% @events.each do |event| %>
             <tr>
               <td><%= link_to(event.user.name,"/users/#{event.user.id}") %></td>
               <td><%= event.title %></td>
@@ -22,8 +23,8 @@
               <td><%= link_to("edit","/events/#{event.id}/edit") %></td>
               <td><%= link_to("Destroy", "/events/#{event.id}/destroy",{method: "post"}) %></td>
             </tr>
+            <% end %>
           </table>
-        <% end %>
       </div>
     </section>
   </div>

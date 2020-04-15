@@ -19,7 +19,11 @@ Rails.application.routes.draw do
   get 'users/index' => 'users#index'
   get 'users/:id' => 'users#show'
 
-  post 'tasks/index' => 'tasks#index'
+  post 'tasks/:id/begin' => 'tasks#begin'
+  get 'tasks/incomplete' => 'tasks#incomplete'
+  get 'tasks/complete' => 'tasks#complete'
+  get 'tasks/today' => 'tasks#today'
+  post 'tasks/:id/done' => 'tasks#done' 
   get 'tasks/index'
   get 'tasks/new' => 'tasks#new'
   get 'tasks/:id' => 'tasks#show'
@@ -35,6 +39,7 @@ Rails.application.routes.draw do
   get 'calendars/new' => 'calendars#new'
   get 'calendars/:id' => 'calendars#show'
 
+  get 'events/today' => 'events#today'
   post 'events/index' => 'events#index'
   get 'events/index' => 'events#index'
   get 'events/new' => 'events#new'

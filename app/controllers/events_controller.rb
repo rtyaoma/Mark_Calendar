@@ -2,8 +2,10 @@ class EventsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :set_event, {only: [:show, :edit, :update, :destroy, :click_show, :ensure_correct_user]} #パラメータのidからレコードを特定するメソッド
   #before_action :authenticate_user
-  before_action :set_current_calendars, {only: [:new]}
+  before_action :set_current_calendars, {only: [:new, :click_new]}
   before_action :ensure_correct_user, {only: [:edit, :update, :destroy]} #ログインしているユーザーのみ権限がある
+
+
   def index
     #@events = Event.where(calendar_id: params[:calendar_id])
     #@events = Event.all
@@ -26,8 +28,6 @@ class EventsController < ApplicationController
       format.json { render :json => @events }
     end
   end
-
-
 
   def new
     @event = Event.new
@@ -53,6 +53,7 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     @event.user_id = @current_user.id
+    #@event.calendar_id = params[:calendar_id]
     #@event.calendar_id = session[:calendar_id]
     #@event.calendar_id = @current_calendar.id
     respond_to do |format|
@@ -87,6 +88,8 @@ class EventsController < ApplicationController
   end
 
   def ensure_correct_user
+    logger.info "@current値を見たい #{@current_user.id}"
+    logger.info "@event値を見たい #{@event.user_id}"
     if @event.user_id != @current_user.id
       flash[:notice] = "権限がありません"
       redirect_to("/login")
@@ -111,6 +114,18 @@ class EventsController < ApplicationController
 
   def select
     session[:calendar_id] = params[:calendar_id]
+    #@events = Event.where(user_id: @current_user.id, calendar_id: session[:calendar_id])
+    #html = render_to_string partial: 'ajax_partial',locals: { event: @events }
+    #render :json => {:html => html}
+    #render partial: 'ajax_partial'
+  end
+
+  def today
+    t0 = Time.current.beginning_of_day
+    t1 = t0.advance(hours: 24)
+    @events = Event.where("start' >= ? AND 'start' < ?", t0,t1) or Event.where("'end' > ? AND 'end'<= ?",t0,t1).order(:start)
+    @continued_events = Event.where("'start' < ?",t0).where("'end' >?",t1).order(:start)
+    render action: :index
   end
 
     private
@@ -134,11 +149,13 @@ class EventsController < ApplicationController
 
     def set_current_calendars
       if session[:calendar_id]
-     @current_calendars = Calendar.find(session[:calendar_id])
+     @current_calendars = Calendar.where(id:session[:calendar_id])
+     @titles = @current_calendars.select(:title,:id).distinct
+     logger.info "@titlesの中身が見たい #{@titles.inspect}"
       else
         flash[:notice] = "カレンダーの選択がありません"
         redirect_to("/events/index")
       end
     end
-
+    
 end

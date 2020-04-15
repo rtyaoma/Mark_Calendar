@@ -7,9 +7,9 @@ class Event < ApplicationRecord
         return User.find_by(id: self.user_id)
     end
 
-    def calendar
-        return Calendar.where(id: session[:calendar_id])
-    end
+    #def calendar
+        #return Calendar.where(id: session[:calendar_id])
+    #end
 
     before_save do 
         if allDay?
@@ -20,5 +20,7 @@ class Event < ApplicationRecord
             self.end_on = nil
         end
     end
+
+    
 
 end

@@ -3,17 +3,17 @@
 	  <dt>予定</dt>
 	  <dd><%= f.text_field :title %></dd>
 	  <dt>終日</dt>
-	  <dd><%= f.check_box :allday, :as => :boolean %></dd>
+	  <dd><%= f.check_box :allDay, :as => :boolean %></dd>
 	  <dt class="hidden-if-allday">開始日時</dt>
 	  <dd class="hidden-if-allday"><%= f.datetime_select :start %></dd>
 	  <dt class="hidden-if-allday">終了日時</dt>
 	  <dd class="hidden-if-allday"><%= f.datetime_select :end %></dd>
 	  <dt class="visible-if-allday">開始日</dt>
-	  <dd class="visible-if-allday"><%= f.datetime_select :start_on %></dd>
+	  <dd class="visible-if-allday"><%= f.date_select :start_on %></dd>
 	  <dt class="visible-if-allday">終了日</dt>
-	  <dd class="visible-if-allday"><%= f.datetime_select :end_on %></dd>
+	  <dd class="visible-if-allday"><%= f.date_select :end_on %></dd>
 	  <div class="radion">
-		<%= f.collection_radio_buttons(:calendar_id, Calendar.where(user_id: @current_user.id), :id, :title,include_hidden: false) do |b| %>
+		<%= f.collection_radio_buttons(:calendar_id, @titles, :id, :title,include_hidden: false) do |b| %>
 			<dd class="radio-item"><%= b.label {b.radio_button + b.text} %>
 			</dd>
 		<% end %>

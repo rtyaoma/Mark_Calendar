@@ -5,25 +5,32 @@
         <%= render 'events/select' %>
         <div id="calendar" style="width:600px;height:auto;"></div>
       </div>
-      <div class="split-box content_right new_event">
-      <% @tasks.each do |task| %>
+      <div class="split-box content_right index_event">
+      <%= render 'index_nav' %>
         <table>
           <tr>
             <th>user<th>
             <th>task</th>
             <th>締切</th>
+            <th>status</th>
           </tr>
+          <% @tasks.each do |task| %>
           <tr>
             <td><%= link_to(task.user.name,"/users/#{task.user.id}") %></td>
             <td><%= task.title %></td>
             <td><%= task.deadline_date.strftime('%Y 年 %m 月 %d 日 %H:%M') %></td>
+            <td><%= task.status %></td>
             <td><%= link_to("show","/tasks/#{task.id}") %></td>
             <td><%= link_to("edit","/tasks/#{task.id}/edit") %></td>
-            <td><%= link_to("Destroy", "/tasks/#{task.id}/destroy",{method: "post"}) %></td>
-            <td><%= check_box_tag(:status) %></td>
+            <td><%= link_to("Destroy", "/tasks/#{task.id}/destroy", method: "post" ) %></td>
+            <% if task.status == false %>
+            <td><%= button_to "完了","/tasks/#{task.id}/done", method: :post ,class: "done" %></td>
+            <% else %>
+            <td><%= button_to "未完了","/tasks/#{task.id}/begin", method: :post ,class: "done" %></td>
+            <% end %>
           </tr>
+          <% end %>
         </table>
-      <% end %>
       </div>
     </section>
   </div>

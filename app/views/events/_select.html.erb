@@ -1,6 +1,6 @@
 <div class="calendar-select">
   <div class="checkbox">
-    <%= form_with(model: @event, url:'/select') do |form| %>
+    <%= form_with(model: @event, url:'/select', remote: true) do |form| %>
         <%= collection_check_boxes(:event, :calendar_id, Calendar.where(user_id: @current_user.id), :id, :title,include_hidden: false) do |b| %>
           <%= b.check_box + b.label{b.text} %>
         <% end %>

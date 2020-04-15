@@ -7,4 +7,5 @@ class User < ApplicationRecord
     def events
         return Event.where(user_id: self.id)
     end
+
 end

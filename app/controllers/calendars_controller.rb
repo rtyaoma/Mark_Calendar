@@ -16,7 +16,6 @@ class CalendarsController < ApplicationController
     @calendar = Calendar.new(calendar_params)
     @calendar.user_id = @current_user.id
     if @calendar.save
-      #session[:calendar_id] = @calendar.id
       flash[:notice] = "カレンダーを登録しました"
       redirect_to("/calendars/#{@calendar.id}")
     else
