@@ -1,5 +1,6 @@
 class CalendarsController < ApplicationController
   skip_before_action :verify_authenticity_token
+  before_action :color_select, {only: [:new]}
   def index
     @calendars = Calendar.all
   end
@@ -45,7 +46,12 @@ class CalendarsController < ApplicationController
   private
   def calendar_params
     params.require(:calendar).permit(
-      :title
+      :title,
+      :color_id
     )
+  end
+
+  def color_select
+    @colors = Color.select(:color_type,:id).distinct
   end
 end

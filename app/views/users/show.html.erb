@@ -4,13 +4,15 @@
       <div class="split-box content_left">
         <div id="calendar" style="width:600px;height:auto;"></div>
       </div>
-      <div class="split-box content_right">
+      <div class="split-box content_right index_event">
         <div class="user">
-          <% if @user.image.attached? %>
-            <%= image_tag @user.image %>
-          <% else %>
-            <%= image_tag "/user_images/default_user.jpg" %>
-          <% end %>
+          <div class="user-image">
+            <% if @user.image.attached? %>
+              <%= image_tag @user.image %>
+            <% else %>
+              <%= image_tag "/user_images/default_user.jpg" %>
+            <% end %>
+          </div>
           <h2><%= @user.name%></h2>
           <p><%= @user.email%></p>
           <% if @user.id == @current_user.id %>

@@ -1,27 +1,27 @@
-<div class="container-md">
-  <div class="main">
-    <div class="form-heading">新規ユーザー登録</div>
-      <div class="form users-form">
-        <div class="form-error">
-          <% @user.errors.full_messages.each do |message| %>
-              <%= message %>
-            </div>
-          <% end %>
-        </div>
-        <div class="form-body">
-          <%= form_with model: @user, url:"/users/create" do |f| %>
-            <dl>
-            <dt>名前</dt>
-            <dd><%= f.text_field :name %></dd>
-            <dt>email</dt>
-            <dd><%= f.email_field :email %></dd>
-            <dt>password</dt>
-            <dd><%= f.password_field :password %></dd>
-            <p class="action"><%= f.submit value:"登録" %></div>
-            </dl>
-          <% end %>
-        </div>
+<div class="signup-modal-wrapper" id="signup-modal">
+  <div class="modal">
+    <div class="close-modal">
+      <i class="fa fa-2x fa-times"></i>
+    </div>
+    <div id="signup-form">
+      <div class="form-error">
+        <% @user.errors.full_messages.each do |message| %>
+          <%= message %>
+        <% end %>
       </div>
+    </div>
+    <div class="form-body">
+      <%= form_with model: @user, url:"/users/create" do |f| %>
+        <dl>
+          <dt>名前</dt>
+          <dd><%= f.text_field :name %></dd>
+          <dt>email</dt>
+          <dd><%= f.email_field :email %></dd>
+          <dt>password</dt>
+          <dd><%= f.password_field :password %></dd>
+          <p class="action"><%= f.submit value:"登録" %></div>
+        </dl>
+      <% end %>
     </div>
   </div>
 </div>

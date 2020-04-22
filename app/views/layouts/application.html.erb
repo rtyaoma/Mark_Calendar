@@ -7,37 +7,40 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Noto+Sans+JP:400,700" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/e442e2cc3b.js" crossorigin="anonymous"></script>
   </head>
 <body>
   <header>
-    <div class="header-logo">
+    <div class="header-container">
+      <div class="header-left">
+        <% if @current_user %>
+          <li><%= link_to("Mark_Calender", "/events/index") %></li>
+        <% else %>
+          <li><%= link_to("", "/events/index") %></li>
+        <% end %>
+      </div>
+      <div class="header-right">
       <% if @current_user %>
-        <%= link_to("Mark_Calender", "/events/index") %>
-      <% else %>
-        <%= link_to("", "/events/index") %>
-      <% end %>
+       <li><%= link_to("calendar", "/events/index") %></li>
+       <li><%= link_to("task", "/tasks/index") %></li>
+       <li><%= link_to("new","/events/new") %></li>
+       <li><%= link_to("logout", "/logout", {method: :post}) %></li>
+     <% else %>
+       <li><%= link_to("about", "/") %></li>
+       <li id="login-show"><%= link_to("login","/login",class:"login") %></li>
+       <li><%= link_to("signup","/signup",class:"signup-show") %></li>
+     <% end %>
+        <% if @current_user %>
+        <div class="user-image">
+          <% if @current_user.image.attached? %>
+            <li><%= link_to(image_tag(@current_user.image), "/users/#{@current_user.id}") %></li>
+          <% else %>
+            <li><%= link_to(image_tag("/user_images/default_user.jpg"),"/users/#{@current_user.id}") %></li>
+          <% end %>
+        </div>
+        <% end %>
+      </div>
     </div>
-    <div class="header-menus">
-       <% if @current_user %>
-        <li><%= link_to("about", "/events/index") %></li>
-        <li><%= link_to("task", "/tasks/index") %></li>
-        <li><%= link_to("new","/events/new") %></li>
-        <li><%= link_to("logout", "/logout", {method: :post}) %></li>
-      <% else %>
-        <li><%= link_to("about", "/") %></li>
-        <li><%= link_to("login","/login") %></li>
-        <li><%= link_to("signup","/signup") %></li>
-      <% end %>
-    </div>
-    <% if @current_user %>
-    <div class="user-menus">
-    <% if @current_user.image.attached? %>
-      <li><%= link_to(image_tag(@current_user.image), "/users/#{@current_user.id}") %></li>
-    <% else %>
-      <li><%= link_to(image_tag("/user_images/default_user.jpg"),"/users/#{@current_user.id}") %></li>
-    <% end %>
-    </div>
-    <% end %>
   </header>
     <% if flash[:notice] %>
       <div class="flash time-limit">

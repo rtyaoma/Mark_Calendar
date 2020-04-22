@@ -1,15 +1,14 @@
 <div class="main calendars-edit">
   <div class="container">
-  <%= form_with model: @calendar, url:"/calendars/#{@calendar.id}/update" do |form| %>
-    <div class="field" >
-      <%= form.label :title %>
-      <%= form.text_field :title %>
-    </div>
-    <div class="field" >
-      <div class="action" >
-        <%= form.submit value:"登録" %>
-      </div>
-    </div>
+  <%= form_with model: @calendar, url:"/calendars/#{@calendar.id}/update" do |f| %>
+    <dl>
+      <dt>title</dt>
+      <dd><%= f.text_field :title, value: "プライベート" %></dd>
+      <%= f.collection_radio_buttons(:color_id, @colors, :id, :color_type, include_hidden: false) do |b| %>
+        <dd class="radio-item"><%= b.label {b.radio_button} %></dd>
+      <% end %>
+      <p class="action"><%= f.submit value:"投稿" %></p>
+    </dl>
   <% end %>
   </div>
 </div>

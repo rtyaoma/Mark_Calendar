@@ -1,51 +1,60 @@
-<div class="container-md">
-  <div =class"main">
-    <section class="sec_content">
-      <div class="split-box content_left">
-        <%= render 'events/select' %>
-        <div id="calendar" style="width:600px;height: auto;"></div>
+<div class="events-wrapper">
+  <div class="container">
+    <%= render 'events/select' %>
+    <div class="inner">
+      <div class="split-box inner-left">
+        <div id="calendar"></div>
       </div>
-      <div class="split-box content_right">
-        <div class="user-image">
-          <%= link_to(image_tag(@user.image), "/users/#{@user.id}") %>
-        </div>
-				<div class="evnet-content">
-					<table class="event-description">
-						<tr>
-							<th>予定</th>
-							<td><%= @event.title %></td>
-						</tr>
-						<% if @event.allDay == false %>
-							<tr>
-								<th>日時</th>
-								<td><%= @event.start.strftime('%Y 年 %m 月 %d 日 %H:%M') %></td>
-								<td>〜</td>
-								<td><%= @event.end.strftime('%Y 年 %m 月 %d 日 %H:%M') %></td>
-							</tr>
-						<% else %>
-							<tr>
-								<th>終日</th>
-								<td><%= @event.start.strftime('%Y 年 %m 月 %d 日') %></td>
-							</tr>
+			<div class="split-box inner-right">
+				<div class="events">
+  				<div class="events-menu">
+    				<ul class="nav">
+      				<li class="nav-title"><p>event</p></li>
+    				</ul>	
+  				</div>
+  				<div class="events-display">
+						<div class="user-image">
+							<%= link_to(image_tag(@user.image), "/users/#{@user.id}") %>
+						</div>
+						<div class="evnet-content">
+							<table class="event-description">
+								<tr>
+									<th>予定</th>
+									<td><%= @event.title %></td>
+								</tr>
+								<% if @event.allDay == false %>
+								<tr>
+									<th>日時</th>
+									<td><%= @event.start.strftime('%Y 年 %m 月 %d 日 %H:%M') %></td>
+									<td>〜</td>
+									<td><%= @event.end.strftime('%Y 年 %m 月 %d 日 %H:%M') %></td>
+								</tr>
+								<% else %>
+								<tr>
+									<th>終日</th>
+									<td><%= @event.start.strftime('%Y 年 %m 月 %d 日') %></td>
+								</tr>
+								<% end %>
+								<tr>
+									<th>詳細</th>
+									<td><%= @event.description %></td>
+								</tr>
+								<tr>
+									<th>場所</th>
+									<td><%= @event.place %></td>
+								</tr>
+							</table>
+						</div>
+						<% if @event.user_id == @current_user.id %>
+							<div class="event_menu">
+								<%= link_to("edit","/events/#{@event.id}/edit") %>
+								<%= link_to("Destroy", "/events/#{@event.id}/destroy", {method: "post"}) %>
+								<%= link_to("戻る", "/events/index") %>
+							</div>
 						<% end %>
-						<tr>
-							<th>詳細</th>
-							<td><%= @event.description %></td>
-						</tr>
-						<tr>
-							<th>場所</th>
-							<td><%= @event.place %></td>
-						</tr>
-					</table>
+  				</div>
 				</div>
-        <% if @event.user_id == @current_user.id %>
-		<div class="event_menu">
-            <%= link_to("edit","/events/#{@event.id}/edit") %>
-			<%= link_to("Destroy", "/events/#{@event.id}/destroy", {method: "post"}) %>
-			<%= link_to("戻る", "/events/index") %>
-        </div>
-        <% end %>
-      </div>
-    </section>
+			</div>
+    </div>
   </div>
 </div>

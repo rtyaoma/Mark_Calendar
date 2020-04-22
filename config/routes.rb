@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'home/top'
   namespace :api, { format: 'json' } do
     namespace :v1 do
         resources :events
@@ -9,7 +10,9 @@ Rails.application.routes.draw do
   format 'json' do
     get 'events/index'
   end
+  resources :colors
   post 'select' => 'events#select'
+  get 'display' => 'events#display'
   post 'logout' => 'users#logout'
 
   patch 'users/:id/update' => 'users#update'
@@ -19,6 +22,7 @@ Rails.application.routes.draw do
   get 'users/index' => 'users#index'
   get 'users/:id' => 'users#show'
 
+  get 'tasks/tomorrow' => 'tasks#tomorrow'
   post 'tasks/:id/begin' => 'tasks#begin'
   get 'tasks/incomplete' => 'tasks#incomplete'
   get 'tasks/complete' => 'tasks#complete'

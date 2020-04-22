@@ -1,12 +1,29 @@
-<div class="main calendar-new">
-  <div calss="container">
-    <%= form_with model: @calendar, url:"/calendars/create" do |f| %>
-      <dl>
-        <dt>title</dt>
-        <dd><%= f.text_field :title, value: "プライベート" %></dd>
-        <p class="action"><%= f.submit value:"投稿" %></p>
-      </dl>
-    <% end %>
-    <%= link_to("戻る", "/events/index", class: 'btn') %>
+<div class="events-wrapper">
+  <div class="container">
+    <div class="center-inner">
+        <div class="events">
+        <div class="events-menu">
+            <p class="menu-title">new calendar</p>
+        </div>
+        <div class="events-display">
+          <%= form_with model: @calendar, url:"/calendars/create" do |f| %>
+            <div class="form-group">
+              <%= f.text_field :title, class:"group-text",placeholder:"カレンダー名" %>
+            </div>
+            <div class="form-group">
+            <p class="calendar-text">カレンダーの色を決めよう</p>
+            </div>
+            <div class="form-group">
+              <%= f.collection_radio_buttons(:color_id, @colors, :id, :color_type, include_hidden: false) do |b| %>
+                <dd class="radio-item"><%= b.label {b.radio_button} %></dd>
+              <% end %>
+            </div>
+            <div class="form-group">
+              <%= f.submit value:"登録",class:"btn" %>
+              <%= link_to("戻る", "/events/index", class: "btn") %>
+            </div>
+          <% end %>
+        </div>
+    </div>
   </div>
 </div>

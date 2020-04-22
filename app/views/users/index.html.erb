@@ -5,11 +5,13 @@
     <% @users.each do |user| %>
       <div class="users-index-item">
         <div class="user-left">
-        <% if user.image.attached? %>
-            <%= image_tag user.image %>
-        <% else %>
-            <%= image_tag "/user_images/default_user.jpg" %>
-        <% end %>
+          <div class-"user-image">
+          <% if user.image.attached? %>
+              <%= image_tag user.image %>
+          <% else %>
+              <%= image_tag "/user_images/default_user.jpg" %>
+          <% end %>
+          </div>
         </div>
           <div class="user-right">
             <%= link_to(user.name,"/users/#{user.id}")  %>

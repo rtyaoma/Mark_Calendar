@@ -1,13 +1,17 @@
-<div class="container-md">
-  <div =class"main">
-    <section class="sec_content">
-      <div class="split-box content_left">
-        <%= render 'events/select' %>
-        <div id="calendar" style="width:600px;height:auto;"></div>
-      </div>
-      <div class="split-box content_right index_event">
-      <%= render 'index_nav' %>
-        <table>
+<div class="events-wrapper">
+  <div class="container">
+    <%= render 'events/select' %>
+    <div class="inner">
+        <div class="split-box inner-left">
+          <div id="calendar"></div>
+        </div>
+        <div class="split-box inner-right index_event">
+        <div class="events">
+        <div class="events-menu">
+        <%= render 'index_nav' %>
+        </div>
+        <div class="events-display">
+          <table class="event-select">
           <tr>
             <th>user<th>
             <th>task</th>
@@ -30,8 +34,10 @@
             <% end %>
           </tr>
           <% end %>
-        </table>
+          </table>
+        </div>
       </div>
-    </section>
+        </div>
+    </div>
   </div>
 </div>

@@ -1,6 +1,7 @@
 $(document).on('turbolinks:load', function() {
   setTimeout("$('.time-limit').fadeOut('slow')", 1000), //　エラーの表示時間
 
+  
   $('input[name="event[calendar_id][]"]').change(function() {　//　calendarの選択
     var vals = $('input[name="event[calendar_id][]"]:checked').map(function() {
       return $(this).val();
@@ -11,13 +12,39 @@ $(document).on('turbolinks:load', function() {
       data:{'calendar_id': vals},
       dataType: "json"
     }).done(function() {
-        $('.content_right').html();
+      //location.href = "/events/index";
       calendar.fullCalendar('refetchEvents');　//再レンダリング
     });
     calendar.fullCalendar('unselect'); // 現在の選択を解除
+    $.ajax({
+      type: "GET",
+      url: "/display"
+    })    
+  });
+  $('.button1').on('click',function(){
+    $('input[name="event[calendar_id][]"]').attr('checked',true).prop('checked',true).change();
   });
   $('.button1').click(function(){
     $('[name="event[calendar_id][]"]').prop('checked', true);
+    var vals = $('input[name="event[calendar_id][]"]:checked').map(function() {
+      return $(this).val();
+    }).get();
+    $.ajax({
+      type: "POST",
+      url: "/select",
+      data:{'calendar_id': vals},
+      dataType: "json"
+    }).done(function() {
+      calendar.fullCalendar('refetchEvents');　//再レンダリング
+    });
+    calendar.fullCalendar('unselect'); // 現在の選択を解除
+    $.ajax({
+      type: "GET",
+      url: "/display"
+    })   
+  });
+  $('.botton2').on('click',function(){
+    $('input[name="event[calendar_id][]"]').removeAttr('checked').prop('checked',false).change();
   });
 
 // calendarの全体の表示
@@ -25,37 +52,15 @@ $(document).on('turbolinks:load', function() {
     events: '/events/index.json',
     timeFormat: 'H:mm',
     header: {
-      left: 'prev,next today',
+      right: 'addEventButton prevYear,prev,next,nextYear listDay,listWeek',
       center: 'title',
-      right: 'month,agendaWeek,agendaDay listDay,listWeek addEventButton'
+      left: 'month,agendaWeek,agendaDay today'
     },
     customButtons: {
       addEventButton: {
-        text: 'add event...',
+        text: 'new',
         click: function() {
-          //var dateStr = prompt('Enter a date in YYYY-MM-DD format');
-          var title = prompt();
-          //var date = new Date(dateStr + 'T00:00:00'); // will be in local time
-          //var data = {
-            //event: {
-              //title: title,
-              //start: date,
-              //end: date,
-              //allDay: true
-            //}
-          //}
-            //$.ajax({
-              //type: "POST",
-              //url: '/events/create',
-              //data: data,
-            //})
-            $('#calendar').fullCalendar('renderEvent', {
-              title: 'dynamic event',
-              //start: date,
-              daysOfWeek: [4],
-              //allDay: true
-            });
-            alert('Great. Now, update your database...');
+          location.href = '/events/new';
         },
       },
     },
@@ -76,9 +81,11 @@ $(document).on('turbolinks:load', function() {
       prevYear: '<<',  // &laquo;
       nextYear: '>>',  // &raquo;
       today:    'Today',
-      month:    '月',
-      week:     '週',
-      day:      '日'
+      month:    'month',
+      week:     'week',
+      day:      'day',
+      listDay:  'list(day)',
+      listWeek:  'list(week)'
     },
     //eventDataTransform: function(event){
       //if(event.allDay){
@@ -86,7 +93,7 @@ $(document).on('turbolinks:load', function() {
       //}
       //return event;
     //},
-    height: 960,                           // 高さ
+    height: 700,                           // 高さ
     defaultView: 'month',             // 初期表示ビュー
     eventLimit: true,                      // allow "more" link when too many events
     firstDay: 0,                           // 最初の曜日, 0:日曜日
@@ -134,13 +141,13 @@ $(document).on('turbolinks:load', function() {
         $('#event_end_3i').val(end_day);
         $('#event_end_4i').val(end_hour);
         $('#event_end_5i').val(end_min);
-      }).fail(function(result){
+      }).fail(function(){
         alert('エラーが発生しました')
       });
     },
     select: function(startDate, endDate, allDay) {
       var allDay = true;
-      alert('selected ' + startDate.format() + ' to ' + endDate.format() + "+" + allDay);
+      alert('selected' + startDate.format() + 'to' + endDate.format() + "+" + allDay);
       var start = startDate.format();
       var end = endDate.format();
       var start_year = moment(start).year();
@@ -157,7 +164,7 @@ $(document).on('turbolinks:load', function() {
         type: 'GET',
         url: '/events/click',
       }).done(function (res){
-        $('.content_right').html(res);
+        $('.inner-right').html(res);
         $('#event_start_1i').val(start_year);
         $('#event_start_2i').val(start_month);
         $('#event_start_3i').val(start_day);
@@ -179,7 +186,7 @@ $(document).on('turbolinks:load', function() {
         type:'GET',
         url: show_url,
       }).done(function(res){
-        $('.content_right').html(res);
+        $('.inner-right').html(res);
       });
     },
     eventDrop: function(info) { //イベントをドラッグ&ドロップした際に実行
@@ -205,7 +212,7 @@ $(document).on('turbolinks:load', function() {
         }else {
           var moment_end = end_year+"-"+end_month+"-"+end_day+" "+end_hour+":"+end_min;
         }
-        alert('eventDrop' + "+" + moment_start + "+" +info.end+ "or" + moment_end + "+" + info.title + "+" + info.allDay);
+        alert('eventDrop' + "+" + moment_start + "+" +info.end+ "or" + moment_end + "+" + info.title + "+" + info.allDay + "+" + info.color);
         var data = {
         eventBorderColor: "#000000",
           event: {
@@ -213,7 +220,7 @@ $(document).on('turbolinks:load', function() {
             start: moment_start,
             end: moment_end,
             allDay: info.allDay,
-            color: "#F596AA"
+            color: info.color
           }
         }
     
@@ -244,7 +251,7 @@ $(document).on('turbolinks:load', function() {
           start: start,
           end: end,
           allDay: false,
-          color: "#F596AA"
+          color: info.color
         }
       }
       if (confirm("登録しますか?")){

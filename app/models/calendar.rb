@@ -3,5 +3,6 @@ class Calendar < ApplicationRecord
     has_many :calendar_events
     has_many :events, :through => :calendar_events
     belongs_to :user
+    belongs_to :color
 
 end

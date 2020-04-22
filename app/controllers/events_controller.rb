@@ -2,17 +2,18 @@ class EventsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :set_event, {only: [:show, :edit, :update, :destroy, :click_show, :ensure_correct_user]} #パラメータのidからレコードを特定するメソッド
   #before_action :authenticate_user
-  before_action :set_current_calendars, {only: [:new, :click_new]}
+  before_action :set_current_calendars, {only: [:new, :click_new, :edit]}
   before_action :ensure_correct_user, {only: [:edit, :update, :destroy]} #ログインしているユーザーのみ権限がある
 
 
   def index
     #@events = Event.where(calendar_id: params[:calendar_id])
     #@events = Event.all
-    logger.info "値を見たい #{session[:calendar_id]}"
-    logger.info "@eventsの中身が見たい #{@events.inspect}" 
-    @events = Event.where(user_id: @current_user.id, calendar_id: session[:calendar_id])
-    logger.info "@eventsの中身が見たい #{@events.inspect}" 
+    t0 = Time.current.beginning_of_day
+    t1 = t0.advance(hours: 24)
+    @events = Event.where(user_id: @current_user.id, calendar_id: session[:calendar_id]).order(:start)
+    @continued_events = Event.where("'start' < ?",t0).where("'end' >?",t1).order(:start)
+    #logger.info "@eventsの中身が見たい #{@events.inspect}" 
     respond_to do |format|
     format.html
     format.xml { render :xml => @events }
@@ -35,24 +36,31 @@ class EventsController < ApplicationController
     time0 = Time.current.beginning_of_hour
     @event.start = time0.advance(hours: 1)
     @event.end = time0.advance(hours: 2)
-    @event.start_on = Date.today
-    @event.end_on = @event.start_on
+    #@event.start_on = Date.today
+    #@event.end_on = @event.start_on
   end
 
   def edit
-    unless @event.allDay?
-      @event.start_on = @event.start.to_date
-      if @event.end.seconds_since_midnight == 0
-         @event.end_on = @event.end.yesterday.to_date
-      else
-        @event.end_on = @event.end.to_date
-      end
-    end
+    #unless @event.allDay?
+      #@event.start_on = @event.start.to_date
+      #if @event.end.seconds_since_midnight == 0
+         #@event.end_on = @event.end.yesterday.to_date
+      #else
+        #@event.end_on = @event.end.to_date
+      #end
+    #end
   end
 
   def create
     @event = Event.new(event_params)
+    @calendar = @event.calendar
+    @color = Color.find_by(id: @calendar.color_id)
+    @event.color = @color.color_type
     @event.user_id = @current_user.id
+    if @event.allDay?
+      @event.start = @event.start.beginning_of_day
+      @event.end = @event.end.tomorrow.beginning_of_day
+    end
     #@event.calendar_id = params[:calendar_id]
     #@event.calendar_id = session[:calendar_id]
     #@event.calendar_id = @current_calendar.id
@@ -114,17 +122,25 @@ class EventsController < ApplicationController
 
   def select
     session[:calendar_id] = params[:calendar_id]
+    #logger.info "select値を見たい #{session[:calendar_id]}"
+    #results = Event.where(user_id: @current_user.id, calendar_id: session[:calendar_id])
     #@events = Event.where(user_id: @current_user.id, calendar_id: session[:calendar_id])
-    #html = render_to_string partial: 'ajax_partial',locals: { event: @events }
+    #render plain: render_to_string(partial: 'form_index', layout: false, locals: { event: @event })
+    #html = render_to_string partial: 'form_index',locals: { event: @events }
     #render :json => {:html => html}
-    #render partial: 'ajax_partial'
+    #render partial: 'form_index', locals:{@events => results}
+  end
+
+  def display
+    @events = Event.where(user_id: @current_user.id, calendar_id: session[:calendar_id])
+    logger.info "display値を見たい #{session[:calendar_id]}"
   end
 
   def today
     t0 = Time.current.beginning_of_day
     t1 = t0.advance(hours: 24)
-    @events = Event.where("start' >= ? AND 'start' < ?", t0,t1) or Event.where("'end' > ? AND 'end'<= ?",t0,t1).order(:start)
-    @continued_events = Event.where("'start' < ?",t0).where("'end' >?",t1).order(:start)
+    @events = Event.where("'start' >= ? AND 'start' < ?", t0,t1) or Event.where("'end' > ? AND 'end'<= ?",t0,t1).order(:start)
+    #@continued_events = Event.where("'start' < ?",t0).where("'end' >?",t1).order(:start)
     render action: :index
   end
 
@@ -142,7 +158,7 @@ class EventsController < ApplicationController
         :description,
         :color,
         :allDay,
-        :start_on, :end_on,
+        #:start_on, :end_on,
         :calendar_id
       )
     end

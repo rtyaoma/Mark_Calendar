@@ -97,6 +97,13 @@ class TasksController < ApplicationController
     #@continued_tasks = Task.where('deadline_date < ?',t0).order(:start)
     render action: :index
   end
+  
+  def tomorrow
+    t0 = Time.current.beginning_of_day
+    t1 = t0.advance(hours: 24)
+    @tasks = Task.where('deadline_date >= ?', t1 )
+    render action: :index
+  end
 
   def complete
     @tasks = Task.where(status: true)

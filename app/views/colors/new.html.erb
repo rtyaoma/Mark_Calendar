@@ -1,0 +1,13 @@
+<div class="container-md">
+  <div =class"main">
+    <section class="sec_content">
+			<%= form_with model: @color, local: true do |f| %>
+				<dl>
+					<dt>color</dt>
+					<dd><%= f.text_field :color_type %></dd>
+				</dl>
+				<p class="action" ><%= f.submit value:"投稿" %></p>
+			<% end %>
+		</section>
+	</div>
+</div>

@@ -1,3 +1,159 @@
 // Place all the styles related to the calendars controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.page-main {
+    position: relative;
+}
+
+.page-main > aside {
+    background-color: rgba(34, 49, 52, 0.9);
+    width: 280px;
+    height: 100%;
+    top: 0;
+    left: -280px; //画面外に移動
+    position: fixed; //絶対位置、位置は固定
+    margin-top: 65px;
+    z-index: 10;
+}
+
+.page-main > aside ul {
+    margin: 0;
+    padding: 0;
+    //top: 50px;
+    width: 210px;
+    left: 70px;
+    position: absolute; //絶対位置を指定
+
+}
+
+.page-main > aside li {
+    width: 210px;
+    height: 100px;
+    display: inline-flex;
+    margin: 0;
+    list-style: none; //リストマーカを非表示
+
+}
+
+.page-main > aside button {
+    background-color: rgba(34, 49, 52, 0.9);
+    display: block;
+    position: absolute;
+    top: 60px;
+    left: 280px;
+    width: 60px;
+    height: 100px;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+//input[name="event[calendar_id][]"] {
+    //display: none;
+//}
+
+.calendar-label,label {
+    width: 210px;
+    padding: 0;
+    text-align: center;
+    line-height: 100px;
+}
+.calendar-label:hover,label:hover {
+    width: 210px;
+    padding: 0;
+    text-align: center;
+    background-color:rgba(255, 255, 255, 0.5);
+}
+
+.center-inner {
+    padding: 10px 300px;
+}
+
+.menu-title {
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+}
+
+.calendar-text {
+    color: #a0a0a0;
+}
+
+input[type=radio]{
+    display: none;
+}
+label[for="calendar_color_id_1"]  {
+    background: #F596AA;
+}
+label[for="calendar_color_id_1"]:hover {
+    background-color: #E2EDF9;
+}
+label[for="calendar_color_id_1"]:checked  {
+    background:#D0104C;
+}
+label[for="calendar_color_id_2"]  {
+    background:#D0104C;
+}
+label[for="calendar_color_id_2"]:hover {
+    background-color: #E2EDF9;
+}
+label[for="calendar_color_id_3"]  {
+    background:#FB966E;
+}
+label[for="calendar_color_id_3"]:hover {
+    background-color: #E2EDF9;
+}
+label[for="calendar_color_id_4"]  {
+    background:#F7C242;
+}
+label[for="calendar_color_id_4"]:hover {
+    background-color: #E2EDF9;
+}
+label[for="calendar_color_id_5"]  {
+    background:#B5CAA0;
+}
+label[for="calendar_color_id_5"]:hover {
+    background-color: #E2EDF9;
+}
+label[for="calendar_color_id_6"]  {
+    background:#58B2DC;
+}
+label[for="calendar_color_id_6"]:hover {
+    background-color: #E2EDF9;
+}
+label[for="calendar_color_id_7"]  {
+    background:#9B90C2;
+}
+label[for="calendar_color_id_7"]:hover {
+    background-color: #E2EDF9;
+}
+label[for="calendar_color_id_8"]  {
+    background:#0C0C0C;
+}
+label[for="calendar_color_id_8"]:hover {
+    background-color: #E2EDF9;
+}
+label[for="calendar_color_id_9"]  {
+    background:#B481BB;
+}
+label[for="calendar_color_id_9"]:hover {
+    background-color: #E2EDF9;
+}
+label[for="calendar_color_id_10"]  {
+    background:#A8D8B9;
+}
+label[for="calendar_color_id_10"]:hover {
+    background-color: #E2EDF9;
+}
+label[for="calendar_color_id_1"],label[for="calendar_color_id_2"],label[for="calendar_color_id_3"],label[for="calendar_color_id_4"],label[for="calendar_color_id_5"],label[for="calendar_color_id_6"],label[for="calendar_color_id_7"],label[for="calendar_color_id_8"],label[for="calendar_color_id_9"],label[for="calendar_color_id_10"] {
+    display: block; /* ブロックレベル要素化する */
+    float: left; /* 要素の左寄せ・回り込を指定する */
+    margin: 5px; /* ボックス外側の余白を指定する */
+    width: 20px; /* ボックスの横幅を指定する */
+    height: 20px; /* ボックスの高さを指定する */
+    padding-left: 5px; /* ボックス内左側の余白を指定する */
+    padding-right: 5px; /* ボックス内御右側の余白を指定する */
+    cursor: pointer; /* マウスカーソルの形（リンクカーソル）を指定する */
+    border-radius: 5px; /* 角丸を指定する */
+}

@@ -1,5 +1,37 @@
 <div class="container-md">
   <div class="main">
+<p id="login-show">ログイン</p>
+</div>
+</div>
+<div class="signup-modal-wrapper">
+</div>
+<div id="login-modal" class="login-modal-wrapper">
+	<div class="modal">
+	<div class="close-modal">
+		<i class="fa fa-2x fa-times"></i>
+	</div> 
+		<div id="login-form">
+		<div class="form-body">
+		<div class="form-error">
+		<% if @error_message %>
+				<%= @error_message %>
+		<% end %>
+		</div>
+		<%= form_with model: @user, url:"/login" do |f| %>
+			<dl>
+				<dt>email</dt>
+				<dd><%= f.email_field :email %></dd>
+				<dt>password</dt>
+				<dd><%= f.password_field :password %></dd>
+				<p class="action" ><%= f.submit value:"login" %></div>
+			</dl>
+		<% end %>
+	</div>
+		</div>
+	</div>
+</div>
+<div class="container-md">
+  <div class="main">
     <div class="form-heading">ログイン</div>
     <div class="form users-form">
       <div class="form-body">
