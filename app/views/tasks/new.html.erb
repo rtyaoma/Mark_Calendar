@@ -1,24 +1,43 @@
-<div class="container-md">
-  <div =class"main">
-    <section class="sec_content">
-      <div class="split-box content_left">
-        <%= render 'events/select' %>
-        <div id="calendar" style="width:600px;height:auto;"></div>
-      </div>
-      <div class="split-box content_right new_event">
-        <%= form_with model: @task, url:"/tasks/create" do |f| %>
-            <dl>
-            <dt>task</dt>
-            <dd><%= f.text_field :title %></dd>
-            <dt>締切</dt>
-            <dd><%= f.date_select :deadline_date %></dd>
-            <dd><%= f.hidden_field :status, :value => false %></dd>
-            <dt>詳細</dt>
-            <dd><%= f.text_area :description %></dd>
-            </dl>
-            <p class="action" ><%= f.submit value:"投稿" %></p>
-        <% end %>
-      </div>
-    </section>
+<div class="events-wrapper">
+  <div class="container">
+    <div class="inner">
+        <div class="split-box inner-left">
+          <div id="calendar"></div>
+        </div>
+        <div class="split-box inner-right new_event">
+          <div class="events">
+            <div class="events-menu">
+              <ul class="nav">
+                <li class="nav-title"><p>new task</p></li>
+              </ul>	
+            </div>
+            <div class="events-display">
+            <%= form_with model: @task, url:"/tasks/create" do |f| %>
+              <div class="form-group">
+                <%= f.text_field :title, class:"group-text", placeholder:"タイトル" %>
+              </div>
+              <div class="form-group">
+                <div class="group-label">
+                  <%= f.label :deadline_date, "締切" %>
+                </div>
+                <div class="group-inner">
+                  <%= f.date_select :deadline_date %>
+                </div>
+              </div>
+              <div class="form-group">
+                <%= f.hidden_field :status, :value => false %>
+              </div>
+              <div class="form-group">
+                <%= f.text_area :description, class:"group-text", placeholder:"メモ" %>
+              </div>
+              <div class="form-group">
+                <%= f.submit value:"登録",class: "btn" %>
+                  <%= link_to("戻る", "/events/index", class: "btn") %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
   </div>
 </div>

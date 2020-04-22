@@ -1,11 +1,11 @@
-<div class="container-md">
-  <div class="main">
-    <section class="sec_content">
-      <div class="split-box content_left">
-        <div id="calendar" style="width:600px;height:auto;"></div>
-      </div>
-      <div class="split-box content_right index_event">
-        <div class="user">
+<div class="events-wrapper">
+  <div class="container">
+    <div class="center-inner">
+			<div class="events">
+        <div class="events-menu">
+            <p class="menu-title"><%= @user.name %></p>
+        </div>
+        <div class="events-display">
           <div class="user-image">
             <% if @user.image.attached? %>
               <%= image_tag @user.image %>
@@ -13,14 +13,17 @@
               <%= image_tag "/user_images/default_user.jpg" %>
             <% end %>
           </div>
-          <h2><%= @user.name%></h2>
-          <p><%= @user.email%></p>
-          <% if @user.id == @current_user.id %>
-          <%= link_to("編集","/users/#{@user.id}/edit") %>
-          <% end %>
+          <div class="form-group">
+            <%= @user.email%>
+          </div>
+          <div class="form-group">
+            <% if @user.id == @current_user.id %>
+              <%= link_to("編集","/users/#{@user.id}/edit", class:"btn") %>
+            <% end %>
+            <%= link_to("戻る", "/events/index", class: "btn") %>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
   </div>
 </div>
-
