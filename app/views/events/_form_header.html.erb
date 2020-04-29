@@ -1,0 +1,28 @@
+<div class="page-main">
+	<aside class="right-sidebar">
+		<div class="sidebar-inner"></div>
+		<div class="sidebar-inner">
+			<% if @current_user %>
+    		<% if @current_user.image.attached? %>
+      		<%= link_to(image_tag(@current_user.image), "/users/#{@current_user.id}") %>
+    		<% else %>
+      		<%= link_to(image_tag("/user_images/default_user.jpg"),"/users/#{@current_user.id}") %>
+    		<% end %>
+  		<% end %>
+		</div>
+		<div class="sidebar-inner">
+			<ul>
+				<% if @current_user %>
+					<li><%= link_to("calendar", "/events/index") %></li>
+					<li><%= link_to("task", "/tasks/index") %></li>
+					<li><%= link_to("new","/events/new") %></li>
+					<li><%= link_to("logout", "/logout", {method: :post}) %></li>
+				<% else %>
+					<li><%= link_to("about", "/") %></li>
+					<li id="login-show"><%= link_to("login","/login",class:"login") %></li>
+					<li><%= link_to("signup","/signup",class:"signup-show") %></li>
+				<% end %>
+			</ul>
+		</div>
+	</aside>
+<div>

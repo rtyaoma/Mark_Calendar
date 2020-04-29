@@ -1,4 +1,4 @@
-<div class="events-wrapper">
+div class="events-wrapper">
   <div class="container">
     <div class="inner">
         <div class="split-box inner-left">
@@ -12,7 +12,7 @@
               </ul>	
             </div>
             <div class="events-display">
-            <%= form_with model: @task, url:"/tasks/#{@task.id}/update" do |f| %>
+            <%= nested_form_for(@task, url:"/tasks/#{@task.id}/update") do |f| %>
               <div class="form-group">
                 <%= f.text_field :title, class:"group-text", placeholder:"タイトル" %>
               </div>
@@ -25,16 +25,26 @@
                 </div>
               </div>
               <div class="form-group">
-              <%= f.select :status, [['未完了',false],['完了',true]],{} %>
+                <%= f.select :status, [['未完了',false],['完了',true]],{} %>
               </div>
               <div class="form-group">
                 <%= f.text_area :description, class:"group-text", placeholder:"メモ" %>
               </div>
               <div class="form-group">
                 <%= f.submit value:"登録",class: "btn" %>
-                <%= link_to("戻る", "/tasks/index", class: "btn") %>
-                <% end %>
+                  <%= link_to("戻る", "/events/index", class: "btn") %>
               </div>
+              <div class="form-group">
+                <%= f.fields_for :sub_tasks do |f| %>
+                  <%= f.text_field :title %>
+                  <%= f.hidden_field :status, :value => false %>
+                  <%= f.link_to_remove "取り消し" %>
+                  <%= f.check_box :_destroy %>
+                <% end %>
+                  <%= f.link_to_add "サブタスク追加", :sub_tasks, data: { limit: 5 } %>
+              </div>
+            <% end %>
+            </div>
             </div>
           </div>
         </div>

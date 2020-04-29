@@ -19,7 +19,8 @@
             <th>status</th>
           </tr>
           <% @tasks.each do |task| %>
-          <tr>
+          <tr class="show_hide_row">
+            <td id="sub-icon"><i class="fas fa-angle-down"></i></td>
             <td><%= link_to(task.user.name,"/users/#{task.user.id}") %></td>
             <td><%= task.title %></td>
             <td><%= task.deadline_date.strftime('%Y 年 %m 月 %d 日 %H:%M') %></td>
@@ -33,6 +34,11 @@
             <td><%= button_to "未完了","/tasks/#{task.id}/begin", method: :post ,class: "done" %></td>
             <% end %>
           </tr>
+          <% task.sub_tasks.each do |sub_task| %>
+          <tr class="hidden_row">
+            <td colspan="7" class="sub"><%= sub_task.title %></td>
+          </tr>
+          <% end %>
           <% end %>
           </table>
         </div>

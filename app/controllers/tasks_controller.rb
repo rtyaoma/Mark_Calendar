@@ -30,6 +30,7 @@ class TasksController < ApplicationController
 
   def new
     @task = Task.new
+    @task.sub_tasks.build
   end
 
   def edit
@@ -126,7 +127,8 @@ class TasksController < ApplicationController
         :title,
         :deadline_date,
         :description,
-        :status
+        :status,
+        sub_tasks_attributes: [:id, :title, :status, :_destroy]
       )
     end
     #def set_current_calendars

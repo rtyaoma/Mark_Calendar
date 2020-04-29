@@ -1,15 +1,15 @@
-<div class="page-main">
-  <aside>
+<div class="main-header">
+  <aside class="left-sidebar">
     <div class="checkbox" id="request_ajax">
       <ul>
       <%= form_with(model: @event, url:'/select', remote: true) do |form| %>
-          <%= collection_check_boxes(:event, :calendar_id, Calendar.where(user_id: @current_user.id), :id, :title,include_hidden: false) do |b| %>
-            <%= b.check_box + b.label{b.text} %>
+        <%= collection_check_boxes(:event, :calendar_id, Calendar.where(user_id: @current_user.id), :id, :title,include_hidden: false) do |b| %>
+          <li><%= b.check_box + b.label{b.text} %></li>
           <% end %>
       <% end %>
-      <li class="botton1">全てにチェックをつける</li>
-      <li class="nav"><%= link_to("カレンダーを追加する","/calendars/new") %></li>
-      <li class="botton2">全てのチェックを外す</li>
+      <li class="botton1"><p>全てにチェックをつける</p></li>
+      <li class="nav aside-nav"><%= link_to("カレンダーを追加する","/calendars/new") %></li>
+      <li class="botton2"><p>全てのチェックを外す</p></li>
       </ul>
       <button><i class="far fa-2x fa-calendar-alt"></i></button>
     </div>

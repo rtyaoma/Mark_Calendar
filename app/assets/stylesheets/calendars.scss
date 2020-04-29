@@ -2,11 +2,57 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.page-main {
+
+// right-sidebar ------------------------------
+.main-header,.page-main {
     position: relative;
 }
 
-.page-main > aside {
+.page-main > .right-sidebar  {
+    background-color: rgba(34, 49, 52, 0.9);
+    width: 280px;
+    height: 100%;
+    top: 0;
+    right: -280px; //画面外に移動
+    position: fixed; //絶対位置、位置は固定
+    margin-top: 65px;
+    z-index: 10;
+}
+
+.page-main > .right-sidebar  ul {
+    margin: 0;
+    padding: 0;
+    //top: 50px;
+    width: 210px;
+    right: 70px;
+    position: absolute; //絶対位置を指定
+
+}
+
+.page-main > .right-sidebar  li {
+    width: 210px;
+    height: 100px;
+    display: inline-flex;
+    margin: 0;
+    list-style: none; //リストマーカを非表示
+
+}
+
+.page-main > .right-sidebar  button {
+    background-color: rgba(34, 49, 52, 0.9);
+    display: block;
+    position: absolute;
+    top: 60px;
+    right: 280px;
+    width: 60px;
+    height: 100px;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+// left-sidebar ----------------------------
+
+.main-header > .left-sidebar  {
     background-color: rgba(34, 49, 52, 0.9);
     width: 280px;
     height: 100%;
@@ -17,7 +63,7 @@
     z-index: 10;
 }
 
-.page-main > aside ul {
+.main-header > .left-sidebar  ul {
     margin: 0;
     padding: 0;
     //top: 50px;
@@ -27,16 +73,17 @@
 
 }
 
-.page-main > aside li {
+.main-header > .left-sidebar  li {
     width: 210px;
     height: 100px;
     display: inline-flex;
     margin: 0;
     list-style: none; //リストマーカを非表示
+    padding: 0;
 
 }
 
-.page-main > aside button {
+.main-header > .left-sidebar  button {
     background-color: rgba(34, 49, 52, 0.9);
     display: block;
     position: absolute;
@@ -49,9 +96,32 @@
     border: none;
 }
 
-//input[name="event[calendar_id][]"] {
-    //display: none;
-//}
+
+input[name="event[calendar_id][]"] {
+    display: none;
+}
+
+input[name="event[calendar_id][]"]:checked label{
+    background-color:rgba(255, 255, 255, 0.5);
+}
+
+.botton1 p,.botton2 p,.aside-nav a {
+    height: 100px;
+    font-weight: 700;
+    padding: 0 15px;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    line-height: 90px;
+}
+
+.botton1 p:hover,.botton2:hover p,.aside-nav a:hover {
+    background-color:rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+
+}
+
+
 
 .calendar-label,label {
     width: 210px;
@@ -67,7 +137,9 @@
 }
 
 .center-inner {
-    padding: 10px 300px;
+    padding: 10px 0;
+    width: 800px;
+    margin: 0 auto;
 }
 
 .menu-title {
@@ -80,9 +152,9 @@
     color: #a0a0a0;
 }
 
-input[type=radio]{
-    display: none;
-}
+//input[type=radio]{
+    //display: none;
+//}
 label[for="calendar_color_id_1"]  {
     background: #F596AA;
 }

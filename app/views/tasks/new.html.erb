@@ -1,4 +1,5 @@
-<div class="events-wrapper">
+
+div class="events-wrapper">
   <div class="container">
     <div class="inner">
         <div class="split-box inner-left">
@@ -12,7 +13,7 @@
               </ul>	
             </div>
             <div class="events-display">
-            <%= form_with model: @task, url:"/tasks/create" do |f| %>
+            <%= nested_form_for(@task, url:"/tasks/create") do |f| %>
               <div class="form-group">
                 <%= f.text_field :title, class:"group-text", placeholder:"タイトル" %>
               </div>
@@ -33,8 +34,17 @@
               <div class="form-group">
                 <%= f.submit value:"登録",class: "btn" %>
                   <%= link_to("戻る", "/events/index", class: "btn") %>
-                <% end %>
               </div>
+              <div class="form-group">
+                <%= f.fields_for :sub_tasks do |f| %>
+                  <%= f.text_field :title %>
+                  <%= f.hidden_field :status, :value => false %>
+                  <%= f.link_to_remove "取り消し" %>
+                <% end %>
+                  <%= f.link_to_add "サブタスク追加", :sub_tasks, data: { limit: 5 } %>
+              </div>
+            <% end %>
+            </div>
             </div>
           </div>
         </div>

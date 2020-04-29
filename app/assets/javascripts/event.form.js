@@ -16,12 +16,39 @@ $('.signup-show').click(function(e){
 	$('#signup-modal').fadeIn();
 });
 
-$('.close-modal').click(function(){
+$('.fa-ellipsis-v').click(function(){
 		$('#login-modal').fadeOut();
 		$('#signup-modal').fadeOut();
     });
-    
+
+$('.show_hide_row').on('click',function(){
+ $('.hidden_row td').toggle();
 });
+
+$(document).on('click','.show_hide_row i',function(){
+  $('.select-description').toggle();
+ });
+});
+
+$(document).on('nested:fieldAdded', function(e) {
+    var link = $(e.currentTarget.activeElement);
+    if (!link.data('limit')) {
+      return;
+    }
+    if (link.siblings('.fields:visible').length >= link.data('limit')) {
+      link.hide();
+    }
+  });
+
+  $(document).on('nested:fieldRemoved', function(e) {
+    var link = $(e.target).siblings('a.add_nested_fields');
+    if (!link.data('limit')) {
+      return;
+    }
+    if (link.siblings('.fields:visible').length < link.data('limit')) {
+      link.show();
+    }
+  });
 
 //document.addEventListener(
     //"DOMContentLoaded", e => {

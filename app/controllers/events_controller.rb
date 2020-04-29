@@ -7,13 +7,24 @@ class EventsController < ApplicationController
 
 
   def index
-    #@events = Event.where(calendar_id: params[:calendar_id])
-    #@events = Event.all
+    @events = Event.where(user_id: @current_user.id, calendar_id: session[:calendar_id]).order(:start)
     t0 = Time.current.beginning_of_day
     t1 = t0.advance(hours: 24)
-    @events = Event.where(user_id: @current_user.id, calendar_id: session[:calendar_id]).order(:start)
-    @continued_events = Event.where("'start' < ?",t0).where("'end' >?",t1).order(:start)
-    #logger.info "@eventsの中身が見たい #{@events.inspect}" 
+    half = t0.advance(hours: 12)
+    form = t0 + 1.minute
+    form_to = t0 - 1.minute
+    to_form = t1 - 1.minute
+    @today = Date.today
+    wd = %w[日 月 火 水 木 金 土]
+    @todaydayofweek = "(" + "" + wd[@today.wday] + ")"
+    @allday_events = @events.where('"start" = ? AND "end" = ?' , t0, t1).order(:start)
+    @today_events = @events.where('"start" > ? AND "end" < ?' , t0, t1).order(:start)
+    @after_events = @events.where(start: t0...t1).where('"end" >?',t1)
+    @before_events = @events.where('"start" <?',t0).where(end: form...t1)
+    @continued_events = @events.where('"start" < ? AND "end" > ?', form_to, t1).order(:start)
+    @am_events = @today_events.where(end: t0...half)
+    @pm_events = @today_events.where(end: half...t1)
+
     respond_to do |format|
     format.html
     format.xml { render :xml => @events }
@@ -23,6 +34,10 @@ class EventsController < ApplicationController
 
   def show
     @user = @event.user
+    @calendar = @event.calendar
+    youbi = %w[日 月 火 水 木 金 土]
+    @dayofweekstart = "(" + "" + youbi[@event.start.wday] + ")"
+    @dayofweekend = "(" + "" + youbi[@event.end.wday] + ")"
     respond_to do |format|
       format.html
       format.xml { render :xml => @events }
@@ -57,9 +72,12 @@ class EventsController < ApplicationController
     @color = Color.find_by(id: @calendar.color_id)
     @event.color = @color.color_type
     @event.user_id = @current_user.id
+    logger.info "@start頼む #{@event.start}"
+    logger.info "@end頼む #{@event.end}"
     if @event.allDay?
       @event.start = @event.start.beginning_of_day
       @event.end = @event.end.tomorrow.beginning_of_day
+  
     end
     #@event.calendar_id = params[:calendar_id]
     #@event.calendar_id = session[:calendar_id]
@@ -96,8 +114,6 @@ class EventsController < ApplicationController
   end
 
   def ensure_correct_user
-    logger.info "@current値を見たい #{@current_user.id}"
-    logger.info "@event値を見たい #{@event.user_id}"
     if @event.user_id != @current_user.id
       flash[:notice] = "権限がありません"
       redirect_to("/login")
@@ -111,6 +127,10 @@ class EventsController < ApplicationController
   end
 
   def click_show
+    @calendar = @event.calendar
+    youbi = %w[日 月 火 水 木 金 土]
+    @dayofweekstart = "(" + "" + youbi[@event.start.wday] + ")"
+    @dayofweekend = "(" + "" + youbi[@event.end.wday] + ")"
     @user = @event.user
     render plain: render_to_string(partial: 'form_show', layout: false, locals: { event: @event })
     respond_to do |format|
@@ -144,6 +164,33 @@ class EventsController < ApplicationController
     render action: :index
   end
 
+  def refetch_index
+    @events = Event.where(user_id: @current_user.id, calendar_id: session[:calendar_id]).order(:start)
+    t0 = Time.current.beginning_of_day
+    t1 = t0.advance(hours: 24)
+    half = t0.advance(hours: 12)
+    form = t0 + 1.minute
+    form_to = t0 - 1.minute
+    to_form = t1 - 1.minute
+    @today = Date.today
+    wd = %w[日 月 火 水 木 金 土]
+    @todaydayofweek = "(" + "" + wd[@today.wday] + ")"
+    @allday_events = @events.where('"start" = ? AND "end" = ?' , t0, t1).order(:start)
+    @today_events = @events.where('"start" > ? AND "end" < ?' , t0, t1).order(:start)
+    @after_events = @events.where(start: t0...t1).where('"end" >?',t1)
+    @before_events = @events.where('"start" <?',t0).where(end: form...t1)
+    @continued_events = @events.where('"start" < ? AND "end" > ?', form_to, t1).order(:start)
+    @am_events = @today_events.where(end: t0...half)
+    @pm_events = @today_events.where(end: half...t1)
+    render plain: render_to_string(partial: 'form_index', layout: false, locals: { event: @event })
+    respond_to do |format|
+    format.html
+    format.xml { render :xml => @events }
+    format.json { render :json => @events }
+    end
+  end
+
+
     private
     def set_event
       @event = Event.find_by(id:params[:id])
@@ -158,7 +205,6 @@ class EventsController < ApplicationController
         :description,
         :color,
         :allDay,
-        #:start_on, :end_on,
         :calendar_id
       )
     end

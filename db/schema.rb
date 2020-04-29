@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_16_112244) do
+ActiveRecord::Schema.define(version: 2020_04_25_094230) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,14 @@ ActiveRecord::Schema.define(version: 2020_04_16_112244) do
     t.integer "calendar_id"
     t.date "start_on"
     t.date "end_on"
+  end
+
+  create_table "sub_tasks", force: :cascade do |t|
+    t.string "title"
+    t.integer "task_id"
+    t.boolean "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tasks", force: :cascade do |t|

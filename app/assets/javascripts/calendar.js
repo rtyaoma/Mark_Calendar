@@ -18,9 +18,12 @@ $(document).on('turbolinks:load', function() {
     calendar.fullCalendar('unselect'); // 現在の選択を解除
     $.ajax({
       type: "GET",
-      url: "/display"
-    })    
+      url: "/events/refetch"
+    }).done(function(res){
+    $('.inner-right').html(res);
+    })
   });
+
   $('.button1').on('click',function(){
     $('input[name="event[calendar_id][]"]').attr('checked',true).prop('checked',true).change();
   });
@@ -109,9 +112,9 @@ $(document).on('turbolinks:load', function() {
     allDayText:'allday',                   // 終日スロットのタイトル
     slotMinutes: 15,                       // スロットの分
     snapMinutes: 15,                       // 選択する時間間隔
-    firstHour: 9,
     alldayMaintainDuration: false,
-    //contentHeight: auto,
+    noEventsMessage: "予定がありません",
+    scrollTime: "00:00:00",
 
     dayClick: function(date){
       var start = date.format();
@@ -141,13 +144,15 @@ $(document).on('turbolinks:load', function() {
         $('#event_end_3i').val(end_day);
         $('#event_end_4i').val(end_hour);
         $('#event_end_5i').val(end_min);
+        var position = $(".warapper").offset();
+        alert(position);
       }).fail(function(){
         alert('エラーが発生しました')
       });
     },
     select: function(startDate, endDate, allDay) {
-      var allDay = true;
-      alert('selected' + startDate.format() + 'to' + endDate.format() + "+" + allDay);
+      var allDay = !startDate.hasTime() && !endDate.hasTime();
+      alert('selected' + startDate.format() + 'to' + endDate.format() + "+" + allDay + "+" + endDate.hasTime());
       var start = startDate.format();
       var end = endDate.format();
       var start_year = moment(start).year();
@@ -165,6 +170,10 @@ $(document).on('turbolinks:load', function() {
         url: '/events/click',
       }).done(function (res){
         $('.inner-right').html(res);
+        if (allDay == true) {
+            $('#event_allDay').prop('checked', true);
+        };
+        $('#event_allDay').val(allDay);
         $('#event_start_1i').val(start_year);
         $('#event_start_2i').val(start_month);
         $('#event_start_3i').val(start_day);

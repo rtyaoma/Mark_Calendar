@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   format 'json' do
     get 'events/index'
   end
+
   resources :colors
   post 'select' => 'events#select'
   get 'display' => 'events#display'
@@ -48,6 +49,7 @@ Rails.application.routes.draw do
   get 'events/index' => 'events#index'
   get 'events/new' => 'events#new'
   get 'events/click' => 'events#click_new'
+  get 'events/refetch' => 'events#refetch_index'
   get 'events/:id' => 'events#show'
   get 'events/click/:id' => 'events#click_show'
   get 'login' => 'users#login_form'

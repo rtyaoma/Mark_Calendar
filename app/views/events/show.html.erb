@@ -9,52 +9,90 @@
 				<div class="events">
   				<div class="events-menu">
     				<ul class="nav">
-      				<li class="nav-title"><p>event</p></li>
+      				<li class="nav-title"><p id="w1">予定の詳細</p></li>
     				</ul>	
   				</div>
-  				<div class="events-display">
-						<div class="user-image">
-							<%= link_to(image_tag(@user.image), "/users/#{@user.id}") %>
-						</div>
-						<div class="evnet-content">
-							<table class="event-description">
-								<tr>
-									<th>予定</th>
-									<td><%= @event.title %></td>
-								</tr>
-								<% if @event.allDay == false %>
-								<tr>
-									<th>日時</th>
-									<td><%= @event.start.strftime('%Y 年 %m 月 %d 日 %H:%M') %></td>
-									<td>〜</td>
-									<td><%= @event.end.strftime('%Y 年 %m 月 %d 日 %H:%M') %></td>
-								</tr>
-								<% else %>
-								<tr>
-									<th>終日</th>
-									<td><%= @event.start.strftime('%Y 年 %m 月 %d 日') %></td>
-								</tr>
-								<% end %>
-								<tr>
-									<th>詳細</th>
-									<td><%= @event.description %></td>
-								</tr>
-								<tr>
-									<th>場所</th>
-									<td><%= @event.place %></td>
-								</tr>
-							</table>
-						</div>
-						<% if @event.user_id == @current_user.id %>
-							<div class="event_menu">
-								<%= link_to("edit","/events/#{@event.id}/edit") %>
-								<%= link_to("Destroy", "/events/#{@event.id}/destroy", {method: "post"}) %>
-								<%= link_to("戻る", "/events/index") %>
+				  <div class="events-display">
+						<div class="main-select">
+							<div class="select-menu">
+								<div class="select-icon left-icon">
+									<%= link_to('',"/events/index", class:"fas fa fa-arrow-left") %>
+								</div>
+								<div class="select-icon right-icon">
+									<%= link_to('',"/events/#{@event.id}/destroy", class:"fas fa fa-trash-alt") %>
+									<%= link_to('編集',"/events/#{@event.id}/edit") %>
+								</div>
 							</div>
-						<% end %>
-  				</div>
+							<div class="select-group select-user">
+								<% if @user.image.attached? %>
+									<%= link_to(image_tag(@current_user.image), "/users/#{@user.id}") %>
+								<% else %>
+									<%= link_to(image_tag("/user_images/default_user.jpg"),"/users/#{@user.id}") %>
+								<% end %>
+							</div>
+							<div class="select-group select-calendar">
+								<div class="calendar-icon">
+									<i class="far fa-calendar"></i>
+								</div>
+								<div class="calendar-title" style="color:<%= @event.color %>">
+									<%= @calendar.title  %>
+								</div>
+							</div>
+							<div class="select-group select-title", style="color:<%= @event.color %>">
+								<%= @event.title %>
+							</div>
+							<div class="select-group time-group">
+								<% if @event.allDay == false %>
+									<table>
+										<tr>
+											<td class="date"><%= @event.start.strftime('%Y/%m/%d') + @dayofweekstart %></td>
+											<td rowspan="2"><i class="fas fa-2x fa-angle-right" style="color:<%= @event.color %>"></i></td>
+											<td class="date"><%= @event.end.strftime('%Y/%m/%d') + @dayofweekend %></td>
+										</tr>
+										<tr>
+											<td class="time"><%= @event.start.strftime('%H:%M') %></td>
+											<td class="time"><%= @event.end.strftime('%H:%M') %></td>
+										</tr>
+									</table>
+								<% elsif @event.allDay == true &&  @event.start.tomorrow.beginning_of_day === @event.end %>
+									<div class="alldaydate">
+									<%= @event.start.strftime('%Y/%m/%d') + @dayofweekstart %>
+									</div>
+								<% else %>
+									<table>
+										<tr>
+											<td><%= @event.start.strftime('%Y/%m/%d') + @dayofweekstart %></td>
+											<td><i class="fas fa-2x fa-angle-right" style="color:<%= @event.color %>"></i></td>
+											<td><%= @event.end.strftime('%Y/%m/%d') + @dayofweekend %></td>
+										</tr>
+									</table>
+								<% end%>
+							</div>
+							<div class="select-group show_hide_row">
+								<i class="fas fa-plus"></i>
+							</div>
+							<div class="hidden_row select-description">
+								<div class="select-group">
+									<div class="map-icon">
+										<i class="fas fa-map-marker-alt"></i>
+									</div>
+									<div class="group-map">
+										<%= @event.place %>
+									</div>
+								</div>
+								<div class="select-group note">
+									<div class="note-icon">
+										<i class="far fa-sticky-note"></i>
+									</div>
+								</div>
+								<div class="select-group group-note">
+										<%= @event.description %>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-    </div>
-  </div>
+		</div>
+	</div>
 </div>

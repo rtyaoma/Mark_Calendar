@@ -19,6 +19,7 @@
           <li><%= link_to("", "/events/index") %></li>
         <% end %>
       </div>
+      <span id="menu-icon" class="fa fa-bars"></span>
       <div class="header-right">
       <% if @current_user %>
        <li><%= link_to("calendar", "/events/index") %></li>
@@ -46,5 +47,29 @@
       </div>
     <% end %>
     <%= yield %>
+  <footer>
+  <div class="header-container">
+  <div class="header-left">
+    <% if @current_user %>
+      <li><%= link_to("Mark_Calender", "/events/index") %></li>
+    <% else %>
+      <li><%= link_to("", "/events/index") %></li>
+    <% end %>
+  </div>
+  <span id="menu-icon" class="fa fa-bars"></span>
+  <div class="header-right">
+  <% if @current_user %>
+   <li><%= link_to("calendar", "/events/index") %></li>
+   <li><%= link_to("task", "/tasks/index") %></li>
+   <li><%= link_to("new","/events/new") %></li>
+   <li><%= link_to("logout", "/logout", {method: :post}) %></li>
+ <% else %>
+   <li><%= link_to("about", "/") %></li>
+   <li id="login-show"><%= link_to("login","/login",class:"login") %></li>
+   <li><%= link_to("signup","/signup",class:"signup-show") %></li>
+ <% end %>
+  </div>
+</div>
+  </footer>
 </body>
 </html>

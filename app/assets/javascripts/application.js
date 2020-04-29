@@ -18,6 +18,7 @@
 //= require bootstrap-sprockets
 //= require popper
 //= require fullcalendar
+//= require jquery_nested_form
 //= require_tree .
 
 $(document).on('turbolinks:load', function() {
@@ -25,19 +26,28 @@ $(document).on('turbolinks:load', function() {
   var duration = 300; //アニメーションにかける時間
 
   // aside ----------------------------------------
-  var $aside = $('.page-main > aside');　//objを格納
-  var $asidButton = $aside.find('button') //button要素を格納
+  var $leftAside = $('.main-header > .left-sidebar');　//objを格納
+  var $asidButton = $leftAside.find('button') //button要素を格納
     .on('click', function(){ //格納したbuttonをクリックしたら以下を処理
-      $aside.toggleClass('open'); //'open'が$asideのclass属性に指定されてなかったら追加、追加されてたら削除
-        if($aside.hasClass('open')){
-          $aside.stop(true).animate({left: '-70px'}, duration, 'easeOutBack'); //開いた状態の位置までアニメーション
+      $leftAside.toggleClass('open'); //'open'が$asideのclass属性に指定されてなかったら追加、追加されてたら削除
+        if($leftAside.hasClass('open')){
+          $leftAside.stop(true).animate({left: '-70px'}, duration, 'easeOutBack'); //開いた状態の位置までアニメーション
           $asidButton.find('i').attr('class', 'far fa-2x fa-calendar-times'); //閉じるiconに変更
         }else{
-          $aside.stop(true).animate({left: '-280px'}, duration, 'easeInBack'); //サイドバーを隠すアニメーション
+          $leftAside.stop(true).animate({left: '-280px'}, duration, 'easeInBack'); //サイドバーを隠すアニメーション
           $asidButton.find('i').attr('class', 'far fa-2x fa-calendar-alt');  //openのiconに戻す処理
         };
 		});
-	
+  
+  var $aside = $('.page-main > .right-sidebar');　//objを格納
+    $('#menu-icon').on('click', function(){ //格納したbuttonをクリックしたら以下を処理
+      $aside.toggleClass('open'); //'open'が$asideのclass属性に指定されてなかったら追加、追加されてたら削除
+        if($aside.hasClass('open')){
+          $aside.stop(true).animate({right: '-70px'}, duration, 'easeOutBack'); //開いた状態の位置までアニメーション
+        }else{
+          $aside.stop(true).animate({right: '-280px'}, duration, 'easeInBack'); //サイドバーを隠すアニメーション
+        };
+		});
 	//$('.calendar-label').on('click',function(){
 		//$(this).css('background-color','rgba(255, 255, 255, 0.5)');
 		//$(this).css('border-bottom','1px solid rgba(34, 49, 52, 0.9)');
