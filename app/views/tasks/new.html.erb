@@ -1,5 +1,5 @@
 
-div class="events-wrapper">
+<div class="events-wrapper">
   <div class="container">
     <div class="inner">
         <div class="split-box inner-left">
@@ -13,36 +13,40 @@ div class="events-wrapper">
               </ul>	
             </div>
             <div class="events-display">
-            <%= nested_form_for(@task, url:"/tasks/create") do |f| %>
-              <div class="form-group">
-                <%= f.text_field :title, class:"group-text", placeholder:"タイトル" %>
-              </div>
-              <div class="form-group">
-                <div class="group-label">
-                  <%= f.label :deadline_date, "締切" %>
+              <%= nested_form_for(@task, url:"/tasks/create") do |f| %>
+                <div class="main-select">
+                  <div class="form-group form-check">
+                    <%= link_to('',"/tasks/index", class:"fas fa-2x fa-arrow-left back-icon") %>
+                    <button type="submit" class="submit"><i class="fas fa-2x fa-check"></i></button>
+                  </div>
+                  <div class="form-group">
+                    <%= f.text_field :title, class:"group-text", placeholder:"タイトル" %>
+                  </div>
+                  <div class="form-group">
+                    <div class="group-label">
+                      <%= f.label :deadline_date, "締切" %>
+                    </div>
+                    <div class="group-inner">
+                      <%= f.date_select :deadline_date %>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                  <p class="sub-task-plus">サブタスクを追加する</p>
+                  <div class="form-group sub-task-form">
+                    <%= f.fields_for :sub_tasks do |f| %>
+                      <%= f.text_field :title ,class:"sub-task-title",placeholder:"サブタスク" %>
+                      <%= f.hidden_field :status, :value => false %>
+                      <%= f.link_to_remove "",class:"fas fa-times" %>
+                    <% end %>
+                    <%= f.link_to_add "", :sub_tasks, data: { limit: 5 },class:"fas fa-plus" %>
+                  </div>
+                  <div class="form-group status">
+                    <%= f.hidden_field :status, :value => false %>
+                  </div>
+                  <div class="form-group">
+                    <%= f.text_area :description, class:"group-text", placeholder:"メモ" %>
+                  </div>
                 </div>
-                <div class="group-inner">
-                  <%= f.date_select :deadline_date %>
-                </div>
-              </div>
-              <div class="form-group">
-                <%= f.hidden_field :status, :value => false %>
-              </div>
-              <div class="form-group">
-                <%= f.text_area :description, class:"group-text", placeholder:"メモ" %>
-              </div>
-              <div class="form-group">
-                <%= f.submit value:"登録",class: "btn" %>
-                  <%= link_to("戻る", "/events/index", class: "btn") %>
-              </div>
-              <div class="form-group">
-                <%= f.fields_for :sub_tasks do |f| %>
-                  <%= f.text_field :title %>
-                  <%= f.hidden_field :status, :value => false %>
-                  <%= f.link_to_remove "取り消し" %>
-                <% end %>
-                  <%= f.link_to_add "サブタスク追加", :sub_tasks, data: { limit: 5 } %>
-              </div>
             <% end %>
             </div>
             </div>

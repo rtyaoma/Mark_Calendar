@@ -8,41 +8,71 @@
         <div class="split-box inner-right index_event">
         <div class="events">
         <div class="events-menu">
-        <%= render 'index_nav' %>
+          <%= render 'index_nav' %>
         </div>
         <div class="events-display">
-          <table class="event-select">
-          <tr>
-            <th>user<th>
-            <th>task</th>
-            <th>締切</th>
-            <th>status</th>
-          </tr>
-          <% @tasks.each do |task| %>
-          <tr class="show_hide_row">
-            <td id="sub-icon"><i class="fas fa-angle-down"></i></td>
-            <td><%= link_to(task.user.name,"/users/#{task.user.id}") %></td>
-            <td><%= task.title %></td>
-            <td><%= task.deadline_date.strftime('%Y 年 %m 月 %d 日 %H:%M') %></td>
-            <td><%= task.status %></td>
-            <td><%= link_to("show","/tasks/#{task.id}") %></td>
-            <td><%= link_to("edit","/tasks/#{task.id}/edit") %></td>
-            <td><%= link_to("Destroy", "/tasks/#{task.id}/destroy", method: "post" ) %></td>
-            <% if task.status == false %>
-            <td><%= button_to "完了","/tasks/#{task.id}/done", method: :post ,class: "done" %></td>
-            <% else %>
-            <td><%= button_to "未完了","/tasks/#{task.id}/begin", method: :post ,class: "done" %></td>
-            <% end %>
-          </tr>
-          <% task.sub_tasks.each do |sub_task| %>
-          <tr class="hidden_row">
-            <td colspan="7" class="sub"><%= sub_task.title %></td>
-          </tr>
-          <% end %>
-          <% end %>
-          </table>
-        </div>
-      </div>
+          <div class="main-select">
+            <div class="today-task">
+              <div class="task-table-title">
+                <p>今日のタスク</p>
+              </div>
+              <% if @today_tasks.length == 0 %>
+              <div class="main-task-not">
+                <p>本日のタスクはありません</p>
+              </div>
+              <% else %>
+              <div class="main-task-table">
+                <% @today_tasks.each do |task| %>
+                  <table class="task-select">
+                    <tr class="main-task">
+                      <% if task.status == false %>
+                        <td class="main-task-check"><label><input type="checkbox" name="status"  data-id="<%= task.id %>"  class="status_<%= task.id %>"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></label></td>
+                      <% else %>
+                        <td class="main-task-check" ><label><input type="checkbox" name="status"  data-id="<%= task.id %>"  checked="checked" class="status_<%= task.id %>"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></label></td>
+                      <% end %>
+                        <td class="main-task-inner" data-id="<%= task.id %>">
+                          <p class="main-task-title"><%= task.title %></p>
+                          <i class="far fa-calendar"></i>
+                          <p class="deadline"><%= task.deadline_date.strftime('%Y/%m/%d') %></p>
+                          <p class="status-size">ステップ <%= task.sub_tasks.size() %></p>
+                        </td>
+                    </tr>
+                  </table>
+                <% end %>
+              </div>
+              <% end %>
+            </div>
+            <div class="incomplete-task">
+              <div class="task-table-title">
+                <p>期限切れのタスク</p>
+              </div>
+              <% if @incomplete_tasks.length == 0 %>
+              <div class="main-task-not">
+                <p>本日のタスクはありません</p>
+              </div>
+              <% else %>
+              <div class="main-task-table">
+                <% @incomplete_tasks.each do |task| %>
+                  <table class="task-select">
+                    <tr class="main-task">
+                      <% if task.status == false %>
+                        <td class="main-task-check"><label><input type="checkbox" name="status"  data-id="<%= task.id %>"  class="status_<%= task.id %>"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></label></td>
+                      <% else %>
+                        <td class="main-task-check" ><label><input type="checkbox" name="status"  data-id="<%= task.id %>"  checked="checked" class="status_<%= task.id %>"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></label></td>
+                      <% end %>
+                      <td class="main-task-inner" data-id="<%= task.id %>">
+                        <p class="main-task-title"><%= task.title %></p>
+                        <i class="far fa-calendar"></i>
+                        <p id="incomplete-deadline" class="deadline"><%= task.deadline_date.strftime('%Y/%m/%d') %></p>
+                        <p class="status-size">ステップ <%= task.sub_tasks.size() %></p>
+                      </td>
+                    </tr>
+                  </table>
+                <% end %>
+              </div>
+              <% end %>
+            </div>
+          </div>
         </div>
     </div>
   </div>

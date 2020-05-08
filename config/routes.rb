@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   get 'display' => 'events#display'
   post 'logout' => 'users#logout'
 
+  post 'sub_tasks/:id/done' => 'sub_tasks#done' 
+  post 'sub_tasks/:id/begin' => 'sub_tasks#begin'
+
   patch 'users/:id/update' => 'users#update'
   get 'users/:id/edit' => 'users#edit'
   post 'users/create' => 'users#create'

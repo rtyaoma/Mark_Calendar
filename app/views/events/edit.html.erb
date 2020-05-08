@@ -1,7 +1,11 @@
 <div class="events-wrapper">
   <div class="container">
-    <%= render 'events/select' %>
     <div class="inner">
+    <% @event.errors.full_messages.each do |message| %>
+      <div class="form-error">
+        <%= message %>
+      </div>
+    <% end %>
         <div class="split-box inner-left">
           <div id="calendar"></div>
         </div>
@@ -16,68 +20,55 @@
               </ul>	
             </div>
             <div class="events-display">
-            <%= form_with model: @event, url:"/events/#{@event.id}/update" do |f| %>
-              <div class="form-group">
-                <%= f.text_field :title, class:"group-text",placeholder:"タイトル" %>
-              </div>
-              <div class="form-group form-allDay">
-                <div class="group-label">
-                  <%= f.label :allDay, "allDay" %>
+              <%= form_with model: @event, url:"/events/#{@event.id}/update" do |f| %>
+                <div class="main-select">
+                  <div class="form-group form-check">
+                    <%= link_to('',"/events/index", class:"fas fa-2x fa-arrow-left back-icon") %>
+                    <button type="submit" class="submit"><i class="fas fa-2x fa-check"></i></button>
+                  </div>
+                  <div class="form-group">
+                    <%= f.text_field :title, class:"group-text",placeholder:"タイトル" %>
+                  </div>
+                  <div class="form-group form-allDay">
+                    <div class="group-label">
+                      <%= f.label :allDay, "allDay" %>
+                    </div>
+                    <div class="group-inner">
+                      <%= f.check_box :allDay, :as => :boolean %>
+                    </div>
+                  </div>
+                  <div class="form-group hidden-if-allday">
+                    <div class="group-label">
+                      <i class="fas fa-2x fa-angle-double-right"></i>
+                    </div>
+                    <div class="group-inner hidden-if-allday">
+                      <%= f.datetime_select :start, class:"hidden-if-allday" %>
+                    </div>
+                  </div>
+                  <div class="form-group hidden-if-allday">
+                    <div class="group-label">
+                      <i class="fas fa-2x fa-angle-double-left"></i>
+                    </div>
+                    <div class="group-inner hidden-if-allday">
+                      <%= f.datetime_select :end, class:"hidden-if-allday" %>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="radio radio-item">
+                      <%= f.collection_radio_buttons(:calendar_id, @titles, :id, :title, include_hidden: false) do |b| %>
+                        <%= b.radio_button name:"calendar-radio" %><%= b.label for:"calendar-radio" %>
+                      <% end %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <%= f.text_field :place,class:"group-text", placeholder:"場所" %>
+                  </div>
+                  <div class="form-group">
+                    <%= f.text_area :description,class:"group-text",placeholder:"メモ" %>
+                  </div>
                 </div>
-                <div class="group-inner">
-                  <%= f.check_box :allDay, :as => :boolean %>
-                </div>
-              </div>
-              <div class="form-group hidden-if-allday">
-                <div class="group-label">
-                  <i class="fas fa-2x fa-angle-double-right"></i>
-                </div>
-                <div class="group-inner">
-                  <%= f.datetime_select :start %>
-                </div>
-              </div>
-              <div class="form-group hidden-if-allday">
-                <div class="group-label">
-                  <i class="fas fa-2x fa-angle-double-left"></i>
-                </div>
-                <div class="group-inner">
-                  <%= f.datetime_select :end %>
-                </div>
-              </div>
-              <div class="form-group visible-if-allday">
-                <div class="group-label">
-                  <i class="fas fa-2x fa-angle-double-right" ></i>
-                </div>
-                <div class="group-inner">
-                  <%= f.date_select :start %>
-                </div>
-              </div>
-              <div class="form-group visible-if-allday">
-                <div class="group-label">
-                  <i class="fas fa-2x fa-angle-double-left"></i>
-                </div>
-                <div class="group-inner">
-                  <%= f.date_select :end %>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="radio radio-item">
-                  <%= f.collection_radio_buttons(:calendar_id, @titles, :id, :title, include_hidden: false) do |b| %>
-                    <%= b.label {b.radio_button + b.text} %>
-                  <% end %>
-                </div>
-              </div>
-              <div class="form-group">
-              <%= f.text_field :place,class:"group-text", placeholder:"場所" %>
-              </div>
-              <div class="form-group">
-              <%= f.text_area :description,class:"group-text",placeholder:"メモ" %>
-              </div>
-              <div class="form-group">
-              <p class="action"><%= f.submit value:"登録" %></p>
-              <botton><%= link_to("戻る", "/events/index", class: 'btn') %></botton>
               <% end %>
-              </div>
             </div>
           </div>
         </div>

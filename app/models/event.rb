@@ -1,8 +1,14 @@
 class Event < ApplicationRecord
     validates :user_id, {presence: true}
+    validates :title, {presence: true, length:{maximum:30}}
+    validates :start, {presence: true}
+    validates :end, {presence: true}
+    validates :calendar_id, {presence: true}
+    validates :description, {length:{maximum:40}}
+
     has_many :calendar_events
-    has_many :calendars, :through => :calendar_events
-    
+    has_many :calendars, :through => :calendar_events  
+
     def user
         return User.find_by(id: self.user_id)
     end

@@ -1,33 +1,66 @@
-$(document).on('change', '#event_allDay', function(){
-    var form = $('.new_event,.index_event,.edit_event');
-    var checkBox = $('#event_allDay');
-    var allDay = checkBox.prop('checked');
-    form.find('.visible-if-allday').toggle(allDay);
-    form.find('.hidden-if-allday').toggle(!allDay);  
-});
-
 $(document).on('turbolinks:load', function() {
-$('#login-show').click(function(e){
-    e.preventDefault(); //ブラウザのデフォルトのイベントを動作しないようにする
-    $('#login-modal').fadeIn();
-});
-$('.signup-show').click(function(e){
-	e.preventDefault(); //ブラウザのデフォルトのイベントを動作しないようにする
-	$('#signup-modal').fadeIn();
+
+//$('.main-task').next('.sub-task').val(e)
+//var tdLen = $('.sub-task').parent('.main-task').length;
+//if (tdLen < 0) {
+  //$(this).css('display','none');
+//}
+$(document).on('change', '#event_allDay', function(){
+  //var form = $('.new_event,.index_event,.edit_event');
+  var checkBox = $('#event_allDay');
+  var allDay = checkBox.prop('checked');
+  if(allDay == true){
+    $('#event_end_4i,#event_end_5i,#event_start_4i,#event_start_5i').addClass('one');
+} else {
+    $('#event_end_4i,#event_end_5i,#event_start_4i,#event_start_5i').removeClass('one');
+}
+return true;
+  //form.find('#event_start_4i,#event_start_5i').toggleClass('one');  
 });
 
-$('.fa-ellipsis-v').click(function(){
-		$('#login-modal').fadeOut();
-		$('#signup-modal').fadeOut();
-    });
+//$(document).on('change', '#event_allDay', function(){
+  //var form = $('.new_event,.index_event,.edit_event');
+  //var checkBox = $('#event_allDay');
+  //var allDay = checkBox.prop('checked');
+  //form.find('.visible-if-allday').toggle(allDay);
+  //form.find('.hidden-if-allday').toggle(!allDay);  
+//});
 
-$('.show_hide_row').on('click',function(){
- $('.hidden_row td').toggle();
+
+
+//$('input[name="event[allDay]"]').on('click', function(){
+  //if ($(this).prop('checked',true)) {
+  //var form = $('body');
+  //var checkBox = $('#event_allDay');
+  //var allDay = checkBox.prop('checked');
+  //form.find('#event_start_4i,#event_start_5i,#text').toggle(allDay);
+  //form.find('#event_start_4i,#event_start_5i,#text').toggle(!allDay);
+  //$('#event_end_4i,#event_end_5i').toggleClass('one');
+  //$('#event_start_4i,#event_start_5i').toggleClass('one');
+  
+//});
+
+
+
+
+$('.row-task').on('click',function(){
+  var id = $(this).parent().data('id');
+  var sub_id = ".sub-task-" + id
+  //$(this).next('.hidden_row').children().slideToggle();
+  
+  $(this).parent().nextAll(sub_id).slideToggle();
 });
 
-$(document).on('click','.show_hide_row i',function(){
-  $('.select-description').toggle();
+$('.show_hide_row i').on('click',function(){
+  alert("hahaha");
+  $('.select-description').Toggle();
  });
+
+ $('.sub-task-plus').on('click',function(){
+  $(this).next().slideToggle();
+ });
+
+
 });
 
 $(document).on('nested:fieldAdded', function(e) {
@@ -38,18 +71,18 @@ $(document).on('nested:fieldAdded', function(e) {
     if (link.siblings('.fields:visible').length >= link.data('limit')) {
       link.hide();
     }
-  });
 
-  $(document).on('nested:fieldRemoved', function(e) {
-    var link = $(e.target).siblings('a.add_nested_fields');
+$(document).on('nested:fieldRemoved', function(e) {
+  var link = $(e.target).siblings('a.add_nested_fields');
     if (!link.data('limit')) {
       return;
     }
     if (link.siblings('.fields:visible').length < link.data('limit')) {
       link.show();
     }
-  });
+});
 
+});
 //document.addEventListener(
     //"DOMContentLoaded", e => {
       //let modal_open = document.getElementById("login-show");

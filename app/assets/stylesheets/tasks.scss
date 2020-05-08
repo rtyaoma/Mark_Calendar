@@ -2,10 +2,297 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.sub {
+.hidden_row td{
+    height: 100px;
+}
+.sub-task {
+    display: none;
+}
+.remove_nested_fields,.add_nested_fields {
+    color: black;
+}
+
+.task-title {
+    flex: auto;
+    font-size: 16px;
+    font-weight: 700;
+    height: 30px;
+    background-color: rgba(34, 49, 52, 0.9);
+
+}
+
+.task-title p {
+    color: white;
+    margin: 0;
+    padding: 0 10px;
+}
+
+input[name="status"],input[name="sub_status"] {
     display: none;
 }
 
-.remove_nested_fields,.add_nested_fields {
-    color: black;
+.status {
+    display: none;
+}
+
+label input[type="checkbox"] ~ i.fa.fa-circle-o{
+display: inline;
+}
+label input[type="checkbox"] ~ i.fa.fa-check-circle-o{
+    display: none;
+}
+label input[type="checkbox"]:checked ~ i.fa.fa-circle-o{
+    display: none;
+}
+label input[type="checkbox"]:checked ~ i.fa.fa-check-circle-o{
+    display: inline;
+}
+label:hover input[type="checkbox"] ~ i.fa {
+color: rgba(252, 250, 242, 0.9);;
+}
+
+//.row-task ~ i.fa.fa-chevron-down {
+    //display: inline;
+//}
+//.row-task ~ i.fa.fa-chevron-down {
+    //display: none;
+//}
+//.row-task: ~ i.fa.fa-chevron-down {
+   // display: inline;
+//}
+//.row-task ~ i.fa.fa-chevron-down {
+   // display: none;
+//}
+
+.main-task label,.sub-task label {
+    line-height: 0;
+}
+
+.sub-task-title {
+    font-size: 12px;
+    height: 30px;
+    width: 350px;
+    color: #a0a0a0;
+    border: none;
+    border-radius: 5px;
+    margin: 1px;
+}
+
+.sub-task-form {
+    display: none;
+    height: 160px;
+}
+
+.sub-task-plus {
+    color: rgba(34, 49, 52, 0.9);
+}
+
+// tasks.index--------------------------------------
+
+.today-task,.incomplete-task {
+    width: 100%;    
+}
+.today-task {
+    margin-bottom: 10px;
+}
+.main-task-table {
+    height: 250px;
+    overflow-y: scroll;
+}
+
+.main-task,.row-task {
+    height: 20px;
+}
+
+.task-table-title {
+    font-size: 16px;
+    font-weight: 700;
+    height: 30px;
+    padding-left: 10px;
+    line-height: 30px
+}
+.task-table-title p {
+    margin: 0;
+    color: rgba(34, 49, 52, 0.9);
+}
+
+.task-select {
+    margin: 2px auto;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #ddd;
+}
+
+
+.main-task-check {
+    height: 40px;
+    width: 60px;
+    text-align: center;
+    padding: 0;
+    border-right: 1px solid rgba(252, 250, 242, 0.9);
+}
+
+.deadline {
+    width: 100px;
+    padding: 0;
+}
+
+.main-task-inner {
+    padding-left: 10px;
+}
+
+.main-task-inner:hover {
+    background-color: rgba(252, 250, 242, 0.9);
+    cursor: pointer;
+}
+
+.main-task-inner p {
+    margin: 0;
+    color: rgba(34, 49, 52, 0.9);
+    line-height: 20px;
+    padding-right: 10px;
+}
+
+.main-task-title {
+    width: 100%;
+    font-size: 14px;
+}
+
+.main-task-inner i,.deadline,.status-size {
+    float: left;
+    font-size: 8px;
+}
+.main-task-inner i {
+    padding-right: 5px;
+    line-height: 20px;
+}
+
+.main-task-not p {
+    color: rgba(34, 49, 52, 0.9);
+    text-align: center;
+}
+
+#incomplete-deadline {
+    color: rgba(208, 16, 76, 0.9);
+}
+
+// task/show --------------------------
+
+.task-show-group {
+    width: 100%;
+    text-align: center;
+    //background-color: white;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.task-inner {
+    background-color: white;
+
+}
+
+.task-show-select {
+    margin: 2px auto;
+    width: 100%;
+    //background-color: white;
+    border-radius: 5px;
+    //border-bottom: 1px solid #ddd;
+}
+
+.main-task-check label,.sub-task-check label {
+    line-height: 0;
+}
+
+.task-show-inner {
+    padding-left: 30px;
+}
+
+.task-show-inner p {
+    color: rgba(34, 49, 52, 0.9);
+    text-align: left;
+    margin: 0;
+    font-size: 16px;
+}
+
+.sub-show-inner {
+    padding-left: 30px;
+}
+
+.sub-show-inner p {
+    color: rgba(34, 49, 52, 0.9);
+    text-align: left;
+    margin: 0;
+    font-size: 12px;
+}
+
+.main-task-show tr {
+    border: 1px solid #ddd;
+}
+
+
+.main-task-show td {
+    height: 60px;
+}
+
+.sub-task-show td {
+    height: 30px;
+}
+
+.sub-task-check {
+    height: 40px;
+    width: 40px;
+    text-align: right;
+    padding-right: 20px;
+    border-right: 1px solid rgba(252, 250, 242, 0.9);
+}
+
+//.task-show-inner {
+    //border-bottom: 1px solid rgba(34, 49, 52, 0.9);
+//}
+.task-deadline,.task-note {
+    height: 50px;
+}
+
+.select-inner {
+    height: 100%;
+    float: left;
+}
+
+.task-deadline-logo,.task-note-logo {
+    width: 50px;
+    line-height: 50px;
+}
+
+.task-deadline-logo i,.task-note-logo i {
+    font-size: 20px;
+}
+
+.task-deadline-inner p {
+    margin: 0;
+    line-height: 50px;
+    font-size: 14px;
+    color: rgba(34, 49, 52, 0.9);
+}
+
+.task-note-inner {
+    width: 100%;
+    border-radius: 5px;
+    background-color: white;
+    overflow-y: scroll;
+}
+
+.task-note-inner p{
+    color: rgba(34, 49, 52, 0.9);
+    font-size: 8px;
+}
+
+.main-task-check label:hover input[type="checkbox"] ~ i.fa {
+    color: #ddd;
+    cursor: pointer;
+}
+
+.sub-task-check label:hover input[type="checkbox"] ~ i.fa {
+    color: #ddd;
+    cursor: pointer;
 }

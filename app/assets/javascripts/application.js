@@ -53,14 +53,24 @@ $(document).on('turbolinks:load', function() {
 		//$(this).css('border-bottom','1px solid rgba(34, 49, 52, 0.9)');
 	//});
 
-  $('.calendar-label').on('click',function(){
-    if ($('input[name="event[calendar_id][]"]').prop('checked') == true) {
-      $('input[name="event[calendar_id][]"]').prop('checked', false); 
-      $(this).css('background-color','rgba(34, 49, 52, 0.9)');
-    } else
-    $('input[name="event[calendar_id][]"]').prop('checked', true); 
-		$(this).css('background-color','rgba(255, 255, 255, 0.5)');
-		$(this).css('border-bottom','1px solid rgba(34, 49, 52, 0.9)');
-	});
+  //$('.calendar-label').on('click',function(){
+    //if ($('input[name="event[calendar_id][]"]').prop('checked') == true) {
+      //$('input[name="event[calendar_id][]"]').prop('checked', false); 
+      //$(this).css('background-color','rgba(34, 49, 52, 0.9)');
+    //} else
+    //$('input[name="event[calendar_id][]"]').prop('checked', true); 
+		//$(this).css('background-color','rgba(255, 255, 255, 0.5)');
+	//	$(this).css('border-bottom','1px solid rgba(34, 49, 52, 0.9)');
+  //});
+  
+  //$('input[name="event[calendar_id][]"]').change(function() {
+    //var chk = $(this).prop('checked');
+        //if(chk == true){
+            //$(this).parent().css('background', '#f3f365');
+        //} else {
+            //$(this).parent().css('background-color', '');
+       // }
+        //return true;
+      ////});
 
 });

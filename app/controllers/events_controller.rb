@@ -21,7 +21,7 @@ class EventsController < ApplicationController
     @today_events = @events.where('"start" > ? AND "end" < ?' , t0, t1).order(:start)
     @after_events = @events.where(start: t0...t1).where('"end" >?',t1)
     @before_events = @events.where('"start" <?',t0).where(end: form...t1)
-    @continued_events = @events.where('"start" < ? AND "end" > ?', form_to, t1).order(:start)
+    @continued_events = @events.where('"start" < ? AND "end" >= ?', form_to, t1).order(:start)
     @am_events = @today_events.where(end: t0...half)
     @pm_events = @today_events.where(end: half...t1)
 
@@ -77,17 +77,14 @@ class EventsController < ApplicationController
     if @event.allDay?
       @event.start = @event.start.beginning_of_day
       @event.end = @event.end.tomorrow.beginning_of_day
-  
     end
-    #@event.calendar_id = params[:calendar_id]
-    #@event.calendar_id = session[:calendar_id]
-    #@event.calendar_id = @current_calendar.id
     respond_to do |format|
       if @event.save
-        format.html { redirect_to '/events/index',notice: 'Event was successfully created.' }
+        flash[:notice] = "予定を登録しました"
+        format.html { redirect_to '/events/index',notice: '予定を登録しました.' }
         format.json { render :show, status: :created, location: @event }
       else
-        format.html { render :new }
+        format.html { redirect_to '/events/index',notice: '正しく入力してください.' }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
     end
@@ -152,8 +149,23 @@ class EventsController < ApplicationController
   end
 
   def display
-    @events = Event.where(user_id: @current_user.id, calendar_id: session[:calendar_id])
-    logger.info "display値を見たい #{session[:calendar_id]}"
+    @events = Event.where(user_id: @current_user.id, calendar_id: session[:calendar_id]).order(:start)
+    t0 = Time.current.beginning_of_day
+    t1 = t0.advance(hours: 24)
+    half = t0.advance(hours: 12)
+    form = t0 + 1.minute
+    form_to = t0 - 1.minute
+    to_form = t1 - 1.minute
+    @today = Date.today
+    wd = %w[日 月 火 水 木 金 土]
+    @todaydayofweek = "(" + "" + wd[@today.wday] + ")"
+    @allday_events = @events.where('"start" = ? AND "end" = ?' , t0, t1).order(:start)
+    @today_events = @events.where('"start" > ? AND "end" < ?' , t0, t1).order(:start)
+    @after_events = @events.where(start: t0...t1).where('"end" >?',t1)
+    @before_events = @events.where('"start" <?',t0).where(end: form...t1)
+    @continued_events = @events.where('"start" < ? AND "end" > ?', form_to, t1).order(:start)
+    @am_events = @today_events.where(end: t0...half)
+    @pm_events = @today_events.where(end: half...t1)
   end
 
   def today
@@ -205,7 +217,7 @@ class EventsController < ApplicationController
         :description,
         :color,
         :allDay,
-        :calendar_id
+        :calendar_id,
       )
     end
 

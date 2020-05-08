@@ -1,55 +1,133 @@
 $(document).on('turbolinks:load', function() {
   setTimeout("$('.time-limit').fadeOut('slow')", 1000), //　エラーの表示時間
 
+  $(document).on('change','input[name="status"]',function(){
+    var id = $(this).data('id');
+    var done_url = "/tasks/"+id+"/done";
+    var begin_url = "/tasks/"+id+"/begin";
+    var chk = $(this).prop('checked');
+    var sub_class = "input[class=" + '"' + "sub_status_" + id + '"' + "]";
+    var sub_class_not = "input[class=" + '"' + "sub_status_" + id + '"' + "]:not(:checked)";
+
+    if (chk == true){
+      alert("タスクがチェックされた場合");
+      $.ajax({
+        type: "POST",
+        url: done_url,
+      })
+      //.done(function (){
+        //if ($(sub_class_not).size() > 0 ) {
+          //alert("チェックされて、サブタスクでチェックがなかった場合");
+          //$(sub_class_not).attr('checked',true).prop('checked',true).change();
+        //}
+      //});
+    } else {
+      alert("タスクのチェックが外れた場合");
+      $.ajax({
+        type: "POST",
+        url: begin_url,
+      })
+      //.done(function (){
+        //if ($(sub_class).size() > 0 && $(sub_class_not).size() == 0) {
+          //alert("チェックが外れて、サブタスクにチェックがついてた場合");
+          //$(sub_class).attr('checked',false).prop('checked',false).change();
+        //}
+      //});
+    }
+
+    //var dd = $('input[name="sub_status"]:checked').size();
+    //var dd = $('input[name="sub_status"]:checked').size();
+    //alert(dd + id);
+    //$(this).next('.sub_task').removeClass();
+    //$(this).closest('.sub_task').next('input[name="sub_status"]').attr('checked',true).prop('checked',true).change();
+  });
+
+    $(document).on('change','input[name="sub_status"]',function(){
+      //$(this).parent().toggleClass('far fa-2x fa-check-circle');
+      //var status = $(this).data('status');
+      var id = $(this).data('id');
+      var task_id = $(this).data('task_id')
+      var sub_task_not = "input[class=" + '"' + "sub_status_" + id + '"' + "]:not(:checked)"
+      var maintask_checked = "input[class=" + '"' + "status_" + task_id + '"' + "]:checked"
+      var maintask_not = "input[class=" + '"' + "status_" + task_id + '"' + "]:not(:checked)"
+      var maintask = "input[class=" + '"' + "status_" + task_id + '"' + "]"
+
+      var done_url = "/sub_tasks/"+id+"/done";
+      var begin_url = "/sub_tasks/"+id+"/begin";
+      var chk = $(this).prop('checked');
+
+      if (chk == true) {
+        alert("サブタスクがチェックされた場合");
+        $.ajax({
+          type: "POST",
+          url: done_url,
+        }).done(function (){
+          if ($(sub_task_not).size() == 0 && $(maintask_not).size() == 1) {
+            alert("サブタスクが全てチェックされて、タスクがチェックされてなかったら");
+            $(maintask).attr('checked',true).prop('checked',true).change();
+          }
+        });
+      } else {
+        alert("サブタスクのチェックが外れた場合");
+        $.ajax({
+          type: "POST",
+          url: begin_url,
+        }).done(function (){
+          if ($(maintask_checked).size() > 0 ) {
+            alert("サブタスクのチェックが外れて、タスクがチェックされていた場合");
+            $(maintask).attr('checked',false).prop('checked',false).change();
+          }
+        });
+      }
+
+      //alert(dd + " " );
+      //console.log(subclass)
+    })
+
+  $('.main-task-inner').on('click', function(){
+    var id = $(this).data('id');
+    alert(id + " " );
+    location.href = "/tasks/"+id;
+  })
   
-  $('input[name="event[calendar_id][]"]').change(function() {　//　calendarの選択
-    var vals = $('input[name="event[calendar_id][]"]:checked').map(function() {
+  $('.calendar-select').change(function() {
+    console.log("dddd")　//　calendarの選択
+    var vals = $('input[class="calendar-select"]:checked').map(function() {
       return $(this).val();
     }).get();
+    //$('label[for=""event_calendar_id_"+ vals + "]""').toggleClass('checkedcolor');
     $.ajax({
       type: "POST",
       url: "/select",
       data:{'calendar_id': vals},
       dataType: "json"
     }).done(function() {
-      //location.href = "/events/index";
+      $.ajax({
+        type: "GET",
+        url: "/display"
+      })   
       calendar.fullCalendar('refetchEvents');　//再レンダリング
     });
     calendar.fullCalendar('unselect'); // 現在の選択を解除
-    $.ajax({
-      type: "GET",
-      url: "/events/refetch"
-    }).done(function(res){
-    $('.inner-right').html(res);
-    })
+    var chk = $(this).prop('checked');
+    if(chk == true){
+        $(this).parent().addClass('checkedcolor');
+    } else {
+        $(this).parent().removeClass('checkedcolor');
+    }
+    return true;
   });
 
-  $('.button1').on('click',function(){
+  $('.calendar-check').on('click',function(){
     $('input[name="event[calendar_id][]"]').attr('checked',true).prop('checked',true).change();
   });
-  $('.button1').click(function(){
-    $('[name="event[calendar_id][]"]').prop('checked', true);
-    var vals = $('input[name="event[calendar_id][]"]:checked').map(function() {
-      return $(this).val();
-    }).get();
-    $.ajax({
-      type: "POST",
-      url: "/select",
-      data:{'calendar_id': vals},
-      dataType: "json"
-    }).done(function() {
-      calendar.fullCalendar('refetchEvents');　//再レンダリング
-    });
-    calendar.fullCalendar('unselect'); // 現在の選択を解除
-    $.ajax({
-      type: "GET",
-      url: "/display"
-    })   
-  });
-  $('.botton2').on('click',function(){
+ 
+  $('.calendar-minus').on('click',function(){
     $('input[name="event[calendar_id][]"]').removeAttr('checked').prop('checked',false).change();
   });
-
+  $('.calendar-plus').on('click',function(){
+    location.href = "/calendars/new";
+  });
 // calendarの全体の表示
   var calendar = $('#calendar').fullCalendar({
     events: '/events/index.json',
@@ -63,10 +141,20 @@ $(document).on('turbolinks:load', function() {
       addEventButton: {
         text: 'new',
         click: function() {
-          location.href = '/events/new';
-        },
-      },
-    },
+            $.ajax ({
+              type: 'GET',
+              url: '/events/click'
+            }).done(function (res){
+            $('.inner-right').html(res);
+            var position = $(".inner-right").offset().top -50;
+            var speed = 500;
+            $("html, body").animate({scrollTop:position}, speed, "swing");
+            }).fail(function(){
+              alert('カレンダーが発生しました')
+            });
+    }
+  }
+},
     setAllDay: "true",
     axisFormat: 'H:mm',
     monthNames: ['１月','２月','３月','４月','５月','６月','７月','８月','９月','１０月','１１月','１２月'],
@@ -116,40 +204,6 @@ $(document).on('turbolinks:load', function() {
     noEventsMessage: "予定がありません",
     scrollTime: "00:00:00",
 
-    dayClick: function(date){
-      var start = date.format();
-      var end = date.format();
-      var start_year = moment(start).year();
-      var end_year = moment(end).year();
-      var start_month = moment(start).month()+1;
-      var end_month = moment(end).month()+1;
-      var start_day = moment(start).date();
-      var end_day = moment(end).date();
-      var start_hour = (moment(start).hours()   < 10 ) ? '0' + moment(start).hours() : moment(start).hours();
-      var end_hour = (moment(end).hours()   < 10 ) ? '0' + moment(end).hours() : moment(end).hours();
-      var start_min = (moment(start).minutes()   < 10 ) ? '0' + moment(start).minutes() : moment(start).minutes();
-      var end_min = (moment(end).minutes()   < 10 ) ? '0' + moment(end).minutes() : moment(end).minutes();
-      $.ajax ({
-        type: 'GET',
-        url: '/events/click',
-      }).done(function (res){
-        $('.content_right').html(res);
-        $('#event_start_1i').val(start_year);
-        $('#event_start_2i').val(start_month);
-        $('#event_start_3i').val(start_day);
-        $('#event_start_4i').val(start_hour);
-        $('#event_start_5i').val(start_min);
-        $('#event_ens_1i').val(end_year);
-        $('#event_end_2i').val(end_month);
-        $('#event_end_3i').val(end_day);
-        $('#event_end_4i').val(end_hour);
-        $('#event_end_5i').val(end_min);
-        var position = $(".warapper").offset();
-        alert(position);
-      }).fail(function(){
-        alert('エラーが発生しました')
-      });
-    },
     select: function(startDate, endDate, allDay) {
       var allDay = !startDate.hasTime() && !endDate.hasTime();
       alert('selected' + startDate.format() + 'to' + endDate.format() + "+" + allDay + "+" + endDate.hasTime());
@@ -165,13 +219,16 @@ $(document).on('turbolinks:load', function() {
       var end_hour = (moment(end).hours()   < 10 ) ? '0' + moment(end).hours() : moment(end).hours();
       var start_min = (moment(start).minutes()   < 10 ) ? '0' + moment(start).minutes() : moment(start).minutes();
       var end_min = (moment(end).minutes()   < 10 ) ? '0' + moment(end).minutes() : moment(end).minutes();
+      var position = $(".inner-right").offset().top -50;
+      var speed = 500;
+      $("html, body").animate({scrollTop:position}, speed, "swing");
       $.ajax ({
         type: 'GET',
         url: '/events/click',
       }).done(function (res){
         $('.inner-right').html(res);
         if (allDay == true) {
-            $('#event_allDay').prop('checked', true);
+          $('#event_allDay').attr('checked',true).prop('checked', true).change();
         };
         $('#event_allDay').val(allDay);
         $('#event_start_1i').val(start_year);
@@ -184,13 +241,16 @@ $(document).on('turbolinks:load', function() {
         $('#event_end_3i').val(end_day);
         $('#event_end_4i').val(end_hour);
         $('#event_end_5i').val(end_min);
-      }).fail(function(result){
+      }).fail(function(){
         alert('エラーが発生しました')
       });
     },
     eventClick: function(event) { //イベントをクリックしたときに実行
       var id = event.id
       var show_url = "/events/click/"+id;
+      var position = $(".inner-right").offset().top -50;
+      var speed = 500;
+      $("html, body").animate({scrollTop:position}, speed, "swing");
       $.ajax ({
         type:'GET',
         url: show_url,

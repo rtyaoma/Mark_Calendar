@@ -1,15 +1,19 @@
 class TasksController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :set_task, {only: [:show, :edit, :update, :destroy, :ensure_correct_user, :done, :begin]} #パラメータのidからレコードを特定するメソッド
+  before_action :set_sub_tasks, {only: [:done]}
+
   #before_action :authenticate_user
   #before_action :set_current_calendars, {only: [:new]}
   #before_action :ensure_correct_user, {only: [:edit, :update, :destroy]} #ログインしているユーザーのみ権限がある
   def index
-    #@tasks = Task.where(calendar_id: params[:calendar_id])
-    #logger.info "@tasksの中身が見たい #{@tasks.inspect}" 
+    t0 = Time.current.beginning_of_day
+    t1 = t0.advance(hours: 24)
     @tasks = Task.where(user_id: @current_user.id)
-    #logger.info "@tasksの中身が見たい #{@tasks.inspect}" 
-    #@tasks = Task.where(user_id: @current_user.id, status: false)
+    @today_tasks = @tasks.where('deadline_date >= ? AND deadline_date < ?', t0,t1)
+    @incomplete_tasks = @tasks.where(status: false).where('deadline_date < ?',t0)
+    logger.info "@today頼む #{@today_tasks.inspect}"
+    logger.info "@incomplete頼む #{@incomplete_tasks.inspect}"
     respond_to do |format|
     format.html
     format.xml { render :xml => @tasks }
@@ -39,6 +43,9 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
     @task.user_id = @current_user.id
+    logger.info "@task-user頼む #{@current_user.inspect}"
+    logger.info "@task_user-id頼む #{@task.user_id}"
+
     #@task.calendar_id = session[:calendar_id]
     #@task.calendar_id = @current_calendar.id
     respond_to do |format|
@@ -80,15 +87,17 @@ class TasksController < ApplicationController
   end
 
   def done
-    @task.update(status: true)
+    #if @task.status == false
+      @task.update(status: true)
+    #end
     @tasks= Task.where(user_id: @current_user.id)
-    render :index
+    #render action: :index
   end
 
   def begin
     @task.update(status: false)
     @tasks= Task.where(user_id: @current_user.id)
-    render :index
+    #render action: :index
   end
 
   def today
@@ -119,7 +128,11 @@ class TasksController < ApplicationController
 
     private
     def set_task
-      @task = Task.find_by(id:params[:id])
+      @task = Task.find_by(id: params[:id])
+    end
+
+    def set_sub_tasks
+      @sub_tasks = SubTask.where(task_id: params[:id])
     end
 
     def task_params

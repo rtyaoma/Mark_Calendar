@@ -16,7 +16,7 @@
         <% if @current_user %>
           <li><%= link_to("Mark_Calender", "/events/index") %></li>
         <% else %>
-          <li><%= link_to("", "/events/index") %></li>
+          <li class="logo"><p>Mark_Calendar</p></li>
         <% end %>
       </div>
       <span id="menu-icon" class="fa fa-bars"></span>
@@ -28,48 +28,25 @@
        <li><%= link_to("logout", "/logout", {method: :post}) %></li>
      <% else %>
        <li><%= link_to("about", "/") %></li>
-       <li id="login-show"><%= link_to("login","/login",class:"login") %></li>
+       <li id="login-show"><%= link_to("login","/login") %></li>
        <li><%= link_to("signup","/signup",class:"signup-show") %></li>
      <% end %>
         <% if @current_user %>
           <% if @current_user.image.attached? %>
-            <li><%= link_to(image_tag(@current_user.image), "/users/#{@current_user.id}") %></li>
+            <li><%= link_to(image_tag(@current_user.image), "/users/#{@current_user.id}/edit") %></li>
           <% else %>
-            <li><%= link_to(image_tag("/user_images/default_user.jpg"),"/users/#{@current_user.id}") %></li>
+            <li><%= link_to(image_tag("/user_images/default_user.jpg"),"/users/#{@current_user.id}/edit") %></li>
           <% end %>
         <% end %>
       </div>
     </div>
   </header>
+  <%= render '/events/form_header' %>
     <% if flash[:notice] %>
       <div class="flash time-limit">
         <%= flash[:notice] %>
       </div>
     <% end %>
     <%= yield %>
-  <footer>
-  <div class="header-container">
-  <div class="header-left">
-    <% if @current_user %>
-      <li><%= link_to("Mark_Calender", "/events/index") %></li>
-    <% else %>
-      <li><%= link_to("", "/events/index") %></li>
-    <% end %>
-  </div>
-  <span id="menu-icon" class="fa fa-bars"></span>
-  <div class="header-right">
-  <% if @current_user %>
-   <li><%= link_to("calendar", "/events/index") %></li>
-   <li><%= link_to("task", "/tasks/index") %></li>
-   <li><%= link_to("new","/events/new") %></li>
-   <li><%= link_to("logout", "/logout", {method: :post}) %></li>
- <% else %>
-   <li><%= link_to("about", "/") %></li>
-   <li id="login-show"><%= link_to("login","/login",class:"login") %></li>
-   <li><%= link_to("signup","/signup",class:"signup-show") %></li>
- <% end %>
-  </div>
-</div>
-  </footer>
 </body>
 </html>

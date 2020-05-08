@@ -31,11 +31,13 @@
 
 .page-main > .right-sidebar  li {
     width: 210px;
-    height: 100px;
-    display: inline-flex;
+    height: 80px;
     margin: 0;
     list-style: none; //リストマーカを非表示
-
+}
+.page-main > .right-sidebar  .side-inner:hover {
+    background-color: rgba(255, 255, 255, 0.5); 
+    cursor: pointer;
 }
 
 .page-main > .right-sidebar  button {
@@ -50,6 +52,50 @@
     padding: 0;
     border: none;
 }
+.right-sidebar .user-edit {
+    height: 40px;
+    padding-left: 170px;
+}
+
+.user-edit a {
+    height: 40px;
+    line-height: 40px;
+    font-size: 12px;
+}
+
+.page-main > .right-sidebar  .user-edit{
+    height: 40px;
+}
+.page-main > .right-sidebar .user-image{
+    height: 40px;
+}
+.page-main > .right-sidebar .user-name{
+    height: 30px;
+    line-height: 30px;
+    padding:0;
+}
+
+.user-image a {
+    width: 100%;
+    padding: 0 50px;
+    text-align: center;
+}
+.user-image {
+    padding: 0;
+}
+.user-name p {
+    width: 100%;
+    margin: 0;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+.side-inner {
+    padding: 0;
+}
+.side-inner a {
+    width: 100%;
+    text-align: center;
+}
 // left-sidebar ----------------------------
 
 .main-header > .left-sidebar  {
@@ -63,32 +109,33 @@
     z-index: 10;
 }
 
-.main-header > .left-sidebar  ul {
+.main-header > .left-sidebar .checkbox {
     margin: 0;
     padding: 0;
     //top: 50px;
     width: 210px;
     left: 70px;
     position: absolute; //絶対位置を指定
-
 }
+
 
 .main-header > .left-sidebar  li {
     width: 210px;
-    height: 100px;
+    height: 80px;
     display: inline-flex;
     margin: 0;
     list-style: none; //リストマーカを非表示
     padding: 0;
-
+    font-weight: 700;
 }
+
 
 .main-header > .left-sidebar  button {
     background-color: rgba(34, 49, 52, 0.9);
     display: block;
     position: absolute;
     top: 60px;
-    left: 280px;
+    left: 210px;
     width: 60px;
     height: 100px;
     margin: 0;
@@ -118,18 +165,78 @@ input[name="event[calendar_id][]"]:checked label{
 .botton1 p:hover,.botton2:hover p,.aside-nav a:hover {
     background-color:rgba(255, 255, 255, 0.5);
     cursor: pointer;
+}
+.calendar-edit {
+    width: 100%;
+    height: 20px;
+    text-align: right;
+    padding-bottom: 10px;
+}
 
+.calendar-edit p {
+    margin: 0;
+    padding-right: 10px;
+    font-size: 8px;
+}
+
+.calendar-menu {
+    padding: 5px 0;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.calendar-check,.calendar-minus {
+    width: 50%;
+}
+.check-icon,.minus-icon {
+    text-align: center;
+}
+.check-name,.minus-name {
+    font-size: 8px;
+    text-align: center;
+}
+
+.calendar-plus {
+    display: flex;
+    height: 80px;
+}
+
+.plus-icon,.plus-name {
+    flex: auto;
+    text-align: center;
+}
+
+.plus-icon {
+    line-height: 80px;
+}
+
+.plus-name {
+    line-height: 70px;
+    font-size: 12px;
+}
+.plus-name p {
+    margin: 0;
+    height: 80px;
+}
+.check-icon,.minus-icon,.plus-icon {
+    color: black;
 }
 
 
+.calendar-check:hover,.calendar-minus:hover,.calendar-plus:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+}
 
-.calendar-label,label {
+// calendar_new ------------------------------
+.calendar-label,label{
     width: 210px;
     padding: 0;
     text-align: center;
     line-height: 100px;
 }
-.calendar-label:hover,label:hover {
+.calendar-label:hover {
     width: 210px;
     padding: 0;
     text-align: center;
@@ -152,9 +259,9 @@ input[name="event[calendar_id][]"]:checked label{
     color: #a0a0a0;
 }
 
-//input[type=radio]{
-    //display: none;
-//}
+input[name="calendar[color_id]"]{
+    display: none;
+}
 label[for="calendar_color_id_1"]  {
     background: #F596AA;
 }
@@ -228,4 +335,41 @@ label[for="calendar_color_id_1"],label[for="calendar_color_id_2"],label[for="cal
     padding-right: 5px; /* ボックス内御右側の余白を指定する */
     cursor: pointer; /* マウスカーソルの形（リンクカーソル）を指定する */
     border-radius: 5px; /* 角丸を指定する */
+}
+
+.checkedcolor {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-bottom: 1px solid rgba(34, 49, 52, 0.9);
+}
+.checkedborder {
+    border: 2px solid #ddd;
+}
+
+// calendar-index ------------------------
+.calendar-table {
+    width: 100%;
+}
+
+.calendar-inner {
+    width: 100%;
+    height: 50px;
+}
+
+.calendar-th {
+    width: 50px;
+}
+.title {
+    width: 300px;
+}
+.calendar-des {
+    width: 50px
+}
+.title a,.calendar-des a {
+    color: rgba(34, 49, 52, 0.9);
+    font-size: 18px;
+}
+
+.title:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
 }

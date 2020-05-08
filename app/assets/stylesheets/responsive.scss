@@ -9,6 +9,10 @@
         width: 600px;
         margin: 0 auto;
     }
+
+    .home-container {
+        padding: 100px 15px 100px 15px;
+    }
 }
 
 
@@ -30,5 +34,14 @@
         padding: 10px 0;
         width: 100%;
         margin: 0 auto;
+    }
+
+
+    .home-container h1 {
+        font-size: 30px;
+    }
+
+    .home-container p {
+        font-size: 14px;
     }
 }

@@ -8,18 +8,18 @@
 						<div class="main-select">
 							<div class="select-menu">
 								<div class="select-icon left-icon">
-									<%= link_to('',"/events/index", class:"fas fa fa-arrow-left") %>
+									<%= link_to('',"/events/index", class:"fas fa-2x fa-arrow-left") %>
 								</div>
 								<div class="select-icon right-icon">
-									<%= link_to('',"/events/#{@event.id}/destroy", class:"fas fa fa-trash-alt") %>
+									<%= link_to('',"/events/#{@event.id}/destroy",method: "post", class:"fas fa-2x fa-trash-alt") %>
 									<%= link_to('編集',"/events/#{@event.id}/edit") %>
 								</div>
 							</div>
 							<div class="select-group select-user">
 								<% if @user.image.attached? %>
-									<%= link_to(image_tag(@current_user.image), "/users/#{@user.id}") %>
+									<%= link_to(image_tag(@current_user.image), "/users/#{@user.id}/edit") %>
 								<% else %>
-									<%= link_to(image_tag("/user_images/default_user.jpg"),"/users/#{@user.id}") %>
+									<%= link_to(image_tag("/user_images/default_user.jpg"),"/users/#{@user.id}/edit") %>
 								<% end %>
 							</div>
 							<div class="select-group select-calendar">

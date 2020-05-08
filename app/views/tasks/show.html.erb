@@ -11,39 +11,60 @@
         <%= render 'index_nav' %>
         </div>
         <div class="events-display">
-        <div class="user-image">
-        <%= link_to(image_tag(@user.image), "/users/#{@user.id}") %>
-      </div>
-      <div class="evnet-content">
-        <table class="event-description">
-          <tr>
-            <th>予定</th>
-            <td><%= @task.title %></td>
-          </tr>
-          <tr>
-            <th>日時</th>
-            <td><%= @task.deadline_date.strftime('%Y 年 %m 月 %d 日 %H:%M') %></td>
-          </tr>
-          <tr>
-            <th>詳細</th>
-            <td><%= @task.description %></td>
-          </tr>
-        </table>
-      </div>
-      <% @task.sub_tasks.each do |sub_task| %>
-        <%= sub_task.title %>
-        <% end %>
-      <% if @task.user_id == @current_user.id %>
-        <div class="event_menu">
-          <%= link_to("edit","/tasks/#{@task.id}/edit") %>
-          <%= link_to("Destroy", "/tasks/#{@task.id}/destroy", {method: "post"}) %>
-          <%= link_to("戻る", "/tasks/index") %>
-        </div>
-      <% end %>
-    </div>
-        </div>
-      </div>
+          <div class="main-select">
+            <div class="select-menu">
+              <div class="select-icon left-icon">
+                <%= link_to('',"/tasks/index", class:"fas fa-2x fa-arrow-left") %>
+              </div>
+              <div class="select-icon right-icon">
+                <%= link_to('',"/tasks/#{@task.id}/destroy", method: "post", class:"fas fa-2x fa-trash-alt") %>
+                <%= link_to('編集',"/tasks/#{@task.id}/edit") %>
+              </div>
+            </div>
+            <div class="task-show-group task-inner">
+              <table class="task-show-select">
+                <tr class="main-task-show">
+                  <% if @task.status == false %>
+                    <td class="main-task-check"><label><input type="checkbox" name="status"  data-id="<%= @task.id %>"  class="status_<%= @task.id %>"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></label></td>
+                  <% else %>
+                    <td class="main-task-check" ><label><input type="checkbox" name="status"  data-id="<%= @task.id %>"  checked="checked" class="status_<%= @task.id %>"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></label></td>
+                  <% end %>
+                    <td class="task-show-inner" data-id="<%= @task.id %>"><p class="main-task-title"><%= @task.title %></p></td>
+                </tr>
+              </table>
+              <table class="task-show-select sub">
+                <% @task.sub_tasks.each do |sub_task| %>
+                  <tr class="sub-task-show">
+                    <td></td>
+                  <% if sub_task.status == false %>
+                    <td class="sub-task-check"><label><input type="checkbox" name="sub_status"  data-id="<%= sub_task.id %>" data-task_id="<%= @task.id %>"  class="sub_status_<%= sub_task.id %>"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></label></td>
+                  <% else %>
+                    <td class="sub-task-check" ><label><input type="checkbox" name="sub_status"  data-id="<%= sub_task.id %>" data-task_id="<%= @task.id %>" checked="checked" class="sub_status_<%= sub_task.id %>"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></label></td>
+                  <% end %>
+                    <td class="sub-show-inner" data-id="<%= @task.id %>"><p class="main-task-title"><%= sub_task.title %></p></td>
+                  </tr>
+                <% end %>
+              </table>
+            </div>
+            <div class="task-show-group task-deadline">
+              <div class="select-inner task-deadline-logo">
+                <i class="far fa-calendar"></i>
+              </div>
+              <div class="select-inner task-deadline-inner">
+                <p class="deadline"><%= @task.deadline_date.strftime('%Y/%m/%d') %></p>
+              </div>
+            </div>
+            <div class="task-show-group task-note">
+              <div class="select-inner task-note-logo">
+                <i class="far fa-sticky-note"></i>
+              </div>
+              <div class="select-inner task-note-inner">
+                <p><%= @task.description %></p>
+              </div>
+            </div>
+          </div>
         </div>
     </div>
   </div>
 </div>
+
