@@ -133,7 +133,7 @@ $(document).on('turbolinks:load', function() {
     events: '/events/index.json',
     timeFormat: 'H:mm',
     header: {
-      right: 'addEventButton prevYear,prev,next,nextYear listDay,listWeek',
+      right: 'myCustomButton addEventButton prevYear,prev,next,nextYear listDay,listWeek',
       center: 'title',
       left: 'month,agendaWeek,agendaDay today'
     },
@@ -153,7 +153,10 @@ $(document).on('turbolinks:load', function() {
               alert('カレンダーが発生しました')
             });
     }
-  }
+  },
+  myCustomButton: {
+    text:'玉木',
+  },
 },
     setAllDay: "true",
     axisFormat: 'H:mm',
@@ -224,9 +227,13 @@ $(document).on('turbolinks:load', function() {
       $("html, body").animate({scrollTop:position}, speed, "swing");
       $.ajax ({
         type: 'GET',
+        //dataType: 'json',
         url: '/events/click',
-      }).done(function (res){
+      }).done(function (res,jqXHR){
+        //var out_html = $($.parseHTML(data));
+        console.log(jqXHR);
         $('.inner-right').html(res);
+
         if (allDay == true) {
           $('#event_allDay').attr('checked',true).prop('checked', true).change();
         };

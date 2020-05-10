@@ -225,7 +225,6 @@ class EventsController < ApplicationController
       if session[:calendar_id]
      @current_calendars = Calendar.where(id:session[:calendar_id])
      @titles = @current_calendars.select(:title,:id).distinct
-     logger.info "@titlesの中身が見たい #{@titles.inspect}"
       else
         flash[:notice] = "カレンダーの選択がありません"
         redirect_to("/events/index")

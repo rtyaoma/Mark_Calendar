@@ -62,5 +62,6 @@ Rails.application.routes.draw do
   patch 'events/:id/update' => 'events#update'
   post 'events/:id/destroy' => 'events#destroy'
   
+  root 'home#top'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
