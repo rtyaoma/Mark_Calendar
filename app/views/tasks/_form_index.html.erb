@@ -1,0 +1,47 @@
+<div class="events">
+  <div class="events-menu">
+    <%= render 'index_nav' %>
+  </div>
+  <div class="events-display">
+    <div class="main-select">
+      <div class="today-task">
+        <div class="task-table-title">
+        <p class="filter-icon">メニュー</p>
+        </div>
+        <div class="filter-table">
+        <dl class="filter-menu">
+          <dd class="filter1">期限ぎれ</dd>
+          <dd class="filter2">完了済</dd>
+          <dd class="filter3">未完了</dd>
+          <dd class="filter4">明日以降</dd>
+        </dl>
+        </div>
+        <% if @tasks.length == 0 %>
+        <div class="main-task-not">
+          <p>タスクはありません</p>
+        </div>
+        <% else %>
+        <div class="main-task-table">
+          <% @tasks.each do |task| %>
+            <table class="task-select filter-task" data-status="<%= task.status %>" data-deadline="<%= task.deadline_date %>">
+              <tr class="main-task">
+                <% if task.status == false %>
+                  <td class="main-task-check"><label><input type="checkbox" name="status"  data-id="<%= task.id %>" class="status_<%= task.id %>"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></label></td>
+                <% else %>
+                  <td class="main-task-check" ><label><input type="checkbox" name="status"  data-id="<%= task.id %>" checked="checked" class="status_<%= task.id %>"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></label></td>
+                <% end %>
+                  <td class="main-task-inner" data-id="<%= task.id %>">
+                    <p class="main-task-title"><%= task.title %></p>
+                    <i class="far fa-calendar"></i>
+                    <p class="deadline"><%= task.deadline_date.strftime('%Y/%m/%d') %></p>
+                    <p class="status-size">ステップ <%= task.sub_tasks.size() %></p>
+                  </td>
+              </tr>
+            </table>
+          <% end %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

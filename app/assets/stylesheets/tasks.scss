@@ -296,3 +296,39 @@ color: rgba(252, 250, 242, 0.9);;
     color: #ddd;
     cursor: pointer;
 }
+
+
+.filter-table {
+    display: none;
+}
+.filter-display {
+    display: block;
+    position: absolute;
+    z-index: 100;
+    background-color: rgba(34, 49, 52, 0.9);
+    width: 100px;
+    text-align: center;
+    border: 1px solid #ddd;
+    color: white;
+    box-sizing: border-box;
+}
+
+.filter-display dl {
+    margin: 0;
+}
+
+.filter-display dd {
+margin: 0;
+height: 30px;
+line-height: 30px;
+}
+
+.filter-display dd:hover {
+    background-color: #ddd;
+    color: rgba(34, 49, 52, 0.9);
+    cursor: pointer;
+}
+
+.filter-select {
+    display: none;
+}

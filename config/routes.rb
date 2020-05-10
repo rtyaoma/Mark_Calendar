@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   end
 
   resources :colors
+  get 'filter' => 'tasks#filter'
   post 'select' => 'events#select'
   get 'display' => 'events#display'
   post 'logout' => 'users#logout'

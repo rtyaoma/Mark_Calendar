@@ -125,6 +125,11 @@ class TasksController < ApplicationController
     render action: :index
   end
 
+  def filter
+    @tasks = Task.where(user_id: @current_user.id)
+    render plain: render_to_string(partial: 'form_index', layout: false, locals: {@tasks => @tasks} )
+  end
+
 
     private
     def set_task

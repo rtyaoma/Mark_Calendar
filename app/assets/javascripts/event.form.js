@@ -39,6 +39,40 @@ return true;
   //$('#event_start_4i,#event_start_5i').toggleClass('one');
   
 //});
+$('.filter').on('click',function(){
+  $.ajax ({
+    type: 'GET',
+    url: '/filter'
+  }).done(function (res){
+  $('.inner-right').html(res);
+  });
+});
+
+$(document).on('click','.task-table-title .filter-icon', function(){
+  $('.filter-table').toggleClass('filter-display');
+});
+
+$(document).on('click','.filter1', function(){
+  $('.filter-task').filter('[data-status="true"]').toggleClass('filter-select');
+  //$('.filter-task').filter('[data-status="false"]').toggleClass('filter-select');
+});
+
+$(document).on('click','.filter2', function(){
+  var now = new Date();
+  var y = now.getFullYear();
+  var m = now.getMonth() + 1;
+  var d = now.getDate();
+  var w = now.getDay();
+  var date = y + '年' + m + '月' + d + '日'
+  //var moment = moment();
+  var h = $('.filter-task').data('deadline').getDate();
+
+  //var w = d.strftime('%H:%M');
+  var e = $('.filter-task').data('deadline');
+  var f = (now.getDay() > h);
+ //var a = $('.filter-task').data('deadline').isAfter(now);
+  alert(f)
+}).addClass('filter-select');
 
 
 
@@ -51,9 +85,9 @@ $('.row-task').on('click',function(){
   $(this).parent().nextAll(sub_id).slideToggle();
 });
 
-$('.show_hide_row i').on('click',function(){
-  alert("hahaha");
-  $('.select-description').Toggle();
+$(document).on('click','.show_hide_row i',function(){
+ // alert("hahaha");
+  $('.select-description').toggle();
  });
 
  $('.sub-task-plus').on('click',function(){
