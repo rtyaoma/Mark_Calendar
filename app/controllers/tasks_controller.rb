@@ -43,11 +43,6 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
     @task.user_id = @current_user.id
-    logger.info "@task-user頼む #{@current_user.inspect}"
-    logger.info "@task_user-id頼む #{@task.user_id}"
-
-    #@task.calendar_id = session[:calendar_id]
-    #@task.calendar_id = @current_calendar.id
     respond_to do |format|
       if @task.save
         format.html { redirect_to '/tasks/index',notice: 'Task was successfully created.' }

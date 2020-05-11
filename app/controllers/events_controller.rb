@@ -72,8 +72,6 @@ class EventsController < ApplicationController
     @color = Color.find_by(id: @calendar.color_id)
     @event.color = @color.color_type
     @event.user_id = @current_user.id
-    logger.info "@start頼む #{@event.start}"
-    logger.info "@end頼む #{@event.end}"
     if @event.allDay?
       @event.start = @event.start.beginning_of_day
       @event.end = @event.end.tomorrow.beginning_of_day
@@ -84,7 +82,7 @@ class EventsController < ApplicationController
         format.html { redirect_to '/events/index',notice: '予定を登録しました.' }
         format.json { render :show, status: :created, location: @event }
       else
-        format.html { redirect_to '/events/index',notice: '正しく入力してください.' }
+        format.html { render :new ,notice: '正しく入力してください.' }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
     end

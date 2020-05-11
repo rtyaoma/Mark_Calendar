@@ -23,7 +23,7 @@
         <% else %>
         <div class="main-task-table">
           <% @tasks.each do |task| %>
-            <table class="task-select filter-task" data-status="<%= task.status %>" data-deadline="<%= task.deadline_date %>">
+            <table class="task-select filter-task" data-status="<%= task.status %>"  data-deadline="<%= task.deadline_date.strftime('%Y/%m/%d') %>" data-y="<%= task.deadline_date.strftime('%Y') %>" data-m="<%= task.deadline_date.strftime('%m') %>" data-d="<%= task.deadline_date.strftime('%d') %>">
               <tr class="main-task">
                 <% if task.status == false %>
                   <td class="main-task-check"><label><input type="checkbox" name="status"  data-id="<%= task.id %>" class="status_<%= task.id %>"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></label></td>

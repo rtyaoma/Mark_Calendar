@@ -57,22 +57,23 @@ $(document).on('click','.filter1', function(){
   //$('.filter-task').filter('[data-status="false"]').toggleClass('filter-select');
 });
 
+
 $(document).on('click','.filter2', function(){
   var now = new Date();
   var y = now.getFullYear();
   var m = now.getMonth() + 1;
   var d = now.getDate();
-  var w = now.getDay();
-  var date = y + '年' + m + '月' + d + '日'
-  //var moment = moment();
-  var h = $('.filter-task').data('deadline').getDate();
+  var date = y + '/' + m + '/' + d 
+  //var h = $('.filter-task').data('[deadline]');
+  //var f = ($(this).data('[deadline]') > date);
+  //alert(f)
+  $('.filter-task').filter(function(){
+    return ($(this).data('[deadline]') > date);
+  }).toggleClass('filter-select');
+}),
 
-  //var w = d.strftime('%H:%M');
-  var e = $('.filter-task').data('deadline');
-  var f = (now.getDay() > h);
- //var a = $('.filter-task').data('deadline').isAfter(now);
-  alert(f)
-}).addClass('filter-select');
+
+
 
 
 
