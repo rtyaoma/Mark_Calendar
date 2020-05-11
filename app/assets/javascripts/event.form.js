@@ -11,12 +11,16 @@ $(document).on('change', '#event_allDay', function(){
   var allDay = checkBox.prop('checked');
   if(allDay == true){
     $('#event_end_4i,#event_end_5i,#event_start_4i,#event_start_5i').addClass('one');
+    $('label[for="event_allDay"]').parent().addClass('checked-allDay');
 } else {
     $('#event_end_4i,#event_end_5i,#event_start_4i,#event_start_5i').removeClass('one');
+    $('label[for="event_allDay"]').parent().removeClass('checked-allDay');
 }
 return true;
   //form.find('#event_start_4i,#event_start_5i').toggleClass('one');  
 });
+
+
 
 //$(document).on('change', '#event_allDay', function(){
   //var form = $('.new_event,.index_event,.edit_event');
@@ -116,6 +120,13 @@ $(document).on('nested:fieldRemoved', function(e) {
       link.show();
     }
 });
+
+$(document).on('click','label[for="event_allDay"]', function() {
+  alert('a');
+  $(this).removeClass();
+})
+
+
 
 });
 //document.addEventListener(

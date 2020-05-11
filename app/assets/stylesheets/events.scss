@@ -162,6 +162,30 @@ ul {
 .form-allDay {
     border-bottom: 1px solid #a0a0a0;
 }
+.group-label-allDay {
+    float: right;
+}
+
+.group-label-allDay label {
+    height: 40px;
+    width: 60px;
+    display: block;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    line-height: 40px;
+    cursor: pointer;
+}
+
+input[name="event[allDay]"] {
+    display: none;
+}
+
+.checked-allDay {
+    background-color: rgba(34, 49, 52, 0.9);
+    color: #ddd;
+    border: 1px solid #ddd;
+}
 
 p.submit {
     text-align: center;

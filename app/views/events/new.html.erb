@@ -26,11 +26,11 @@
                     <%= f.text_field :title, class:"group-text",placeholder:"タイトル" %>
                   </div>
                   <div class="form-group form-allDay">
-                    <div class="group-label">
-                      <%= f.label :allDay, "allDay" %>
+                    <div class="group-label-allDay">
+                    <%= f.label :allDay,"allDay"%>
                     </div>
                     <div class="group-inner">
-                    <label　class="main-task-check"><%= f.check_box :allDay, :as => :boolean %><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i></label>
+                    <%= f.check_box :allDay, :as => :boolean %>
                     </div>
                   </div>
                   <div class="form-group hidden-if-allday">

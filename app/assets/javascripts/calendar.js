@@ -47,7 +47,7 @@ $(document).on('turbolinks:load', function() {
       //var status = $(this).data('status');
       var id = $(this).data('id');
       var task_id = $(this).data('task_id')
-      var sub_task_not = "input[class=" + '"' + "sub_status_" + id + '"' + "]:not(:checked)"
+      var sub_task_not = "input[class=" + '"' + "sub_status_" + task_id + '"' + "]:not(:checked)"
       var maintask_checked = "input[class=" + '"' + "status_" + task_id + '"' + "]:checked"
       var maintask_not = "input[class=" + '"' + "status_" + task_id + '"' + "]:not(:checked)"
       var maintask = "input[class=" + '"' + "status_" + task_id + '"' + "]"
@@ -84,7 +84,7 @@ $(document).on('turbolinks:load', function() {
       //console.log(subclass)
     })
 
-  $('.main-task-inner').on('click', function(){
+  $(document).on('click','.main-task-inner',function(){
     var id = $(this).data('id');
     alert(id + " " );
     location.href = "/tasks/"+id;

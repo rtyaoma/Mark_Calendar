@@ -37,7 +37,7 @@
                   <tr class="sub-task-show">
                     <td></td>
                   <% if sub_task.status == false %>
-                    <td class="sub-task-check"><label><input type="checkbox" name="sub_status"  data-id="<%= sub_task.id %>" data-task_id="<%= @task.id %>"  class="sub_status_<%= sub_task.id %>"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></label></td>
+                    <td class="sub-task-check"><label><input type="checkbox" name="sub_status"  data-id="<%= sub_task.id %>" data-task_id="<%= @task.id %>"  class="sub_status_<%= @task.id %>"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></label></td>
                   <% else %>
                     <td class="sub-task-check" ><label><input type="checkbox" name="sub_status"  data-id="<%= sub_task.id %>" data-task_id="<%= @task.id %>" checked="checked" class="sub_status_<%= sub_task.id %>"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></label></td>
                   <% end %>
