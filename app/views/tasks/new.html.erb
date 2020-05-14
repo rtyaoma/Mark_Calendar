@@ -15,6 +15,7 @@
             <div class="events-display">
               <%= nested_form_for(@task, url:"/tasks/create") do |f| %>
                 <div class="main-select">
+                <%= render 'layouts/error_messages', model: f.object %>
                   <div class="form-group form-check">
                     <%= link_to('',"/tasks/index", class:"fas fa-2x fa-arrow-left back-icon") %>
                     <button type="submit" class="submit"><i class="fas fa-2x fa-check"></i></button>

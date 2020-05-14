@@ -1,7 +1,7 @@
 $(document).on('turbolinks:load', function() {
   setTimeout("$('.time-limit').fadeOut('slow')", 1000), //　エラーの表示時間
 
-  $(document).on('change','input[name="status"]',function(){
+  $('.main-select').on('change','input[name="status"]',function(){
     var id = $(this).data('id');
     var done_url = "/tasks/"+id+"/done";
     var begin_url = "/tasks/"+id+"/begin";
@@ -15,36 +15,16 @@ $(document).on('turbolinks:load', function() {
         type: "POST",
         url: done_url,
       })
-      //.done(function (){
-        //if ($(sub_class_not).size() > 0 ) {
-          //alert("チェックされて、サブタスクでチェックがなかった場合");
-          //$(sub_class_not).attr('checked',true).prop('checked',true).change();
-        //}
-      //});
     } else {
       alert("タスクのチェックが外れた場合");
       $.ajax({
         type: "POST",
         url: begin_url,
       })
-      //.done(function (){
-        //if ($(sub_class).size() > 0 && $(sub_class_not).size() == 0) {
-          //alert("チェックが外れて、サブタスクにチェックがついてた場合");
-          //$(sub_class).attr('checked',false).prop('checked',false).change();
-        //}
-      //});
     }
-
-    //var dd = $('input[name="sub_status"]:checked').size();
-    //var dd = $('input[name="sub_status"]:checked').size();
-    //alert(dd + id);
-    //$(this).next('.sub_task').removeClass();
-    //$(this).closest('.sub_task').next('input[name="sub_status"]').attr('checked',true).prop('checked',true).change();
   });
 
-    $(document).on('change','input[name="sub_status"]',function(){
-      //$(this).parent().toggleClass('far fa-2x fa-check-circle');
-      //var status = $(this).data('status');
+    $('.sub-task-show').on('change','input[name="sub_status"]',function(){
       var id = $(this).data('id');
       var task_id = $(this).data('task_id')
       var sub_task_not = "input[class=" + '"' + "sub_status_" + task_id + '"' + "]:not(:checked)"
@@ -79,23 +59,22 @@ $(document).on('turbolinks:load', function() {
           }
         });
       }
-
-      //alert(dd + " " );
-      //console.log(subclass)
     })
 
-  $(document).on('click','.main-task-inner',function(){
+  $('.task-select').on('click','.main-task-inner',function(){
     var id = $(this).data('id');
     alert(id + " " );
     location.href = "/tasks/"+id;
+    var position = $(".inner-right").offset().top -50;
+    var speed = 500;
+    $("html, body").animate({scrollTop:position}, speed, "swing");
   })
-  
+
   $('.calendar-select').change(function() {
     console.log("dddd")　//　calendarの選択
     var vals = $('input[class="calendar-select"]:checked').map(function() {
       return $(this).val();
     }).get();
-    //$('label[for=""event_calendar_id_"+ vals + "]""').toggleClass('checkedcolor');
     $.ajax({
       type: "POST",
       url: "/select",
@@ -129,35 +108,17 @@ $(document).on('turbolinks:load', function() {
     location.href = "/calendars/new";
   });
 // calendarの全体の表示
+$('.fc-today-button').on('click',function(){
+  alert('hahaha');
+})
   var calendar = $('#calendar').fullCalendar({
     events: '/events/index.json',
     timeFormat: 'H:mm',
     header: {
-      right: 'myCustomButton addEventButton prevYear,prev,next,nextYear listDay,listWeek',
+      right: 'prevYear,prev,next,nextYear listDay,listWeek',
       center: 'title',
       left: 'month,agendaWeek,agendaDay today'
     },
-    customButtons: {
-      addEventButton: {
-        text: 'new',
-        click: function() {
-            $.ajax ({
-              type: 'GET',
-              url: '/events/click'
-            }).done(function (res){
-            $('.inner-right').html(res);
-            var position = $(".inner-right").offset().top -50;
-            var speed = 500;
-            $("html, body").animate({scrollTop:position}, speed, "swing");
-            }).fail(function(){
-              alert('カレンダーが発生しました')
-            });
-    }
-  },
-  myCustomButton: {
-    text:'玉木',
-  },
-},
     setAllDay: "true",
     axisFormat: 'H:mm',
     monthNames: ['１月','２月','３月','４月','５月','６月','７月','８月','９月','１０月','１１月','１２月'],
@@ -181,12 +142,6 @@ $(document).on('turbolinks:load', function() {
       listDay:  'list(day)',
       listWeek:  'list(week)'
     },
-    //eventDataTransform: function(event){
-      //if(event.allDay){
-        //event.end = moment(event.end).add(-1,'day')
-      //}
-      //return event;
-    //},
     height: 700,                           // 高さ
     defaultView: 'month',             // 初期表示ビュー
     eventLimit: true,                      // allow "more" link when too many events
@@ -212,42 +167,24 @@ $(document).on('turbolinks:load', function() {
       alert('selected' + startDate.format() + 'to' + endDate.format() + "+" + allDay + "+" + endDate.hasTime());
       var start = startDate.format();
       var end = endDate.format();
-      var start_year = moment(start).year();
-      var end_year = moment(end).year();
-      var start_month = moment(start).month()+1;
-      var end_month = moment(end).month()+1;
-      var start_day = moment(start).date();
-      var end_day = moment(end).date();
-      var start_hour = (moment(start).hours()   < 10 ) ? '0' + moment(start).hours() : moment(start).hours();
-      var end_hour = (moment(end).hours()   < 10 ) ? '0' + moment(end).hours() : moment(end).hours();
-      var start_min = (moment(start).minutes()   < 10 ) ? '0' + moment(start).minutes() : moment(start).minutes();
-      var end_min = (moment(end).minutes()   < 10 ) ? '0' + moment(end).minutes() : moment(end).minutes();
       var position = $(".inner-right").offset().top -50;
       var speed = 500;
-      $("html, body").animate({scrollTop:position}, speed, "swing");
+      var data = {
+        event: {
+          start: start,
+          end: end,
+          allDay: allDay,
+        }
+      };
       $.ajax ({
-        type: 'GET',
-        //dataType: 'json',
-        url: '/events/click',
-      }).done(function (res,jqXHR){
-        //var out_html = $($.parseHTML(data));
-        console.log(jqXHR);
-        $('.inner-right').html(res);
-
+        type: 'POST',
+        data: data,
+        url: '/new_select',
+      }).done(function (){
+        $("html, body").animate({scrollTop:position}, speed, "swing");
         if (allDay == true) {
           $('#event_allDay').attr('checked',true).prop('checked', true).change();
         };
-        $('#event_allDay').val(allDay);
-        $('#event_start_1i').val(start_year);
-        $('#event_start_2i').val(start_month);
-        $('#event_start_3i').val(start_day);
-        $('#event_start_4i').val(start_hour);
-        $('#event_start_5i').val(start_min);
-        $('#event_ens_1i').val(end_year);
-        $('#event_end_2i').val(end_month);
-        $('#event_end_3i').val(end_day);
-        $('#event_end_4i').val(end_hour);
-        $('#event_end_5i').val(end_min);
       }).fail(function(){
         alert('エラーが発生しました')
       });
@@ -346,31 +283,5 @@ $(document).on('turbolinks:load', function() {
     calendar.fullCalendar('refetchEvents');
     },
   });
-  //var select = function(info) {
-    //start_time = info.startStr()
-    //end_time = end.unix()
-    //var d = new Date( start_time * 1000 );
-  //console.log(start_time);
-  //}
+
 });
-// カレンダー表示部分
-//<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-      //var id = info.id;
-      //var update_url = "/api/v1/events/"+id;
-      //var start_at = info.hasTime();
-      //var start = info.start.toISOString();
-      //var end = info.end.toISOString();
-      //var start_year = moment(start).year();
-      //var end_year = moment(end).year();
-      //var start_month = moment(start).month()+1;
-      //var end_month = moment(end).month()+1;
-      //var start_day = moment(start).date();
-      //var end_day = moment(end).date();
-      //var start_hour = (moment(start).hours()   < 10 ) ? '0' + moment(start).hours() : moment(start).hours();
-      //var end_hour = (moment(end).hours()   < 10 ) ? '0' + moment(end).hours() : moment(end).hours();
-      //var start_min = (moment(start).minutes()   < 10 ) ? '0' + moment(start).minutes() : moment(start).minutes();
-      //var end_min = (moment(end).minutes()   < 10 ) ? '0' + moment(end).minutes() : moment(end).minutes();
-      //var moment_start = start_year+"-"+start_month+"-"+start_day+" "+start_hour+":"+start_min;
-      //var moment_end = end_year+"-"+end_month+"-"+end_day+" "+end_hour+":"+end_min;
-      //alert('eventDrop' + "+"+start_at+"+" + moment_start + "+" +moment_end + "+" + info.title + "+" + info.allDay);
-      //allDay: info.allDay ? true : false,

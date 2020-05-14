@@ -7,7 +7,7 @@
 				<% if @current_user.image.attached? %>
 					<li class="user-image"><%= link_to(image_tag(@current_user.image), "/users/#{@current_user.id}/edit") %></li>
 				<% else %>
-					<li><%= link_to(image_tag("/user_images/default_user.jpg"),"/users/#{@current_user.id}/edit") %></li>
+					<li class="user-image"><%= link_to(image_tag("/user_images/default_user.jpg"),"/users/#{@current_user.id}/edit") %></li>
 				<% end %>
 				<li class="user-name"><p><%= @current_user.name %></p></li>
 				<li class="side-inner"><%= link_to("calendar", "/events/index") %></li>

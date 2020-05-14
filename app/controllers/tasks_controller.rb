@@ -48,6 +48,7 @@ class TasksController < ApplicationController
         format.html { redirect_to '/tasks/index',notice: 'Task was successfully created.' }
         format.json { render :show, status: :created, location: @task }
       else
+        flash.now[:notice] = "正しく入力してください"
         format.html { render :new }
         format.json { render json: @task.errors, status: :unprocessable_entity }
       end

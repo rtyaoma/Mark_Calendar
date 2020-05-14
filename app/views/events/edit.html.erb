@@ -1,11 +1,6 @@
 <div class="events-wrapper">
   <div class="container">
     <div class="inner">
-    <% @event.errors.full_messages.each do |message| %>
-      <div class="form-error">
-        <%= message %>
-      </div>
-    <% end %>
         <div class="split-box inner-left">
           <div id="calendar"></div>
         </div>
@@ -20,8 +15,9 @@
               </ul>	
             </div>
             <div class="events-display">
-              <%= form_with model: @event, url:"/events/#{@event.id}/update" do |f| %>
+              <%= form_with model: @event, url:"/events/#{@event.id}/update",local: true  do |f| %>
                 <div class="main-select">
+                <%= render 'layouts/error_messages', model: f.object %>
                   <div class="form-group form-check">
                     <%= link_to('',"/events/index", class:"fas fa-2x fa-arrow-left back-icon") %>
                     <button type="submit" class="submit"><i class="fas fa-2x fa-check"></i></button>

@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   end
 
   resources :colors
+  post 'new_select' => 'events#new_select'
   get 'filter' => 'tasks#filter'
   post 'select' => 'events#select'
   get 'display' => 'events#display'

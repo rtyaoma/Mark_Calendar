@@ -6,7 +6,7 @@
             <p class="menu-title">アカウント編集</p>
         </div>
         <div class="events-display">
-          <%= form_with model: @user, url:"/users/#{@user.id}/update", multipart: true do |f| %>
+          <%= form_with model: @user, url:"/users/#{@user.id}/update", local:true, multipart: true do |f| %>
             <div class="main-select">
               <div class="form-group form-check">
                 <%= link_to('',"/events/index", class:"fas fa-2x fa-arrow-left back-icon") %>

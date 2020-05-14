@@ -2,7 +2,7 @@ class CalendarsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :color_select, {only: [:new, :edit]}
   def index
-    @calendars = Calendar.all
+    @calendars = Calendar.where(user_id: @current_user.id)
   end
 
   def show

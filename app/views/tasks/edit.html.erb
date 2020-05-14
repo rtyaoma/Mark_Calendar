@@ -12,7 +12,7 @@
               </ul>	
             </div>
             <div class="events-display">
-              <%= nested_form_for(@task, url:"/tasks/#{@task.id}/update") do |f| %>
+              <%= nested_form_for(@task, url:"/tasks/#{@task.id}/update"), local:true do |f| %>
                 <div class="main-select">
                   <div class="form-group form-check">
                     <%= link_to('',"/events/index", class:"fas fa-2x fa-arrow-left back-icon") %>

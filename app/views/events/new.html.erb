@@ -7,17 +7,12 @@
         <div class="split-box inner-right new_event">
           <div class="events">
             <div class="events-menu">
-              <ul class="nav">
-                <li class="nav-title"><p>event</p></li>
-                <li class="nav-item"><%= link_to'予定表', "/events/index", class: "nav-link" %></li>
-                <li class="nav-item"><%= link_to'今日の予定', "/events/today", class:"nav-link" %></li>
-                <li class="nav-item"><%= link_to'予定を追加',"/events/new",class:"nav-link" %></li>
-              </ul>	
+            <%= render 'events/index_nav' %>
             </div>
             <div class="events-display">
-              <%= form_with model: @event, url:"/events/create" do |f| %>
-              <%= render 'layouts/error_messages', model: f.object %>
+              <%= form_with model: @event, url:"/events/create", local: true do |f| %>
                 <div class="main-select">
+                <%= render 'layouts/error_messages', model: f.object %>
                   <div class="form-group form-check">
                     <%= link_to('',"/events/index", class:"fas fa-2x fa-arrow-left back-icon") %>
                     <button type="submit" class="submit"><i class="fas fa-2x fa-check"></i></button>
@@ -62,6 +57,9 @@
                   </div>
                   <div class="form-group">
                     <%= f.text_area :description,class:"group-text",placeholder:"メモ" %>
+                  </div>
+                  <div class="form-group">
+                  <%= f.text_field :tag_list, value: @event.tag_list.join(',') %>
                   </div>
                 </div>
               <% end %>

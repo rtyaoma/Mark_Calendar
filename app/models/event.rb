@@ -5,6 +5,8 @@ class Event < ApplicationRecord
     validates :end, {presence: true}
     validates :calendar_id, {presence: true}
     validates :description, {length:{maximum:40}}
+    acts_as_taggable
+
 
     has_many :calendar_events
     has_many :calendars, :through => :calendar_events  

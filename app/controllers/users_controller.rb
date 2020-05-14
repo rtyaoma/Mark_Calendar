@@ -18,12 +18,16 @@ class UsersController < ApplicationController
     if @user.image = nil
       @user.image = "defalut_user.jpg"
     end
-    if @user.save
-      session[:user_id] = @user.id
-      flash[:notice] = "ユーザー登録が完了しました"
-      redirect_to("/users/#{@user.id}")
-    else
-      render("users/new")
+    respond_to do |format|
+      if @user.save
+        session[:user_id] = @user.id
+        format.html { redirect_to '/events/index',notice: 'ユーザーを登録しました.' }
+        format.json { render :show, status: :created, location: @user }
+      else
+        flash.now[:notice] = "正しく入力してください"
+        format.html { render :new}
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -35,11 +39,15 @@ class UsersController < ApplicationController
     @user = User.find_by(id:params[:id])
     @user.update(user_params)
     @user.update params.require(:user).permit(:image)
-    if @user.save
-      flash[:notice] = "ユーザー情報を編集しました"
-      redirect_to("/users/#{@user.id}")
-    else
-      render("users/edit")
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to '/events/index',notice: 'ユーザーを更新しました.' }
+        format.json { render :show, status: :created, location: @user }
+      else
+        flash.now[:notice] = "正しく入力してください"
+        format.html { render :edit}
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -55,6 +63,8 @@ class UsersController < ApplicationController
       redirect_to("/events/index")
     else
       @error_message = "メールアドレスまたはパスワードが間違っています"
+      logger.info "@errorの中身が見たい #{@error_message.inspect}"
+      #flash[:notice] = "メールアドレスまたはパスワードが間違っています"
       @email = params[:email]
       @password = params[:password]
       render("users/login_form")

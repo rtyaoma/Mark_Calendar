@@ -47,7 +47,9 @@ $(document).on('turbolinks:load', function() {
         }else{
           $aside.stop(true).animate({right: '-280px'}, duration, 'easeInBack'); //サイドバーを隠すアニメーション
         };
-		});
+    });
+    
+
 	//$('.calendar-label').on('click',function(){
 		//$(this).css('background-color','rgba(255, 255, 255, 0.5)');
 		//$(this).css('border-bottom','1px solid rgba(34, 49, 52, 0.9)');
