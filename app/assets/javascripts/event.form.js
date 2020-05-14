@@ -39,16 +39,16 @@ $(document).on('click','.filter2', function(){
     var y = now.getFullYear();
     var m = now.getMonth() + 1;
     var d = now.getDate();
-    var ww = $('.filter-task').data('deadline')
-   //var date = y + '/' + m + '/' + d 
+    var ww = $('.filter-task').find('.deadline').text()
+    var date = y + '/' + m + '/' + d 
    console.log(now + "+" + ww)
    var mm = $('.filter-task').data('status')
  
     //alert(data);
-    var res =  $('.filter-task').filter(function(){
-      return $('.filter-task').data('status') == true ;
+    $('.filter-task').filter(function(){
+      return new Date(ww) > new Date(date)
     }).toggleClass('filter-select');
-    console.log(res.length);
+    //console.log(res.length);
 
     
       //if ($(this).('[deadline]') > date){
