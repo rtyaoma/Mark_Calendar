@@ -1,13 +1,26 @@
-<div class="container-md">
-  <div =class"main">
-    <section class="sec_content">
-			<%= form_with model: @color, local: true do |f| %>
-				<dl>
-					<dt>color</dt>
-					<dd><%= f.text_field :color_type %></dd>
-				</dl>
-				<p class="action" ><%= f.submit value:"投稿" %></p>
-			<% end %>
-		</section>
+<div class="events-wrapper">
+	<div class="container">
+		<div class="center-inner">
+			<div class="events">
+				<div class="events-menu">
+					<p class="menu-title">カラー登録</p>
+				</div>
+				<div class="events-display">
+					<%= form_with model: @color, local: true do |f| %>
+						<div class="main-select">
+							<div class="form-group">
+								<%= link_to('',"/home/top", class:"fas fa-2x fa-arrow-left back-icon") %>
+							</div>
+							<div class="form-group">
+								<%= f.text_field :color_type %>
+							</div>
+							<div class="form-group">
+								<%= f.submit value:"登録",class:"btn signup" %>
+							</div>
+						</div>
+					<% end %>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

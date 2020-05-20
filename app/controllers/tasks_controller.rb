@@ -12,8 +12,8 @@ class TasksController < ApplicationController
     @tasks = Task.where(user_id: @current_user.id)
     @today_tasks = @tasks.where('deadline_date >= ? AND deadline_date < ?', t0,t1)
     @incomplete_tasks = @tasks.where(status: false).where('deadline_date < ?',t0)
-    logger.info "@today頼む #{@today_tasks.inspect}"
-    logger.info "@incomplete頼む #{@incomplete_tasks.inspect}"
+    #logger.info "@today頼む #{@today_tasks.inspect}"
+    #logger.info "@incomplete頼む #{@incomplete_tasks.inspect}"
     respond_to do |format|
     format.html
     format.xml { render :xml => @tasks }
@@ -45,7 +45,7 @@ class TasksController < ApplicationController
     @task.user_id = @current_user.id
     respond_to do |format|
       if @task.save
-        format.html { redirect_to '/tasks/index',notice: 'Task was successfully created.' }
+        format.html { redirect_to tasks_url,　notice: 'タスクを作成しました' }
         format.json { render :show, status: :created, location: @task }
       else
         flash.now[:notice] = "正しく入力してください"
@@ -58,9 +58,10 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       if @task.update(task_params)
-        format.html { redirect_to '/tasks/index', notice: 'Task was successfully updated.' }
+        format.html { redirect_to tasks_url, notice: 'タスクを更新しました。' }
         format.json { render :show, status: :ok, location: @task }
       else
+        flash.now[:notice] = "正しく入力してください"
         format.html { render :edit }
         format.json { render json: @task.errors, status: :unprocessable_entity }
       end
@@ -70,7 +71,7 @@ class TasksController < ApplicationController
   def destroy
     @task.destroy
     respond_to do |format|
-      format.html { redirect_to '/tasks/index', notice: 'Task was successfully destroyed.' }
+      format.html { redirect_to tasks_url, notice: '予定を削除しました。' }
       format.json { head :no_content }
     end
   end
@@ -122,7 +123,7 @@ class TasksController < ApplicationController
   end
 
   def filter
-    @tasks = Task.where(user_id: @current_user.id)
+    @tasks = Task.where(user_id: @current_user.id).order(deadline_date: :desc)
     render plain: render_to_string(partial: 'form_index', layout: false, locals: {@tasks => @tasks} )
   end
 
@@ -145,13 +146,4 @@ class TasksController < ApplicationController
         sub_tasks_attributes: [:id, :title, :status, :_destroy]
       )
     end
-    #def set_current_calendars
-      #if session[:calendar_id]
-     #@current_calendars = Calendar.find(session[:calendar_id])
-      #else
-        #flash[:notice] = "カレンダーの選択がありません"
-        #redirect_to("/tasks/index")
-      #end
-    #end
-
 end

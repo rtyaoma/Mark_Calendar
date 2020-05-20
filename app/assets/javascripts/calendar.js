@@ -1,14 +1,12 @@
 $(document).on('turbolinks:load', function() {
   setTimeout("$('.time-limit').fadeOut('slow')", 1000), //　エラーの表示時間
 
-  $('.main-select').on('change','input[name="status"]',function(){
+  $('.inner-right').on('change','input[name="status"]',function(){
     var id = $(this).data('id');
     var done_url = "/tasks/"+id+"/done";
     var begin_url = "/tasks/"+id+"/begin";
     var chk = $(this).prop('checked');
-    var sub_class = "input[class=" + '"' + "sub_status_" + id + '"' + "]";
-    var sub_class_not = "input[class=" + '"' + "sub_status_" + id + '"' + "]:not(:checked)";
-
+    
     if (chk == true){
       alert("タスクがチェックされた場合");
       $.ajax({
@@ -24,7 +22,7 @@ $(document).on('turbolinks:load', function() {
     }
   });
 
-    $('.sub-task-show').on('change','input[name="sub_status"]',function(){
+    $('.inner-right').on('change','input[name="sub_status"]',function(){
       var id = $(this).data('id');
       var task_id = $(this).data('task_id')
       var sub_task_not = "input[class=" + '"' + "sub_status_" + task_id + '"' + "]:not(:checked)"
@@ -61,7 +59,7 @@ $(document).on('turbolinks:load', function() {
       }
     })
 
-  $('.task-select').on('click','.main-task-inner',function(){
+  $('.inner-right').on('click','.main-task-inner',function(){
     var id = $(this).data('id');
     alert(id + " " );
     location.href = "/tasks/"+id;
@@ -69,6 +67,7 @@ $(document).on('turbolinks:load', function() {
     var speed = 500;
     $("html, body").animate({scrollTop:position}, speed, "swing");
   })
+
 
   $('.calendar-select').change(function() {
     console.log("dddd")　//　calendarの選択
@@ -107,12 +106,17 @@ $(document).on('turbolinks:load', function() {
   $('.calendar-plus').on('click',function(){
     location.href = "/calendars/new";
   });
+
+
 // calendarの全体の表示
 $('.fc-today-button').on('click',function(){
   alert('hahaha');
 })
+
+
+
   var calendar = $('#calendar').fullCalendar({
-    events: '/events/index.json',
+    events: '/events.json',
     timeFormat: 'H:mm',
     header: {
       right: 'prevYear,prev,next,nextYear listDay,listWeek',
@@ -162,9 +166,9 @@ $('.fc-today-button').on('click',function(){
     noEventsMessage: "予定がありません",
     scrollTime: "00:00:00",
 
-    select: function(startDate, endDate, allDay) {
+    select: function(startDate, endDate, allDay, view) {
+      var v = view.type
       var allDay = !startDate.hasTime() && !endDate.hasTime();
-      alert('selected' + startDate.format() + 'to' + endDate.format() + "+" + allDay + "+" + endDate.hasTime());
       var start = startDate.format();
       var end = endDate.format();
       var position = $(".inner-right").offset().top -50;
@@ -176,17 +180,62 @@ $('.fc-today-button').on('click',function(){
           allDay: allDay,
         }
       };
-      $.ajax ({
-        type: 'POST',
-        data: data,
-        url: '/new_select',
-      }).done(function (){
-        $("html, body").animate({scrollTop:position}, speed, "swing");
-        if (allDay == true) {
-          $('#event_allDay').attr('checked',true).prop('checked', true).change();
-        };
-      }).fail(function(){
-        alert('エラーが発生しました')
+      var data2 = {
+        event: {
+          start: start,
+          end: end,
+        }
+      };
+
+      if (v == "month"){
+        $('.popup').addClass("show").fadeIn();
+        $('#close').on('click',function(){
+          $('.popup').fadeOut();
+        });
+      } else {
+        $.ajax ({
+          type: 'POST',
+          data: data,
+          url: '/new_select',
+        }).done(function (){
+          $("html, body").animate({scrollTop:position}, speed, "swing");
+          $('.popup').fadeOut();
+          if (allDay == true) {
+            $('#event_allDay').attr('checked',true).prop('checked', true).change();
+          };
+          calendar.fullCalendar('unselect');
+        }).fail(function(){
+          alert('エラーが発生しました')
+        });
+      };
+      $('body').on('click','.select-events',function(){ 
+        $('.popup').fadeOut();
+        $.ajax ({
+          type: 'POST',
+          data: data,
+          url: '/new_select',
+        }).done(function (){
+          $("html, body").animate({scrollTop:position}, speed, "swing");
+          if (allDay == true) {
+            $('#event_allDay').attr('checked',true).prop('checked', true).change();
+          };
+          calendar.fullCalendar('unselect');
+        }).fail(function(){
+          alert('エラーが発生しました')
+        });
+      });
+      $('body').on('click','.events_show', function(){
+        $('.popup').fadeOut()
+
+        $.ajax ({
+          type:'POST',
+          data: data2,
+          url: '/events_show',
+        }).done(function(){
+          calendar.fullCalendar('unselect');
+        }).fail(function(){
+          alert('エラーが発生しました')
+        });
       });
     },
     eventClick: function(event) { //イベントをクリックしたときに実行
@@ -225,6 +274,7 @@ $('.fc-today-button').on('click',function(){
         }else {
           var moment_end = end_year+"-"+end_month+"-"+end_day+" "+end_hour+":"+end_min;
         }
+        console.log(info);
         alert('eventDrop' + "+" + moment_start + "+" +info.end+ "or" + moment_end + "+" + info.title + "+" + info.allDay + "+" + info.color);
         var data = {
         eventBorderColor: "#000000",
@@ -233,7 +283,8 @@ $('.fc-today-button').on('click',function(){
             start: moment_start,
             end: moment_end,
             allDay: info.allDay,
-            color: info.color
+            color: info.color,
+            calendar_id: info.calendar_id
           }
         }
     
@@ -264,7 +315,8 @@ $('.fc-today-button').on('click',function(){
           start: start,
           end: end,
           allDay: false,
-          color: info.color
+          color: info.color,
+          calendar_id: info.calendar_id
         }
       }
       if (confirm("登録しますか?")){

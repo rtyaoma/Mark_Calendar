@@ -14,11 +14,11 @@
           <div class="main-select">
             <div class="select-menu">
               <div class="select-icon left-icon">
-                <%= link_to('',"/tasks/index", class:"fas fa-2x fa-arrow-left") %>
+                <%= link_to('', tasks_path, class:"fas fa-2x fa-arrow-left") %>
               </div>
               <div class="select-icon right-icon">
-                <%= link_to('',"/tasks/#{@task.id}/destroy", method: "post", class:"fas fa-2x fa-trash-alt") %>
-                <%= link_to('編集',"/tasks/#{@task.id}/edit") %>
+                <%= link_to('', @task, method: :delete, class:"fas fa-2x fa-trash-alt") %>
+                <%= link_to('編集', edit_task_path(@task.id)) %>
               </div>
             </div>
             <div class="task-show-group task-inner">

@@ -8,12 +8,14 @@
         <div class="task-table-title">
         <p class="filter-icon">メニュー</p>
         </div>
+        <div class="task-not"><p></p></div>
         <div class="filter-table">
         <dl class="filter-menu">
-          <dd class="filter1">期限ぎれ</dd>
-          <dd class="filter2">完了済</dd>
-          <dd class="filter3">未完了</dd>
-          <dd class="filter4">明日以降</dd>
+          <dd class="filter1">全表示</dd>
+          <dd class="filter2">期限切れ</dd>
+          <dd class="filter3">完了済</dd>
+          <dd class="filter4">未完了</dd>
+          <dd class="filter5">明日以降</dd>
         </dl>
         </div>
         <% if @tasks.length == 0 %>
@@ -23,7 +25,7 @@
         <% else %>
         <div class="main-task-table">
           <% @tasks.each do |task| %>
-            <table class="task-select filter-task" data-status="<%= task.status %>"  data-deadline="<%= task.deadline_date.strftime('%Y/%m/%d')  %>" >
+            <table class="task-select filter-task" data-status="<%= task.status %>"  data-deadline="<%= task.deadline_date %>" >
               <tr class="main-task">
                 <% if task.status == false %>
                   <td class="main-task-check"><label><input type="checkbox" name="status"  data-id="<%= task.id %>" class="status_<%= task.id %>"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></label></td>
@@ -31,7 +33,7 @@
                   <td class="main-task-check" ><label><input type="checkbox" name="status"  data-id="<%= task.id %>" checked="checked" class="status_<%= task.id %>"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></label></td>
                 <% end %>
                   <td class="main-task-inner" data-id="<%= task.id %>">
-                    <p class="main-task-title"><%= link_to(task.title,"/tasks/#{task.id}") %></p>
+                    <p class="main-task-title"><%= link_to(task.title, task) %></p>
                     <i class="far fa-calendar"></i>
                     <p class="deadline" data-deadline="<%= task.deadline_date %>"><%= task.deadline_date.strftime('%Y/%m/%d') %></p>
                     <p class="status-size">ステップ <%= task.sub_tasks.size() %></p>

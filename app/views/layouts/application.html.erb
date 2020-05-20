@@ -14,7 +14,7 @@
     <div class="header-container">
       <div class="header-left">
         <% if @current_user %>
-          <li><%= link_to("Mark_Calender", "/events/index") %></li>
+          <li><%= link_to("Mark_Calender", events_path) %></li>
         <% else %>
           <li class="logo"><p>Mark_Calendar</p></li>
         <% end %>
@@ -22,9 +22,12 @@
       <span id="menu-icon" class="fa fa-bars"></span>
       <div class="header-right">
       <% if @current_user %>
-       <li><%= link_to("calendar", "/events/index") %></li>
-       <li><%= link_to("task", "/tasks/index") %></li>
-       <li><%= link_to("new","/events/new") %></li>
+      <% if @current_user.admin? %>
+      <li><%= link_to("color", colors_path) %></li>
+      <% end %>
+       <li><%= link_to("calendar", events_path) %></li>
+       <li><%= link_to("task", tasks_path) %></li>
+       <li><%= link_to("new", new_event_path) %></li>
        <li><%= link_to("logout", "/logout", {method: :post}) %></li>
      <% else %>
        <li><%= link_to("about", "/") %></li>
@@ -33,15 +36,15 @@
      <% end %>
         <% if @current_user %>
           <% if @current_user.image.attached? %>
-            <li><%= link_to(image_tag(@current_user.image), "/users/#{@current_user.id}/edit") %></li>
+            <li><%= link_to(image_tag(@current_user.image), edit_user_path(@current_user.id)) %></li>
           <% else %>
-            <li><%= link_to(image_tag("/user_images/default_user.jpg"),"/users/#{@current_user.id}/edit") %></li>
+            <li><%= link_to(image_tag("/user_images/default_user.jpg"),edit_user_path(@current_user.id)) %></li>
           <% end %>
         <% end %>
       </div>
     </div>
   </header>
-  <%= render '/events/form_header' %>
+  <%= render '/layouts/form_header' %>
     <% if flash[:notice] %>
       <div class="flash time-limit">
         <%= flash[:notice] %>

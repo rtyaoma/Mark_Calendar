@@ -25,6 +25,7 @@ class EventsController < ApplicationController
 
   def show
     @user = @event.user
+    #logger.info "@user頼む #{@user.inspect}"
     @calendar = @event.calendar
     youbi = %w[日 月 火 水 木 金 土]
     @dayofweekstart = "(" + "" + youbi[@event.start.wday] + ")"
@@ -38,7 +39,7 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
-    logger.info "@calendarsの中身が見たい #{@current_calendars.inspect}"
+    #logger.info "@calendarsの中身が見たい #{@current_calendars.inspect}"
     time0 = Time.current.beginning_of_hour
     @event.start = time0.advance(hours: 1)
     @event.end = time0.advance(hours: 2)
@@ -62,7 +63,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.save
         flash[:notice] = "予定を登録しました"
-        format.html { redirect_to '/events/index',notice: '予定を登録しました.' }
+        format.html { redirect_to events_url, notice: '予定を登録しました.' }
         format.json { render :show, status: :created, location: @event }
       else
         flash.now[:notice] = "正しく入力してください"
@@ -75,7 +76,7 @@ class EventsController < ApplicationController
   def update
     respond_to do |format|
       if @event.update(event_params)
-        format.html { redirect_to '/events/index', notice: '予定を更新しました' }
+        format.html { redirect_to events_url, notice: '予定を更新しました' }
         format.json { render :show, status: :ok, location: @event }
       else
         flash.now[:notice] = "正しく入力してください"
@@ -88,7 +89,7 @@ class EventsController < ApplicationController
   def destroy
     @event.destroy
     respond_to do |format|
-      format.html { redirect_to '/events/index', notice: '予定を削除しました' }
+      format.html { redirect_to events_url, notice: '予定を削除しました' }
       format.json { head :no_content }
     end
   end
@@ -149,9 +150,15 @@ class EventsController < ApplicationController
     @event.allDay = params[:event][:allDay]
   end
 
+  def events_show
+    show_start = params[:event][:start]
+    show_end = params[:event][:end]
+    @events = Event.where('"start" >=? AND "end" <=?',show_start, show_end)
+  end
+
     private
     def set_event
-      @event = Event.find_by(id:params[:id])
+      @event = Event.find_by(id: params[:id])
     end
 
     def event_params
@@ -170,11 +177,12 @@ class EventsController < ApplicationController
 
     def set_current_calendars
       if session[:calendar_id]
-     @current_calendars = Calendar.where(id:session[:calendar_id], user_id: @current_user.id,)
-     @titles = @current_calendars.select(:title,:id).distinct
+        logger.info "@calendarid頼む #{session[:calendar_id]}"
+        @current_calendars = Calendar.where(id: session[:calendar_id], user_id: @current_user.id,)
+        @titles = @current_calendars.select(:title,:id).distinct
       else
         flash[:notice] = "カレンダーの選択がありません"
-        redirect_to("/events/index")
+        redirect_to events_url
       end
     end
 

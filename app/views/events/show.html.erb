@@ -10,25 +10,25 @@
   				<div class="events-menu">
     				<ul class="nav">
 					  <li class="nav-title"><p id="w1">予定の詳細</p></li>
-					  <li class="nav-item item-plus"><%= link_to'',"/events/new",class: "fas fa-plus" %></li>
+					  <li class="nav-item item-plus"><%= link_to'', new_event_path, class: "fas fa-plus" %></li>
     				</ul>	
   				</div>
 				  <div class="events-display">
 						<div class="main-select">
 							<div class="select-menu">
 								<div class="select-icon left-icon">
-									<%= link_to('',"/events/index", class:"fas fa-2x fa-arrow-left") %>
+									<%= link_to('', events_path, class:"fas fa-2x fa-arrow-left") %>
 								</div>
 								<div class="select-icon right-icon">
-									<%= link_to('',"/events/#{@event.id}/destroy", method: "post", class:"fas fa-2x fa-trash-alt") %>
-									<%= link_to('編集',"/events/#{@event.id}/edit") %>
+									<%= link_to('', @event, method: :delete, class:"fas fa-2x fa-trash-alt") %>
+									<%= link_to('編集', edit_event_path(@event.id)) %>
 								</div>
 							</div>
 							<div class="select-group select-user">
 								<% if @user.image.attached? %>
-									<%= link_to(image_tag(@current_user.image), "/users/#{@user.id}/edit") %>
+									<%= link_to(image_tag(@current_user.image), edit_user_path(@user)) %>
 								<% else %>
-									<%= link_to(image_tag("/user_images/default_user.jpg"),"/users/#{@user.id}/edit") %>
+									<%= link_to(image_tag("/user_images/default_user.jpg"), edit_user_path(@user)) %>
 								<% end %>
 							</div>
 							<div class="select-group select-calendar">

@@ -1,12 +1,13 @@
 class CalendarsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :color_select, {only: [:new, :edit]}
+  before_action :set_calendar, {only: [:show, :edit, :update, :destroy]}
+
   def index
     @calendars = Calendar.where(user_id: @current_user.id)
   end
 
   def show
-    @calendar = Calendar.find_by(id: params[:id])
   end
 
   def new
@@ -18,18 +19,16 @@ class CalendarsController < ApplicationController
     @calendar.user_id = @current_user.id
     if @calendar.save
       flash[:notice] = "カレンダーを登録しました"
-      redirect_to("/calendars/#{@calendar.id}")
+      redirect_to calendars_url
     else
       render("calendars/new")
     end
   end
 
   def edit
-    @calendar = Calendar.find_by(id: params[:id])
   end
 
   def update
-    @calendar = Calendar.find_by(id: params[:id])
     @calendar.title = params[:title]
     if @calendar.save
       flash[:notice] = "カレンダーを編集しました"
@@ -43,7 +42,22 @@ class CalendarsController < ApplicationController
     session[:calendar_id] = params[:calendar_id]
   end
 
+  def destroy
+    @calendar.destroy
+    respond_to do |format|
+      format.html { redirect_to calendars_url, notice: '予定を削除しました' }
+      format.json { head :no_content }
+    end
+  end
+
+
   private
+
+  def set_calendar
+    @calendar = Calendar.find_by(id: params[:id])
+  end
+
+
   def calendar_params
     params.require(:calendar).permit(
       :title,

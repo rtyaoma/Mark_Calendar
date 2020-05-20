@@ -4,9 +4,12 @@
         <div class="events-menu">
             <p class="menu-title">login</p>
         </div>
-				<div class="events-display">
-					<%= form_with model: @user, url:"/login", local:true do |f| %>
-						<div class="main-select">
+			<div class="events-display">
+				<%= form_with model: @user, url:"/login", local:true do |f| %>
+					<div class="main-select">
+							<% if @error_message %>
+								<p><%= @error_message %></p>
+							<% end %>
 								<div class="form-group">
 									<%= link_to('',"/home/top", class:"fas fa-2x fa-arrow-left back-icon") %>
 								</div>

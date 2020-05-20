@@ -2,9 +2,9 @@
           <div class="events-menu">
               <ul class="nav">
                 <li class="nav-title"><p>event</p></li>
-                <li class="nav-item"><%= link_to'予定表', "/events/index", class: "nav-link" %></li>
+                <li class="nav-item"><%= link_to'予定表', events_path, class: "nav-link" %></li>
                 <li class="nav-item"><%= link_to'今日の予定', "/events/today", class:"nav-link" %></li>
-                <li class="nav-item"><%= link_to'予定を追加',"/events/new",class:"nav-link" %></li>
+                <li class="nav-item"><%= link_to'予定を追加', new_event_path, class:"nav-link" %></li>
               </ul>	
             </div>
             <div class="events-display">
@@ -22,11 +22,11 @@
                     <% @allday_events.each do |event| %>
                       <tr>
                         <td class="event-time">終日</td>
-                        <td class="event-title" style="border-left-color: <%= event.color %>;"><%= link_to(event.title,"/events/#{event.id}") %></td>
+                        <td class="event-title" style="border-left-color: <%= event.color %>;"><%= link_to(event.title, event) %></td>
                         <% if event.user.image.attached? %>
-                          <td class="event-user-image"><%= link_to(image_tag(event.user.image), "/users/#{event.user.id}") %></td>
+                          <td class="event-user-image"><%= link_to(image_tag(event.user.image), edit_user_path(event.user.id)) %></td>
                         <% else %>
-                          <td class="event-user-image"><%= link_to(image_tag("/user_images/default_user.jpg"),"/users/#{event.user.id}") %></td>
+                          <td class="event-user-image"><%= link_to(image_tag("/user_images/default_user.jpg"),edit_user_path(event.user.id)) %></td>
                         <% end %>
                       </tr>
                     <% end %>
@@ -40,11 +40,11 @@
                   <% @am_events.each do |event| %>
                     <tr>
                       <td class="event-time"><%= event.start.strftime('%H:%M') %></td>
-                      <td rowspan="2" class="event-title" style="border-left-color: <%= event.color %>;"><%= link_to(event.title,"/events/#{event.id}") %></td>
+                      <td rowspan="2" class="event-title" style="border-left-color: <%= event.color %>;"><%= link_to(event.title, event) %></td>
                       <% if event.user.image.attached? %>
-                        <td rowspan="2" class="event-user-image"><%= link_to(image_tag(event.user.image), "/users/#{event.user.id}") %></td>
+                        <td rowspan="2" class="event-user-image"><%= link_to(image_tag(event.user.image), edit_user_path(event.user.id)) %></td>
                       <% else %>
-                        <td rowspan="2" class="event-user-image"><%= link_to(image_tag("/user_images/default_user.jpg"),"/users/#{event.user.id}") %></td>
+                        <td rowspan="2" class="event-user-image"><%= link_to(image_tag("/user_images/default_user.jpg"), edit_user_path(event.user.id)) %></td>
                       <% end %>
                     </tr>
                     <tr>
@@ -61,11 +61,11 @@
                   <% @pm_events.each do |event| %>
                     <tr>
                       <td class="event-time"><%= event.start.strftime('%H:%M') %></td>
-                      <td rowspan="2" class="event-title" style="border-left-color: <%= event.color %>;"><%= link_to(event.title,"/events/#{event.id}") %></td>
+                      <td rowspan="2" class="event-title" style="border-left-color: <%= event.color %>;"><%= link_to(event.title, event) %></td>
                       <% if event.user.image.attached? %>
-                        <td rowspan="2" class="event-user-image"><%= link_to(image_tag(event.user.image), "/users/#{event.user.id}") %></td>
+                        <td rowspan="2" class="event-user-image"><%= link_to(image_tag(event.user.image), edit_user_path(event.user.id)) %></td>
                       <% else %>
-                        <td rowspan="2" class="event-user-image"><%= link_to(image_tag("/user_images/default_user.jpg"),"/users/#{event.user.id}") %></td>
+                        <td rowspan="2" class="event-user-image"><%= link_to(image_tag("/user_images/default_user.jpg"), edit_user_path(event.user.id)) %></td>
                       <% end %>
                     </tr>
                     <tr>
@@ -82,11 +82,11 @@
                   <% @before_events.each do |event| %>
                     <tr>
                       <td class="event-time"><%= event.start.strftime('%m/%d') %></td>
-                      <td rowspan="2" class="event-title" style="border-left-color: <%= event.color %>;"><%= link_to(event.title,"/events/#{event.id}") %></td>
+                      <td rowspan="2" class="event-title" style="border-left-color: <%= event.color %>;"><%= link_to(event.title, event) %></td>
                       <% if event.user.image.attached? %>
-                        <td rowspan="2" class="event-user-image"><%= link_to(image_tag(event.user.image), "/users/#{event.user.id}") %></td>
+                        <td rowspan="2" class="event-user-image"><%= link_to(image_tag(event.user.image), edit_user_path(event.user.id)) %></td>
                       <% else %>
-                        <td rowspan="2" class="event-user-image"><%= link_to(image_tag("/user_images/default_user.jpg"),"/users/#{event.user.id}") %></td>
+                        <td rowspan="2" class="event-user-image"><%= link_to(image_tag("/user_images/default_user.jpg"), edit_user_path(event.user.id)) %></td>
                       <% end %>
                     </tr>
                     <tr>
@@ -103,11 +103,11 @@
                   <% @after_events.each do |event| %>
                     <tr>
                       <td class="event-time"><%= event.start.strftime('%H:%M') %></td>
-                      <td rowspan="2" class="event-title" style="border-left-color: <%= event.color %>;"><%= link_to(event.title,"/events/#{event.id}") %></td>
+                      <td rowspan="2" class="event-title" style="border-left-color: <%= event.color %>;"><%= link_to(event.title, event) %></td>
                       <% if event.user.image.attached? %>
-                        <td rowspan="2" class="event-user-image"><%= link_to(image_tag(event.user.image), "/users/#{event.user.id}") %></td>
+                        <td rowspan="2" class="event-user-image"><%= link_to(image_tag(event.user.image), edit_user_path(event.user.id)) %></td>
                       <% else %>
-                        <td rowspan="2" class="event-user-image"><%= link_to(image_tag("/user_images/default_user.jpg"),"/users/#{event.user.id}") %></td>
+                        <td rowspan="2" class="event-user-image"><%= link_to(image_tag("/user_images/default_user.jpg"), edit_user_path(event.user.id)) %></td>
                       <% end %>
                     </tr>
                     <tr>
@@ -124,11 +124,11 @@
                   <% @continued_events.each do |event| %>
                     <tr>
                       <td class="event-time"><%= event.start.strftime('%H:%M') %></td>
-                      <td rowspan="2" class="event-title"　style="border-left-color: <%= event.color %>;"><%= link_to(event.title,"/events/#{event.id}") %></td>
+                      <td rowspan="2" class="event-title"　style="border-left-color: <%= event.color %>;"><%= link_to(event.title, event) %></td>
                       <% if event.user.image.attached? %>
-                        <td rowspan="2" class="event-user-image"><%= link_to(image_tag(event.user.image), "/users/#{event.user.id}") %></td>
+                        <td rowspan="2" class="event-user-image"><%= link_to(image_tag(event.user.image), edit_user_path(event.user.id)) %></td>
                       <% else %>
-                        <td rowspan="2" class="event-user-image"><%= link_to(image_tag("/user_images/default_user.jpg"),"/users/#{event.user.id}") %></td>
+                        <td rowspan="2" class="event-user-image"><%= link_to(image_tag("/user_images/default_user.jpg"), edit_user_path(event.user.id)) %></td>
                       <% end %>
                     </tr>
                     <tr>

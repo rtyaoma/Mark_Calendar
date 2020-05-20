@@ -6,10 +6,10 @@
           <p class="menu-title">new calendar</p>
         </div>
         <div class="events-display">
-          <%= form_with model: @calendar, url:"/calendars/#{@calendar.id}/update" do |f| %>
+          <%= form_with model: @calendar do |f| %>
             <div class="main-select">
               <div class="form-group form-check">
-                <%= link_to('',"/events/index", class:"fas fa-2x fa-arrow-left back-icon") %>
+                <%= link_to('', "/events/index", class:"fas fa-2x fa-arrow-left back-icon") %>
                 <button type="submit" class="submit"><i class="fas fa-2x fa-check"></i></button>
               </div>
               <div class="form-group">

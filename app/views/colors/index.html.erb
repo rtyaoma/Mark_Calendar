@@ -1,0 +1,22 @@
+<div class="events-wrapper">
+  <div class="container">
+    <div class="center-inner">
+	    <div class="events">
+        <div class="events-menu">
+          <p class="menu-title">color</p>
+        </div>
+				<div class="events-display">
+					<div class="main-select">
+						<% @colors.each do |color| %>
+							<div class="form-group">
+								<%= color.color_type %>
+								<%= link_to("編集", edit_color_path(color), class:"btn") %>
+							</div>
+						<% end %>
+					</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

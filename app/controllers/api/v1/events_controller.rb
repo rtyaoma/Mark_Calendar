@@ -78,6 +78,7 @@ require "#{Rails.root}/app/controllers/application_controller.rb"
                         :start,
                         :end,
                         :color,
+                        :calendar_id,
                         :allDay
                     )
                     end

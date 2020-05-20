@@ -3,10 +3,10 @@
             <%= render 'events/index_nav' %>
             </div>
             <div class="events-display">
-              <%= form_with model: @event, url:"/events/create",local: true do |f| %>
+              <%= form_with model: @event, local: true do |f| %>
                 <div class="main-select">
                   <div class="form-group form-check">
-                    <%= link_to('',"/events/index", class:"fas fa-2x fa-arrow-left back-icon") %>
+                    <%= link_to('', events_path, class:"fas fa-2x fa-arrow-left back-icon") %>
                     <button type="submit" class="submit"><i class="fas fa-2x fa-check"></i></button>
                   </div>
                   <div class="form-group">

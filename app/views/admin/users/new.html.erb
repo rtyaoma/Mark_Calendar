@@ -6,7 +6,7 @@
             <p class="menu-title">アカウント登録</p>
         </div>
         <div class="events-display">
-          <%= form_with model: @user  local:true do |f| %>
+          <%= form_with model: [:admin, @user], url:"/users/create", local:true do |f| %>
             <div class="main-select">
             <%= render 'layouts/error_messages', model: f.object %>
                 <div class="form-group">

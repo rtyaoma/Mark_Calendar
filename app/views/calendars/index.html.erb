@@ -8,14 +8,14 @@
         <div class="events-display">
             <div class="main-select">
               <div class="form-group form-check">
-                <%= link_to('',"/events/index", class:"fas fa-2x fa-arrow-left back-icon") %>
+                <%= link_to('', "/events/index", class:"fas fa-2x fa-arrow-left back-icon") %>
               </div>
               <% @calendars.each do |calendar| %>
                 <table class="calendar-table">
                   <tr class="calendar-inner">
                     <td class="calendar-th"><i class="far fa-2x fa-calendar"></td>
-                    <td class="title"><%= link_to(calendar.title,"/calendars/#{calendar.id}/edit") %></td>
-                    <td class="calendar-des"><%= link_to('',"/calendars/#{calendar.id}/destroy", method: "post", class:"fas fa fa-trash-alt") %></td>
+                    <td class="title"><%= link_to(calendar.title,edit_calendar_path(calendar.id)) %></td>
+                    <td class="calendar-des"><%= link_to('', calendar, method: :delete, class:"fas fa fa-trash-alt") %></td>
                   </tr>
                 </table>
               <% end %>
