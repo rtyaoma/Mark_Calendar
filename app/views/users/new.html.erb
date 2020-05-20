@@ -6,7 +6,7 @@
             <p class="menu-title">アカウント登録</p>
         </div>
         <div class="events-display">
-          <%= form_with model: @user  local:true do |f| %>
+          <%= form_with model: @user, local:true do |f| %>
             <div class="main-select">
             <%= render 'layouts/error_messages', model: f.object %>
                 <div class="form-group">
@@ -22,7 +22,7 @@
                   <%= f.password_field :password, class:"group-text",placeholder:"パスワード" %>
                 </div>
                 <div class="form-group">
-                  <%= f.submit value:"アカウントを作成する",class:"btn signup" %>
+                  <%= f.submit value="アカウントを作成する",class:"btn signup" %>
                 </div>
             </div>
           <% end %>

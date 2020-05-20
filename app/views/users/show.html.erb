@@ -19,9 +19,9 @@
             </div>
             <div class="form-group">
               <% if @user.id == @current_user.id %>
-                <%= link_to("編集",edit_user_path(@user), class:"btn") %>
+                <%= link_to("編集",edit_user_path(@user.id), class:"btn") %>
               <% end %>
-              <%= link_to("戻る", "/events/index", class: "btn") %>
+              <%= link_to("戻る", events_path, class: "btn") %>
             </div>
           </div>
         </div>
