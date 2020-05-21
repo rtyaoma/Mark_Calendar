@@ -50,13 +50,16 @@ class EventsController < ApplicationController
 
   def create
     @event = Event.new(event_params)
-    @calendar = @event.calendar
+    start_on = @event.start.strftime('%d') 
+    end_on = @event.end.strftime('%d') 
+    logger.info "@calendarsの中身が見たい #{start_on.inspect}"
     @event.user_id = @current_user.id
-    if @calendar !=  nil
-      @color = Color.find_by(id: @calendar.color_id)
-      @event.color = @color.color_type
+    calendar = @event.calendar
+    if calendar !=  nil
+      color = Color.find_by(id: calendar.color_id)
+      @event.color = color.color_type
     end
-    if @event.allDay? && @event.start == @event.end
+    if @event.allDay? && start_on == end_on
       @event.start = @event.start.beginning_of_day
       @event.end = @event.end.tomorrow.beginning_of_day
     end
@@ -74,6 +77,9 @@ class EventsController < ApplicationController
   end
 
   def update
+    calendar = Calendar.find_by(id: params[:event][:calendar_id])
+    color = Color.find_by(id: calendar.color_id)
+    @event.color = color.color_type
     respond_to do |format|
       if @event.update(event_params)
         format.html { redirect_to events_url, notice: '予定を更新しました' }

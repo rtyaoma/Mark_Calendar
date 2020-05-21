@@ -6,13 +6,13 @@ Rails.application.routes.draw do
   namespace :api, { format: 'json' } do
     namespace :v1 do
         resources :events
-        #post 'events/index' => 'events#index'
+        post 'events/index' => 'events#index'
 
     end
   end
-  #format 'json' do
-    #get 'events/index'
-  #end
+  format 'json' do
+    resources :events
+  end
 
   resources :colors
   post 'new_select' => 'events#new_select'
@@ -42,7 +42,7 @@ Rails.application.routes.draw do
   post 'events_show' => 'events#events_show'
 
   get 'events/today' => 'events#today'
-  post 'events/index' => 'events#index'
+  #post 'events/index' => 'events#index'
   get 'events/click' => 'events#click_new'
   get 'events/refetch' => 'events#refetch_index'
   get 'events/click/:id' => 'events#click_show'

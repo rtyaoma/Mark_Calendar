@@ -180,13 +180,6 @@ $('.fc-today-button').on('click',function(){
           allDay: allDay,
         }
       };
-      var data2 = {
-        event: {
-          start: start,
-          end: end,
-        }
-      };
-
       if (v == "month"){
         $('.popup').addClass("show").fadeIn();
         $('#close').on('click',function(){
@@ -229,7 +222,7 @@ $('.fc-today-button').on('click',function(){
 
         $.ajax ({
           type:'POST',
-          data: data2,
+          data: data,
           url: '/events_show',
         }).done(function(){
           calendar.fullCalendar('unselect');
@@ -316,7 +309,6 @@ $('.fc-today-button').on('click',function(){
           end: end,
           allDay: false,
           color: info.color,
-          calendar_id: info.calendar_id
         }
       }
       if (confirm("登録しますか?")){
