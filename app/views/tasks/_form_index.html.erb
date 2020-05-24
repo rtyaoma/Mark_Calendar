@@ -23,7 +23,7 @@
           <p>タスクはありません</p>
         </div>
         <% else %>
-        <div class="main-task-table">
+        <div class="main-task-table main-filter-table">
           <% @tasks.each do |task| %>
             <table class="task-select filter-task" data-status="<%= task.status %>"  data-deadline="<%= task.deadline_date %>" >
               <tr class="main-task">

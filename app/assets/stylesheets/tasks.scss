@@ -96,7 +96,6 @@ color: rgba(252, 250, 242, 0.9);;
     margin-bottom: 10px;
 }
 .main-task-table {
-    height: 600px;
     overflow-y: scroll;
 }
 
@@ -345,4 +344,8 @@ line-height: 30px;
 .filter-icon {
     width: 70px;
     cursor: pointer;
+}
+
+.main-filter-table {
+    height: 500px;
 }
