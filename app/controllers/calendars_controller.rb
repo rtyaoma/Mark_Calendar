@@ -1,6 +1,6 @@
 class CalendarsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :color_select, {only: [:new, :edit]}
+  before_action :color_select, {only: [:new, :edit, :create]}
   before_action :set_calendar, {only: [:show, :edit, :update, :destroy]}
 
   def index

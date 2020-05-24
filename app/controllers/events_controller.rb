@@ -1,11 +1,11 @@
 class EventsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :set_event, {only: [:show, :edit, :update, :destroy, :click_show, :ensure_correct_user]} #パラメータのidからレコードを特定するメソッド
-  #before_action :authenticate_user
+  before_action :authenticate_user
   before_action :set_current_calendars, {only: [:new, :click_new, :edit, :create,:update, :new_select]}
   before_action :ensure_correct_user, {only: [:edit, :update, :destroy]} #ログインしているユーザーのみ権限がある
   before_action :set_time, {only: [:index, :display]}
-
+  before_action :set_new,{only: [:new, :click_new, :new_select]}
 
   def index
     @events = Event.where(user_id: @current_user.id, calendar_id: session[:calendar_id]).order(:start)
@@ -25,7 +25,6 @@ class EventsController < ApplicationController
 
   def show
     @user = @event.user
-    #logger.info "@user頼む #{@user.inspect}"
     @calendar = @event.calendar
     youbi = %w[日 月 火 水 木 金 土]
     @dayofweekstart = "(" + "" + youbi[@event.start.wday] + ")"
@@ -38,8 +37,6 @@ class EventsController < ApplicationController
   end
 
   def new
-    @event = Event.new
-    #logger.info "@calendarsの中身が見たい #{@current_calendars.inspect}"
     time0 = Time.current.beginning_of_hour
     @event.start = time0.advance(hours: 1)
     @event.end = time0.advance(hours: 2)
@@ -52,7 +49,6 @@ class EventsController < ApplicationController
     @event = Event.new(event_params)
     start_on = @event.start.strftime('%d') 
     end_on = @event.end.strftime('%d') 
-    logger.info "@calendarsの中身が見たい #{start_on.inspect}"
     @event.user_id = @current_user.id
     calendar = @event.calendar
     if calendar !=  nil
@@ -108,7 +104,6 @@ class EventsController < ApplicationController
   end
 
   def click_new
-    @event = Event.new
     @event.calendar_id = session[:calendar_id]
     render plain: render_to_string(partial: 'form_new', layout: false, locals: { event: @event })
   end
@@ -142,15 +137,8 @@ class EventsController < ApplicationController
     @pm_events = @today_events.where(end: @half...@t1)
   end
 
-  def today
-    t0 = Time.current.beginning_of_day
-    t1 = t0.advance(hours: 24)
-    @events = Event.where("'start' >= ? AND 'start' < ?", t0,t1) or Event.where("'end' > ? AND 'end'<= ?",t0,t1).order(:start)
-    render action: :index
-  end
 
   def new_select
-    @event = Event.new
     @event.start = params[:event][:start]
     @event.end = params[:event][:end]
     @event.allDay = params[:event][:allDay]
@@ -162,10 +150,19 @@ class EventsController < ApplicationController
     @events = Event.where('"start" >=? AND "end" <=?',show_start, show_end)
   end
 
+
+
+
     private
+
     def set_event
       @event = Event.find_by(id: params[:id])
     end
+
+    def set_new
+      @event = Event.new
+    end
+
 
     def event_params
       params.require(:event).permit(
@@ -183,7 +180,6 @@ class EventsController < ApplicationController
 
     def set_current_calendars
       if session[:calendar_id]
-        logger.info "@calendarid頼む #{session[:calendar_id]}"
         @current_calendars = Calendar.where(id: session[:calendar_id], user_id: @current_user.id,)
         @titles = @current_calendars.select(:title,:id).distinct
       else

@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   end
 
   resources :colors
-  post 'new_select' => 'events#new_select'
+  get 'new_select' => 'events#new_select'
   get 'filter' => 'tasks#filter'
   post 'select' => 'events#select'
   get 'display' => 'events#display'
@@ -26,6 +26,8 @@ Rails.application.routes.draw do
 
   resources :users
   get 'signup' => 'users#new'
+  get 'login' => 'users#login_form'
+  post 'login' => 'users#login'
 
   resources :tasks
   get 'tasks/tomorrow' => 'tasks#tomorrow'
@@ -39,15 +41,12 @@ Rails.application.routes.draw do
 
   resources :events
 
-  post 'events_show' => 'events#events_show'
+  get 'events_show' => 'events#events_show'
 
-  get 'events/today' => 'events#today'
   #post 'events/index' => 'events#index'
   get 'events/click' => 'events#click_new'
   get 'events/refetch' => 'events#refetch_index'
   get 'events/click/:id' => 'events#click_show'
-  get 'login' => 'users#login_form'
-  post 'login' => 'users#login'
   
   root 'home#top'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

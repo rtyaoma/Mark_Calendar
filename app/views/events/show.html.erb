@@ -7,12 +7,9 @@
       </div>
 			<div class="split-box inner-right">
 				<div class="events">
-  				<div class="events-menu">
-    				<ul class="nav">
-					  <li class="nav-title"><p id="w1">予定の詳細</p></li>
-					  <li class="nav-item item-plus"><%= link_to'', new_event_path, class: "fas fa-plus" %></li>
-    				</ul>	
-  				</div>
+					<div class="events-menu">
+						<%= render "events/form_show_nav" %>
+  					</div>
 				  <div class="events-display">
 						<div class="main-select">
 							<div class="select-menu">
@@ -26,9 +23,9 @@
 							</div>
 							<div class="select-group select-user">
 								<% if @user.image.attached? %>
-									<%= link_to(image_tag(@current_user.image), edit_user_path(@user)) %>
+									<%= link_to(image_tag(@current_user.image), edit_user_path(@user.id)) %>
 								<% else %>
-									<%= link_to(image_tag("/user_images/default_user.jpg"), edit_user_path(@user)) %>
+									<%= link_to(image_tag("/user_images/default_user.jpg"), edit_user_path(@user.id)) %>
 								<% end %>
 							</div>
 							<div class="select-group select-calendar">

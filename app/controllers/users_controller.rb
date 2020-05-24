@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :set_user, {only: [:show, :edit, :update]}
   before_action :authenticate_user, {only: [:index, :show, :edit, :update]}
   before_action :forbid_login_user, {only: [:new, :create, :login_form, :login]}
   
@@ -11,7 +12,6 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find_by(id:params[:id])
   end
 
   def create
@@ -33,11 +33,9 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find_by(id:params[:id])
   end
 
   def update
-    @user = User.find_by(id:params[:id])
     @user.update(user_params)
     @user.update params.require(:user).permit(:image)
     respond_to do |format|
@@ -62,8 +60,6 @@ class UsersController < ApplicationController
         session[:user_id] = @user.id
         format.html { redirect_to events_url, notice: 'ログインしました.' }
         format.json { render :show, status: :created, location: @user }
-        #flash[:notice] = "ログインしました"
-        #redirect_to("/events/index")
       else
         flash.now[:notice] = "正しく入力してください"
         format.html { render :login_form}
@@ -81,6 +77,10 @@ class UsersController < ApplicationController
 
   private
 
+  def set_user
+    @user = User.find_by(id: params[:id])
+  end
+
   def user_params
     params.require(:user).permit(
       :name,
@@ -90,6 +90,5 @@ class UsersController < ApplicationController
       :admin
     )
   end
-
 
 end

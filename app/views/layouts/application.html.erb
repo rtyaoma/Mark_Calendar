@@ -30,7 +30,6 @@
        <li><%= link_to("new", new_event_path) %></li>
        <li><%= link_to("logout", "/logout", {method: :post}) %></li>
      <% else %>
-       <li><%= link_to("about", "/") %></li>
        <li id="login-show"><%= link_to("login","/login") %></li>
        <li><%= link_to("signup","/signup",class:"signup-show") %></li>
      <% end %>
@@ -44,6 +43,7 @@
       </div>
     </div>
   </header>
+  <div class="main-content">
   <%= render '/layouts/form_header' %>
     <% if flash[:notice] %>
       <div class="flash time-limit">
@@ -51,5 +51,6 @@
       </div>
     <% end %>
     <%= yield %>
+  </div>
 </body>
 </html>

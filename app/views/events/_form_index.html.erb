@@ -1,11 +1,7 @@
         <div class="events">
           <div class="events-menu">
-              <ul class="nav">
-                <li class="nav-title"><p>event</p></li>
-                <li class="nav-item"><%= link_to'予定表', events_path, class: "nav-link" %></li>
-                <li class="nav-item"><%= link_to'今日の予定', "/events/today", class:"nav-link" %></li>
-                <li class="nav-item"><%= link_to'予定を追加', new_event_path, class:"nav-link" %></li>
-              </ul>	
+          <%= render "events/form_nav"
+
             </div>
             <div class="events-display">
               <div class="main-select">

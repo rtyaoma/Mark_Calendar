@@ -113,6 +113,17 @@ $('.inner-right').on('click','.filter1', function(){
   $('.filter-table').toggle();
 })
 
+//hsize = $(window).height();
+  //$("body").css("height", hsize + "px");
+  //$(".split-box").css("height", hsize + "px");
+//$(window).resize(function () {
+  //hsize = $(window).height()/2;
+  //$("body").css("height", hsize + "px");
+//});
+  //$(".wrapper").css("height", hsize + "px");
+ // $(".split-box").css("height", hsize + "px");
+
+
 
 
 

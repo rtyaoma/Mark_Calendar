@@ -45,3 +45,14 @@
         font-size: 14px;
     }
 }
+
+@media (orientation: portrait) and(min-height: 1440px){
+    body {
+        height: 100vh;
+    }
+}
+@media (orientation: landscape) and (min-height: 720px){
+    body {
+        height: 100vh;
+    }
+}

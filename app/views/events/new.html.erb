@@ -7,7 +7,7 @@
         <div class="split-box inner-right new_event">
           <div class="events">
             <div class="events-menu">
-            <%= render 'events/index_nav' %>
+            <%= render 'events/form_nav' %>
             </div>
             <div class="events-display">
               <%= form_with model: @event, local: true do |f| %>
@@ -59,7 +59,7 @@
                     <%= f.text_area :description,class:"group-text",placeholder:"メモ" %>
                   </div>
                   <div class="form-group">
-                  <%= f.text_field :tag_list, value: @event.tag_list.join(',') %>
+                    <%= f.text_field :tag_list, value: @event.tag_list.join(',') %>
                   </div>
                 </div>
               <% end %>

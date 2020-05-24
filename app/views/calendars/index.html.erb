@@ -8,7 +8,8 @@
         <div class="events-display">
             <div class="main-select">
               <div class="form-group form-check">
-                <%= link_to('', "/events/index", class:"fas fa-2x fa-arrow-left back-icon") %>
+                <%= link_to('', events_path, class:"fas fa-2x fa-arrow-left back-icon") %>
+                <%= link_to'', new_calendar_path, class: "fas fa-2x fa-plus" %></li>
               </div>
               <% @calendars.each do |calendar| %>
                 <table class="calendar-table">

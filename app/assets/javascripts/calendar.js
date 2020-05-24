@@ -114,7 +114,6 @@ $('.fc-today-button').on('click',function(){
 })
 
 
-
   var calendar = $('#calendar').fullCalendar({
     events: '/events.json',
     timeFormat: 'H:mm',
@@ -187,7 +186,7 @@ $('.fc-today-button').on('click',function(){
         });
       } else {
         $.ajax ({
-          type: 'POST',
+          type: 'GET',
           data: data,
           url: '/new_select',
         }).done(function (){
@@ -204,7 +203,7 @@ $('.fc-today-button').on('click',function(){
       $('body').on('click','.select-events',function(){ 
         $('.popup').fadeOut();
         $.ajax ({
-          type: 'POST',
+          type: 'GET',
           data: data,
           url: '/new_select',
         }).done(function (){
@@ -221,7 +220,7 @@ $('.fc-today-button').on('click',function(){
         $('.popup').fadeOut()
 
         $.ajax ({
-          type:'POST',
+          type:'GET',
           data: data,
           url: '/events_show',
         }).done(function(){
