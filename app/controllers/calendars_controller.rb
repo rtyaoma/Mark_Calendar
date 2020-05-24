@@ -1,6 +1,6 @@
 class CalendarsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :color_select, {only: [:new, :edit, :create]}
+  before_action :color_select, {only: [:new, :edit, :create, :update]}
   before_action :set_calendar, {only: [:show, :edit, :update, :destroy]}
 
   def index
@@ -29,12 +29,15 @@ class CalendarsController < ApplicationController
   end
 
   def update
-    @calendar.title = params[:title]
-    if @calendar.save
-      flash[:notice] = "カレンダーを編集しました"
-      redirect_to("/calendars/#{@calendar.id}")
-    else
-      render("calendars/edit")
+    respond_to do |format|
+      if @calendar.update(calendar_params)
+        format.html { redirect_to calendars_url, notice: 'カレンダー情報を更新しました' }
+        format.json { head :no_content }
+      else
+        flash.now[:notice] = "正しく入力してください"
+        format.html { render :edit }
+        format.json { render json: @calendar.errors, status: :unprocessable_entity }
+      end
     end
   end
 
