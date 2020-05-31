@@ -113,8 +113,9 @@ $('.inner-right').on('click','.filter1', function(){
   $('.filter-table').toggle();
 })
 
-var $input = $("input[name='event[title]']");
+// event作成時に、バリテーションを設定 --------------------------
 $(".inner-right").on('input',function (event){
+  var $input = $("input[name='event[title]']");
   var start_year = $("select[name='event[start(1i)]']").val();
   var start_month = $("select[name='event[start(2i)]']").val();
   var start_day = $("select[name='event[start(3i)]']").val();
@@ -135,6 +136,7 @@ $(".inner-right").on('input',function (event){
   }).get();
   var checked =  $("input[name='event[calendar_id]']:checked").val();
   var set = $.inArray(checked, check);
+  console.log(value + " " + date_start + " " + date_end  + " " + set )
   if (value != '' && date_start <= date_end && set != -1  ) {
     $('.event_sub').addClass('check_submit');
   } else {
@@ -142,6 +144,9 @@ $(".inner-right").on('input',function (event){
   }
 });
 
+$('input[name="calendar[color_id]"]').on('click', function() {
+  $('input[name="calendar[color_id]"]:checked').css('backbround-color','#ddd');
+});
 $('.row-task').on('click',function(){
   var id = $(this).parent().data('id');
   var sub_id = ".sub-task-" + id

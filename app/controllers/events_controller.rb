@@ -47,7 +47,6 @@ class EventsController < ApplicationController
 
   def create
     @event = Event.new(event_params)
-
     @event.user_id = @current_user.id
     calendar = @event.calendar
     if calendar !=  nil
@@ -171,7 +170,6 @@ class EventsController < ApplicationController
         :color,
         :allDay,
         :calendar_id,
-        :tag_list
       )
     end
 

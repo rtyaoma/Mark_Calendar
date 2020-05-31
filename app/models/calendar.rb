@@ -11,4 +11,8 @@ class Calendar < ApplicationRecord
     #attribute :title, :string, default: 'プライベート'
     #attribute :color_id, :integer, default: '1'
 
+    def events
+        return Event.where(calendar_id: self.id, user_id: self.user_id)
+    end
+
 end
