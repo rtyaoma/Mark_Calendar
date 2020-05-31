@@ -8,20 +8,19 @@ $(document).on('turbolinks:load', function() {
     var chk = $(this).prop('checked');
     
     if (chk == true){
-      alert("タスクがチェックされた場合");
-      $.ajax({
-        type: "POST",
-        url: done_url,
-      })
+        $.ajax({
+          type: "POST",
+          url: done_url,
+        })
+        alert("チェックしました");
     } else {
-      alert("タスクのチェックが外れた場合");
-      $.ajax({
-        type: "POST",
-        url: begin_url,
-      })
+        $.ajax({
+          type: "POST",
+          url: begin_url,
+        })
+        alert("チェックを外しました");
     }
   });
-
     $('.inner-right').on('change','input[name="sub_status"]',function(){
       var id = $(this).data('id');
       var task_id = $(this).data('task_id')
@@ -35,30 +34,27 @@ $(document).on('turbolinks:load', function() {
       var chk = $(this).prop('checked');
 
       if (chk == true) {
-        alert("サブタスクがチェックされた場合");
-        $.ajax({
-          type: "POST",
-          url: done_url,
-        }).done(function (){
-          if ($(sub_task_not).size() == 0 && $(maintask_not).size() == 1) {
-            alert("サブタスクが全てチェックされて、タスクがチェックされてなかったら");
-            $(maintask).attr('checked',true).prop('checked',true).change();
-          }
-        });
+        alert("チェックしました");
+          $.ajax({
+            type: "POST",
+            url: done_url,
+          }).done(function (){
+            if ($(sub_task_not).size() == 0 && $(maintask_not).size() == 1) {
+              $(maintask).attr('checked',true).prop('checked',true).change();
+            }
+          });
       } else {
-        alert("サブタスクのチェックが外れた場合");
-        $.ajax({
-          type: "POST",
-          url: begin_url,
-        }).done(function (){
-          if ($(maintask_checked).size() > 0 ) {
-            alert("サブタスクのチェックが外れて、タスクがチェックされていた場合");
-            $(maintask).attr('checked',false).prop('checked',false).change();
-          }
-        });
+        alert("チェックを外しました");
+          $.ajax({
+            type: "POST",
+            url: begin_url,
+          }).done(function (){
+            if ($(maintask_checked).size() > 0 ) {
+              $(maintask).attr('checked',false).prop('checked',false).change();
+            }
+          });
       }
-    })
-
+    });
   $('.inner-right').on('click','.main-task-inner',function(){
     var id = $(this).data('id');
     alert(id + " " );
@@ -68,7 +64,6 @@ $(document).on('turbolinks:load', function() {
     $("html, body").animate({scrollTop:position}, speed, "swing");
   })
   $('.calendar-select').change(function() {
-    console.log("dddd")　//　calendarの選択
     var vals = $('input[class="calendar-select"]:checked').map(function() {
       return $(this).val();
     }).get();
@@ -130,7 +125,6 @@ $('.fc-today-button').on('click',function(){
     droppable: true,
     selectHelper: false,    // 選択時にプレースホルダーを描画
     ignoreTimezone: false, // 自動選択解除
-    //select: select,        // 選択時に関数にパラメータ引き渡す
     buttonText: {
       prev:     '<',   // &lsaquo;
       next:     '>',   // &rsaquo;
@@ -226,8 +220,6 @@ $('.fc-today-button').on('click',function(){
         }else {
           var moment_end = end_year+"-"+end_month+"-"+end_day+" "+end_hour+":"+end_min;
         }
-        console.log(info);
-        alert('eventDrop' + "+" + moment_start + "+" +info.end+ "or" + moment_end + "+" + info.title + "+" + info.allDay + "+" + info.color);
         var data = {
         eventBorderColor: "#000000",
           event: {
