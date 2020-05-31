@@ -114,7 +114,7 @@ $('.inner-right').on('click','.filter1', function(){
 })
 
 var $input = $("input[name='event[title]']");
-$(".events-display").on('input',function (event){
+$(".inner-right").on('input',function (event){
   var start_year = $("select[name='event[start(1i)]']").val();
   var start_month = $("select[name='event[start(2i)]']").val();
   var start_day = $("select[name='event[start(3i)]']").val();
