@@ -7,7 +7,7 @@ class Event < ApplicationRecord
     validates :description, {length:{maximum:40}}
     acts_as_taggable
 
-
+    
     has_many :calendar_events
     has_many :calendars, :through => :calendar_events  
 
@@ -18,6 +18,15 @@ class Event < ApplicationRecord
     def calendar
         return Calendar.find_by(id: self.calendar_id)
     end
+
+    before_save do
+        start_on = self.start.strftime('%d') 
+        end_on = self.end.strftime('%d') 
+        if self.allDay? && start_on == end_on
+          self.start = self.start.beginning_of_day
+          self.end = self.end.tomorrow.beginning_of_day
+        end
+      end
     #def calendar
         #return Calendar.where(id: session[:calendar_id])
     #end

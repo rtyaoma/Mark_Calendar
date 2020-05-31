@@ -16,6 +16,28 @@ class EventsController < ApplicationController
     @continued_events = @events.where('"start" < ? AND "end" >= ?', @form_to, @t1).order(:start)
     @am_events = @today_events.where(start: @t0...@half)
     @pm_events = @today_events.where(start: @half...@t1)
+    logger.info "@amの中身が見たい #{@am_events.inspect}"
+    logger.info "@pmの中身が見たい #{@pm_events.inspect}"
+    logger.info "@beforeの中身が見たい #{@before_events.inspect}"
+    logger.info "@continuedの中身が見たい #{@continued_events.inspect}"
+    logger.info "@afterの中身が見たい #{@after_events.inspect}"
+    logger.info "@todayの中身が見たい #{@today_events.inspect}"
+    logger.info "@alldayの中身が見たい #{@allday_events.inspect}"
+    logger.info "@eventsの中身が見たい #{@events.inspect}"
+    logger.info "@t0の中身が見たい #{@t0}"
+    logger.info "@t1の中身が見たい #{@t1}"
+    logger.info "@halfの中身が見たい #{@half}"
+    logger.info "@formの中身が見たい #{@form}"
+    logger.info "@form_toの中身が見たい #{@form_to}"
+    logger.info "@to_formの中身が見たい #{@to_form}"
+    logger.info "@todayの中身が見たい #{@today}"
+    @t0 = Time.current.beginning_of_day
+    @t1 = @t0.advance(hours: 24)
+    @half = @t0.advance(hours: 12)
+    @form = @t0 + 1.minute
+    @form_to = @t0 - 1.minute
+    @to_form = @t1 - 1.minute
+    @today = Date.today
     respond_to do |format|
     format.html
     format.xml { render :xml => @events }
@@ -47,17 +69,12 @@ class EventsController < ApplicationController
 
   def create
     @event = Event.new(event_params)
-    start_on = @event.start.strftime('%d') 
-    end_on = @event.end.strftime('%d') 
+
     @event.user_id = @current_user.id
     calendar = @event.calendar
     if calendar !=  nil
       color = Color.find_by(id: calendar.color_id)
       @event.color = color.color_type
-    end
-    if @event.allDay? && start_on == end_on
-      @event.start = @event.start.beginning_of_day
-      @event.end = @event.end.tomorrow.beginning_of_day
     end
     respond_to do |format|
       if @event.save
@@ -100,6 +117,8 @@ class EventsController < ApplicationController
     if @event.user_id != @current_user.id
       flash[:notice] = "権限がありません"
       redirect_to("/login")
+    else
+      return true
     end
   end
 
@@ -199,5 +218,6 @@ class EventsController < ApplicationController
       wd = %w[日 月 火 水 木 金 土]
       @todaydayofweek = "(" + "" + wd[@today.wday] + ")"
     end
+
     
 end

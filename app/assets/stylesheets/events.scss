@@ -430,6 +430,15 @@ p.submit {
     cursor: pointer;
     float: right;
 }
+.event_sub {
+    pointer-events: none;
+    color: #ddd;
+}
+
+.check_submit {
+    pointer-events: auto;
+    color: rgba(34, 49, 52, 1);
+}
 
 .back-icon {
     float: left;
@@ -532,4 +541,10 @@ p.submit {
 
   #close i {
     float: right;
+}
+
+.form-check .fa-trash-alt {
+    float: right;
+    padding-right: 10px;
+    color: rgba(34, 49, 52, 0.9);
 }

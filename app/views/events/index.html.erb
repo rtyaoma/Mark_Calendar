@@ -136,14 +136,15 @@
               </table>
               <% end %>
               </div>
+
               <div class="events-select">
               <% if @continued_events.length >0 %>
               <p class="table-title continued">継続中の予定</p>
               <table class="event-select">
                 <% @continued_events.each do |event| %>
                   <tr>
-                    <td class="event-time"><%= event.start.strftime('%m/%d') %></td>
-                    <td rowspan="2" class="event-title"　style="border-left-color: <%= event.color %>;"><%= link_to(event.title, event) %></td>
+                    <td class="event-time"><%= event.start.strftime('%H:%M') %></td>
+                    <td rowspan="2" class="event-title" style="border-left-color: <%= event.color %>;"><%= link_to(event.title, event) %></td>
                     <% if event.user.image.attached? %>
                       <td rowspan="2" class="event-user-image"><%= link_to(image_tag(event.user.image), edit_user_path(event.user.id)) %></td>
                     <% else %>

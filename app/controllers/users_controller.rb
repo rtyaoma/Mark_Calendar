@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, {only: [:show, :edit, :update]}
+  before_action :set_user, {only: [:show, :edit, :update, :destroy]}
   before_action :authenticate_user, {only: [:index, :show, :edit, :update]}
   before_action :forbid_login_user, {only: [:new, :create, :login_form, :login]}
   
@@ -20,9 +20,9 @@ class UsersController < ApplicationController
       @user.image = "defalut_user.jpg"
     end
     respond_to do |format|
-      if @user.save
+      if @user.save 
         session[:user_id] = @user.id
-        format.html { redirect_to events_url, notice: 'ユーザーを登録しました.' }
+        format.html { redirect_to events_path, notice: 'ユーザーを登録しました.' }
         format.json { render :show, status: :created, location: @user }
       else
         flash.now[:notice] = "正しく入力してください"
@@ -50,6 +50,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    session[:user_id] = nil
+    session[:calendar_id] = nil
+    @user.destroy
+    respond_to do |format|
+      format.html { redirect_to "/", notice: 'ユーザーを削除しました' }
+      format.json { head :no_content }
+    end
+  end
+
   def login_form
   end
 
@@ -58,6 +68,10 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user && @user.authenticate(params[:password])
         session[:user_id] = @user.id
+        if @user.calendars != nil
+        session[:calendar_id] = @user.calendars
+        logger.info "@calendarsの中身が見たい #{session[:calendar_id]}"
+        end
         format.html { redirect_to events_url, notice: 'ログインしました.' }
         format.json { render :show, status: :created, location: @user }
       else
@@ -70,6 +84,7 @@ class UsersController < ApplicationController
 
   def logout
     session[:user_id] = nil
+    session[:calendar_id] = nil
     flash[:notice] = "ログアウトしました"
     redirect_to("/home/top")
   end

@@ -2,7 +2,7 @@ class Task < ApplicationRecord
     validates :user_id,{presence: true}
     validates :title,{presence: true}
     
-    has_many :sub_tasks
+    has_many :sub_tasks, dependent: :destroy
     accepts_nested_attributes_for :sub_tasks, reject_if: :reject_sub_tasks, allow_destroy: true
 
     def user

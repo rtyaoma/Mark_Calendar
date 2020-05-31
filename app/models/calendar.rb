@@ -5,7 +5,10 @@ class Calendar < ApplicationRecord
 
     has_many :calendar_events
     has_many :events, :through => :calendar_events
-    belongs_to :user
+    belongs_to :user,dependent: :destroy
     belongs_to :color
+
+    #attribute :title, :string, default: 'プライベート'
+    #attribute :color_id, :integer, default: '1'
 
 end

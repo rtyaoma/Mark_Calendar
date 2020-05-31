@@ -27,7 +27,6 @@
       <% end %>
        <li><%= link_to("calendar", events_path) %></li>
        <li><%= link_to("task", tasks_path) %></li>
-       <li><%= link_to("new", new_event_path) %></li>
        <li><%= link_to("logout", "/logout", {method: :post}) %></li>
      <% else %>
        <li id="login-show"><%= link_to("login","/login") %></li>

@@ -67,8 +67,6 @@ $(document).on('turbolinks:load', function() {
     var speed = 500;
     $("html, body").animate({scrollTop:position}, speed, "swing");
   })
-
-
   $('.calendar-select').change(function() {
     console.log("dddd")　//　calendarの選択
     var vals = $('input[class="calendar-select"]:checked').map(function() {
@@ -179,55 +177,17 @@ $('.fc-today-button').on('click',function(){
           allDay: allDay,
         }
       };
-      if (v == "month"){
-        $('.popup').addClass("show").fadeIn();
-        $('#close').on('click',function(){
-          $('.popup').fadeOut();
-        });
-      } else {
-        $.ajax ({
-          type: 'GET',
-          data: data,
-          url: '/new_select',
-        }).done(function (){
-          $("html, body").animate({scrollTop:position}, speed, "swing");
-          $('.popup').fadeOut();
-          if (allDay == true) {
-            $('#event_allDay').attr('checked',true).prop('checked', true).change();
-          };
-          calendar.fullCalendar('unselect');
-        }).fail(function(){
-          alert('エラーが発生しました')
-        });
-      };
-      $('body').on('click','.select-events',function(){ 
-        $('.popup').fadeOut();
-        $.ajax ({
-          type: 'GET',
-          data: data,
-          url: '/new_select',
-        }).done(function (){
-          $("html, body").animate({scrollTop:position}, speed, "swing");
-          if (allDay == true) {
-            $('#event_allDay').attr('checked',true).prop('checked', true).change();
-          };
-          calendar.fullCalendar('unselect');
-        }).fail(function(){
-          alert('エラーが発生しました')
-        });
-      });
-      $('body').on('click','.events_show', function(){
-        $('.popup').fadeOut()
-
-        $.ajax ({
-          type:'GET',
-          data: data,
-          url: '/events_show',
-        }).done(function(){
-          calendar.fullCalendar('unselect');
-        }).fail(function(){
-          alert('エラーが発生しました')
-        });
+      $.ajax ({
+        type: 'GET',
+        data: data,
+        url: '/new_select',
+      }).done(function (){
+        $("html, body").animate({scrollTop:position}, speed, "swing");
+        if (allDay == true) {
+          $('#event_allDay').attr('checked',true).prop('checked', true).change();
+        };
+      }).fail(function(){
+        alert('エラーが発生しました')
       });
     },
     eventClick: function(event) { //イベントをクリックしたときに実行

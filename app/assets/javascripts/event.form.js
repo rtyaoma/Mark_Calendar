@@ -113,19 +113,34 @@ $('.inner-right').on('click','.filter1', function(){
   $('.filter-table').toggle();
 })
 
-//hsize = $(window).height();
-  //$("body").css("height", hsize + "px");
-  //$(".split-box").css("height", hsize + "px");
-//$(window).resize(function () {
-  //hsize = $(window).height()/2;
-  //$("body").css("height", hsize + "px");
-//});
-  //$(".wrapper").css("height", hsize + "px");
- // $(".split-box").css("height", hsize + "px");
-
-
-
-
+var $input = $("input[name='event[title]']");
+$(".events-display").on('input',function (event){
+  var start_year = $("select[name='event[start(1i)]']").val();
+  var start_month = $("select[name='event[start(2i)]']").val();
+  var start_day = $("select[name='event[start(3i)]']").val();
+  var start_hour = $("select[name='event[start(4i)]']").val();
+  var start_min = $("select[name='event[start(5i)]']").val();
+  var  check_start = start_year + "-" + start_month + "-" + start_day + " " + start_hour + ":" + start_min 
+  var end_year = $("select[name='event[end(1i)]']").val();
+  var end_month = $("select[name='event[end(2i)]']").val();
+  var end_day = $("select[name='event[end(3i)]']").val();
+  var end_hour = $("select[name='event[end(4i)]']").val();
+  var end_min = $("select[name='event[end(5i)]']").val();
+  var  check_end = end_year + "-" + end_month + "-" + end_day + " " + end_hour + ":" + end_min 
+  var date_start = new Date(check_start)
+  var date_end = new Date(check_end)
+  value = $input.val();
+  var check = $("input[name='event[calendar_id]']").map(function() {
+    return $(this).val();
+  }).get();
+  var checked =  $("input[name='event[calendar_id]']:checked").val();
+  var set = $.inArray(checked, check);
+  if (value != '' && date_start <= date_end && set != -1  ) {
+    $('.event_sub').addClass('check_submit');
+  } else {
+    $('.event_sub').removeClass('check_submit');
+  }
+});
 
 $('.row-task').on('click',function(){
   var id = $(this).parent().data('id');
