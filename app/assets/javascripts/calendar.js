@@ -1,69 +1,7 @@
 $(document).on('turbolinks:load', function() {
-  setTimeout("$('.time-limit').fadeOut('slow')", 1000), //　エラーの表示時間
 
-  $('.inner-right').on('change','input[name="status"]',function(){
-    var id = $(this).data('id');
-    var done_url = "/tasks/"+id+"/done";
-    var begin_url = "/tasks/"+id+"/begin";
-    var chk = $(this).prop('checked');
-    
-    if (chk == true){
-        $.ajax({
-          type: "POST",
-          url: done_url,
-        })
-        alert("チェックしました");
-    } else {
-        $.ajax({
-          type: "POST",
-          url: begin_url,
-        })
-        alert("チェックを外しました");
-    }
-  });
-    $('.inner-right').on('change','input[name="sub_status"]',function(){
-      var id = $(this).data('id');
-      var task_id = $(this).data('task_id')
-      var sub_task_not = "input[class=" + '"' + "sub_status_" + task_id + '"' + "]:not(:checked)"
-      var maintask_checked = "input[class=" + '"' + "status_" + task_id + '"' + "]:checked"
-      var maintask_not = "input[class=" + '"' + "status_" + task_id + '"' + "]:not(:checked)"
-      var maintask = "input[class=" + '"' + "status_" + task_id + '"' + "]"
-
-      var done_url = "/sub_tasks/"+id+"/done";
-      var begin_url = "/sub_tasks/"+id+"/begin";
-      var chk = $(this).prop('checked');
-
-      if (chk == true) {
-        alert("チェックしました");
-          $.ajax({
-            type: "POST",
-            url: done_url,
-          }).done(function (){
-            if ($(sub_task_not).size() == 0 && $(maintask_not).size() == 1) {
-              $(maintask).attr('checked',true).prop('checked',true).change();
-            }
-          });
-      } else {
-        alert("チェックを外しました");
-          $.ajax({
-            type: "POST",
-            url: begin_url,
-          }).done(function (){
-            if ($(maintask_checked).size() > 0 ) {
-              $(maintask).attr('checked',false).prop('checked',false).change();
-            }
-          });
-      }
-    });
-  $('.inner-right').on('click','.main-task-inner',function(){
-    var id = $(this).data('id');
-    alert(id + " " );
-    location.href = "/tasks/"+id;
-    var position = $(".inner-right").offset().top -50;
-    var speed = 500;
-    $("html, body").animate({scrollTop:position}, speed, "swing");
-  })
-  $('.calendar-select').change(function() {
+  // カレンダーを選択した時の動作　----------------------------------------------
+  $('.calendar-select').change( function() {
     var vals = $('input[class="calendar-select"]:checked').map(function() {
       return $(this).val();
     }).get();
@@ -77,9 +15,9 @@ $(document).on('turbolinks:load', function() {
         type: "GET",
         url: "/display"
       })   
-      calendar.fullCalendar('refetchEvents');　//再レンダリング
+      calendar.fullCalendar('refetchEvents');　
     });
-    calendar.fullCalendar('unselect'); // 現在の選択を解除
+    calendar.fullCalendar('unselect'); 
     var chk = $(this).prop('checked');
     if(chk == true){
         $(this).parent().addClass('checkedcolor');
@@ -89,24 +27,23 @@ $(document).on('turbolinks:load', function() {
     return true;
   });
 
+  // カレンダーを全てチェックをクリック -------------------------------
   $('.calendar-check').on('click',function(){
     $('input[name="event[calendar_id][]"]').attr('checked',true).prop('checked',true).change();
   });
  
+  // カレンダーを全て外すをチェック ----------------------------------
   $('.calendar-minus').on('click',function(){
     $('input[name="event[calendar_id][]"]').removeAttr('checked').prop('checked',false).change();
   });
+
+  // カレンダーを作るをクリック -------------------------------------
   $('.calendar-plus').on('click',function(){
     location.href = "/calendars/new";
   });
 
 
-// calendarの全体の表示
-$('.fc-today-button').on('click',function(){
-  alert('hahaha');
-})
-
-
+  // fulcalendar ------------------------------------------------
   var calendar = $('#calendar').fullCalendar({
     events: '/events.json',
     timeFormat: 'H:mm',
@@ -121,15 +58,15 @@ $('.fc-today-button').on('click',function(){
     monthNamesShort: ['１月','２月','３月','４月','５月','６月','７月','８月','９月','１０月','１１月','１２月'],
     dayNames: ['日曜日','月曜日','火曜日','水曜日','木曜日','金曜日','土曜日'],
     editable: true,        // 編集可
-    selectable: true,      // 選択可
+    selectable: true, 
     droppable: true,
     selectHelper: false,    // 選択時にプレースホルダーを描画
     ignoreTimezone: false, // 自動選択解除
     buttonText: {
-      prev:     '<',   // &lsaquo;
-      next:     '>',   // &rsaquo;
-      prevYear: '<<',  // &laquo;
-      nextYear: '>>',  // &raquo;
+      prev:     '<', 
+      next:     '>',
+      prevYear: '<<',
+      nextYear: '>>',
       today:    'Today',
       month:    'month',
       week:     'week',
@@ -139,7 +76,7 @@ $('.fc-today-button').on('click',function(){
     },
     height: 700,                           // 高さ
     defaultView: 'month',             // 初期表示ビュー
-    eventLimit: true,                      // allow "more" link when too many events
+    eventLimit: true,                      
     firstDay: 0,                           // 最初の曜日, 0:日曜日
     weekends: true,                        // 土曜、日曜を表示
     weekMode: 'fixed',                     // 週モード (fixed, liquid, variable)
@@ -149,7 +86,7 @@ $('.fc-today-button').on('click',function(){
     minTime: "00:00:00",                   // スケジュールの開始時間
     maxTime: "24:00:00",                   // スケジュールの最終時間
     defaultTimedEventDuration: '10:00:00', // 画面上に表示する初めの時間(スクロールされている場所)
-    allDaySlot: TextTrackCue,                     // 終日スロットを非表示
+    allDaySlot: TextTrackCue,              // 終日スロットを非表示
     allDayText:'allday',                   // 終日スロットのタイトル
     slotMinutes: 15,                       // スロットの分
     snapMinutes: 15,                       // 選択する時間間隔
@@ -157,6 +94,7 @@ $('.fc-today-button').on('click',function(){
     noEventsMessage: "予定がありません",
     scrollTime: "00:00:00",
 
+    // 日付を選択した時の動作 --------------------------------------------
     select: function(startDate, endDate, allDay, view) {
       var v = view.type
       var allDay = !startDate.hasTime() && !endDate.hasTime();
@@ -184,7 +122,9 @@ $('.fc-today-button').on('click',function(){
         alert('エラーが発生しました')
       });
     },
-    eventClick: function(event) { //イベントをクリックしたときに実行
+
+    //イベントをクリックしたときに動作 --------------------------------------
+    eventClick: function(event) {
       var id = event.id
       var show_url = "/events/click/"+id;
       var position = $(".inner-right").offset().top -50;
@@ -197,7 +137,9 @@ $('.fc-today-button').on('click',function(){
         $('.inner-right').html(res);
       });
     },
-    eventDrop: function(info) { //イベントをドラッグ&ドロップした際に実行
+
+    //イベントをドラッグ&ドロップした際に動作 --------------------------------
+    eventDrop: function(info) {
         var id = info.id;
         var update_url = "/api/v1/events/"+id;
         var start_year = moment(info.start).year();
@@ -231,7 +173,6 @@ $('.fc-today-button').on('click',function(){
             calendar_id: info.calendar_id
           }
         }
-    
         if (confirm("移動しますか?")){
         $.ajax({
          type: "PATCH",
@@ -247,6 +188,8 @@ $('.fc-today-button').on('click',function(){
       else
       calendar.fullCalendar('refetchEvents');
       },
+
+     //イベントのサイズを変更した際に動作 --------------------------------
     eventResize: function(info) {
       var title = info.title;
       var start = info.start.toISOString();

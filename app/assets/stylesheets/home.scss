@@ -23,34 +23,22 @@ li,p,a {
 }
 
 .container {
-  //width:1320px;
-  padding-left:15px; //boxの内側の余白
+  padding-left:15px;
   padding-right:15px;
-  //margin:0 auto; //boxの内側の余白を指定
   margin-top: 65px;
   scroll-snap-type: y mandatory;
 }
 
 .home-container {
-  //width:1320px;
   padding: 180px 15px 100px 15px;
-  //padding-left:15px; //boxの内側の余白
-  //padding-right:15px;
-  margin:0 auto; //boxの内側の余白を指定
+  margin:0 auto;
   text-align: center;
 }
 .main {
   margin-top: 70px;
 }
-// home ---------------------
+
 .wrapper {
-    //background-image: url("/home_image1.jpg");
-    //background-color: rgba(34, 49, 52, 0.9);
-		//background-size: cover;
-		//padding-top: 180px;
-		//padding-bottom: 100px;
-		//color: white;
-    //text-align: center; //インラインブロックの要素の配置を指定
     height: 100%
 }
 
@@ -60,7 +48,7 @@ li,p,a {
 
 .wrapper h1 {
   font-size: 45px;
-	letter-spacing: 5px; //文字の幅
+	letter-spacing: 5px; 
 }
 
 .wrapper p {
@@ -70,11 +58,11 @@ li,p,a {
 .btn-wrapper .btn {
   padding: 8px 24px;
   color: white;
-  display: inline-block; //boxの要素を指定。幅や高さを指定できる
-	opacity: 0.8; //透明度
-	border-radius: 4px; //角を丸める
+  display: inline-block;
+	opacity: 0.8;
+	border-radius: 4px;
 }
-.btn-wrapper .btn:hover { //カーソルが乗った状態
+.btn-wrapper .btn:hover {
 	opacity: 1;
 }
 
@@ -88,7 +76,6 @@ li,p,a {
 .form-group .login{
   width: 100px;
 }
-
 
 .btn-wrapper {
   margin:20px 0;
@@ -117,8 +104,6 @@ header {
 
 .header-right {
   float:right;
-	//background-color:rgba(255, 255, 255, 0.3);
-	//transition: all 0.5s;
 }
 
 .header-right li:hover {

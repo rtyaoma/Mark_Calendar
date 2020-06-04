@@ -11,8 +11,15 @@ class Calendar < ApplicationRecord
     #attribute :title, :string, default: 'プライベート'
     #attribute :color_id, :integer, default: '1'
 
-    def events
-        return Event.where(calendar_id: self.id, user_id: self.user_id)
+ 
+
+    after_update do 
+        color = Color.find_by(id: self.color_id)
+        @events = Event.where(calendar_id: self.id, user_id: self.user_id)
+        @events.each do |e|
+            e.color = color.color_type
+            e.update
+        end
     end
 
 end

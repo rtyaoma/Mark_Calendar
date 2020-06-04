@@ -326,15 +326,15 @@ label[for="calendar_color_id_10"]:hover {
     background-color: #E2EDF9;
 }
 label[for="calendar_color_id_1"],label[for="calendar_color_id_2"],label[for="calendar_color_id_3"],label[for="calendar_color_id_4"],label[for="calendar_color_id_5"],label[for="calendar_color_id_6"],label[for="calendar_color_id_7"],label[for="calendar_color_id_8"],label[for="calendar_color_id_9"],label[for="calendar_color_id_10"] {
-    display: block; /* ブロックレベル要素化する */
-    float: left; /* 要素の左寄せ・回り込を指定する */
-    margin: 5px; /* ボックス外側の余白を指定する */
-    width: 20px; /* ボックスの横幅を指定する */
-    height: 20px; /* ボックスの高さを指定する */
-    padding-left: 5px; /* ボックス内左側の余白を指定する */
-    padding-right: 5px; /* ボックス内御右側の余白を指定する */
-    cursor: pointer; /* マウスカーソルの形（リンクカーソル）を指定する */
-    border-radius: 5px; /* 角丸を指定する */
+    display: block; 
+    float: left;
+    margin: 5px;
+    width: 20px;
+    height: 20px;
+    padding-left: 5px; 
+    padding-right: 5px;
+    cursor: pointer; 
+    border-radius: 5px; 
 }
 
 .checkedcolor {
@@ -345,6 +345,13 @@ label[for="calendar_color_id_1"],label[for="calendar_color_id_2"],label[for="cal
     border: 2px solid #ddd;
 }
 
+input[name="calendar[color_id]"]:checked + label {
+    background-color: #d1ff8c;
+}
+
+input[value="3"]:checked + label {
+    background-color: #ddd;
+}
 // calendar-index ------------------------
 .calendar-table {
     width: 100%;
@@ -379,3 +386,7 @@ color: rgba(34, 49, 52, 0.9);
 float: right;
 }
 
+.left-sidebar ul {
+    height: 400px;
+    overflow: scroll;
+}

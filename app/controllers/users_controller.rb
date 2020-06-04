@@ -14,6 +14,7 @@ class UsersController < ApplicationController
   def show
   end
 
+
   def create
     @user = User.new(user_params)
     if @user.image = nil
@@ -68,9 +69,8 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user && @user.authenticate(params[:password])
         session[:user_id] = @user.id
-        if @user.calendars != nil
-        session[:calendar_id] = @user.calendars
-        logger.info "@calendarsの中身が見たい #{session[:calendar_id]}"
+        if @user.get_calendar_ids != nil
+        session[:calendar_id] = @user.get_calendar_ids
         end
         format.html { redirect_to events_url, notice: 'ログインしました.' }
         format.json { render :show, status: :created, location: @user }

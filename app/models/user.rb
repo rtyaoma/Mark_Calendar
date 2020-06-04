@@ -12,7 +12,7 @@ class User < ApplicationRecord
         return Event.where(user_id: self.id)
     end
 
-    def calendars
+    def get_calendar_ids
         return Calendar.where(user_id: self.id).pluck(:id)
     end
 

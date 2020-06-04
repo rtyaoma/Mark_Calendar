@@ -99,11 +99,6 @@ class EventsController < ApplicationController
     end
   end
 
-  def click_new
-    @event.calendar_id = session[:calendar_id]
-    render plain: render_to_string(partial: 'form_new', layout: false, locals: { event: @event })
-  end
-
   def click_show
     @calendar = @event.calendar
     youbi = %w[日 月 火 水 木 金 土]
@@ -140,14 +135,21 @@ class EventsController < ApplicationController
     @event.allDay = params[:event][:allDay]
   end
 
-  def events_show
-    show_start = params[:event][:start]
-    show_end = params[:event][:end]
-    @events = Event.where('"start" >=? AND "end" <=?',show_start, show_end)
+
+  def chart
   end
 
-
-
+  def chart_filter
+    month = ((params[:chart][:start]).to_date).beginning_of_day
+    next_month = ((params[:chart][:end]).to_date).beginning_of_day
+    @events = Event.where('"start" >=? AND "end" <=?',month, next_month)
+    @calendar_events = @events.where(calendar_id: params[:chart][:calendar_id]).size
+    @iii = @events.group(:calendar_id).count
+    @alldate = @events.size
+    #@chart_date = @calendar_events.size
+    logger.info "@chartの中身が見たい #{@iii.inspect}"
+    #logger.info "@chartの中身が見たい #{@next_month.inspect}"
+  end
 
     private
 

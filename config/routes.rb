@@ -41,9 +41,9 @@ Rails.application.routes.draw do
 
   resources :events
 
+  get 'chart_filter' => 'events#chart_filter'
+  get 'chart' => 'events#chart'
   get 'events_show' => 'events#events_show'
-
-  #post 'events/index' => 'events#index'
   get 'events/click' => 'events#click_new'
   get 'events/refetch' => 'events#refetch_index'
   get 'events/click/:id' => 'events#click_show'
