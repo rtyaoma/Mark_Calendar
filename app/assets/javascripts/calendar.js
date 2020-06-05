@@ -6,13 +6,13 @@ $(document).on('turbolinks:load', function() {
       return $(this).val();
     }).get();
     $.ajax({
-      type: "POST",
+      method: "POST",
       url: "/select",
       data:{'calendar_id': vals},
       dataType: "json"
     }).done(function() {
       $.ajax({
-        type: "GET",
+        method: "GET",
         url: "/display"
       })   
       calendar.fullCalendar('refetchEvents');　
@@ -110,7 +110,7 @@ $(document).on('turbolinks:load', function() {
         }
       };
       $.ajax ({
-        type: 'GET',
+        method: 'GET',
         data: data,
         url: '/new_select',
       }).done(function (){
@@ -131,7 +131,7 @@ $(document).on('turbolinks:load', function() {
       var speed = 500;
       $("html, body").animate({scrollTop:position}, speed, "swing");
       $.ajax ({
-        type:'GET',
+        method:'GET',
         url: show_url,
       }).done(function(res){
         $('.inner-right').html(res);
@@ -163,7 +163,6 @@ $(document).on('turbolinks:load', function() {
           var moment_end = end_year+"-"+end_month+"-"+end_day+" "+end_hour+":"+end_min;
         }
         var data = {
-        eventBorderColor: "#000000",
           event: {
             title: info.title,
             start: moment_start,
@@ -175,20 +174,21 @@ $(document).on('turbolinks:load', function() {
         }
         if (confirm("移動しますか?")){
         $.ajax({
-         type: "PATCH",
+         method: "PATCH",
          url: update_url,
          data: data,
          dataType: "json",
-         success: function() {
-           calendar.fullCalendar('refetchEvents');
-         }
-        }),
-        calendar.fullCalendar('unselect');
-      }
-      else
-      calendar.fullCalendar('refetchEvents');
-      },
-
+        }).done(function() {
+          calendar.fullCalendar('refetchEvents');
+          calendar.fullCalendar('unselect');
+        }).fail(function() {
+           alert('エラーが発生しました');
+        });
+     }
+     else {
+       calendar.fullCalendar('refetchEvents');
+     }
+    },
      //イベントのサイズを変更した際に動作 --------------------------------
     eventResize: function(info) {
       var title = info.title;
@@ -205,21 +205,22 @@ $(document).on('turbolinks:load', function() {
           color: info.color,
         }
       }
-      if (confirm("登録しますか?")){
+      if (confirm("登録しますか?")) {
       $.ajax({
-       type: "PATCH",
+       method: "PATCH",
        url: update_url,
        data: data,
        dataType: "json",
-       success: function() {
+      }).done(function() {
          calendar.fullCalendar('refetchEvents');
-       }
-      });
-      calendar.fullCalendar('unselect');
+         calendar.fullCalendar('unselect');
+       }).fail(function() {
+          alert('エラーが発生しました');
+       });
     }
-    else
-    calendar.fullCalendar('refetchEvents');
-    },
+    else {
+      calendar.fullCalendar('refetchEvents');
+    }
+  }
   });
-
 });

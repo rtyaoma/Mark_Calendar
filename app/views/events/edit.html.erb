@@ -45,13 +45,13 @@
                       <%= f.datetime_select :end, class:"hidden-if-allday" %>
                     </div>
                   </div>
-                  <div class="form-group">
-                    <div class="radio radio-item">
-                      <%= f.collection_radio_buttons(:calendar_id, @titles, :id, :title, include_hidden: false) do |b| %>
-                        <%= b.label {b.radio_button + b.text} %>
-                      <% end %>
-                    </div>
-                  </div>
+                  <div class="form-group radio btn-group btn-group-vertical" data-toggle="buttons">
+                  <% @titles.each do |t| %>
+                      <label class="btn">
+                        <input type="radio" name="event[calendar_id]" value="<%= t.id %>" ><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-dot-circle-o fa-2x"></i> <span><%= t.title %></span>
+                      </label>
+                  <% end %>
+                </div>
                   <div class="form-group">
                     <%= f.text_field :place,class:"group-text", placeholder:"場所" %>
                   </div>

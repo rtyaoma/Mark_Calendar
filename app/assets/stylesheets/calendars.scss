@@ -230,12 +230,12 @@ input[name="event[calendar_id][]"]:checked label{
 }
 
 // calendar_new ------------------------------
-.calendar-label,label{
-    width: 210px;
-    padding: 0;
-    text-align: center;
-    line-height: 100px;
-}
+//.calendar-label,label{
+ //   width: 210px;
+  //  padding: 0;
+  //  text-align: center;
+  //  line-height: 100px;
+//}
 .calendar-label:hover {
     width: 210px;
     padding: 0;
@@ -257,85 +257,53 @@ input[name="event[calendar_id][]"]:checked label{
 
 .calendar-text {
     color: #a0a0a0;
+    font-size: 1.5em;
 }
 
 input[name="calendar[color_id]"]{
     display: none;
 }
-label[for="calendar_color_id_1"]  {
+
+label[id="color_1"]  span {
     background: #F596AA;
 }
-label[for="calendar_color_id_1"]:hover {
-    background-color: #E2EDF9;
-}
-label[for="calendar_color_id_1"]:checked  {
+
+label[id="color_2"]  span  {
     background:#D0104C;
 }
-label[for="calendar_color_id_2"]  {
-    background:#D0104C;
-}
-label[for="calendar_color_id_2"]:hover {
-    background-color: #E2EDF9;
-}
-label[for="calendar_color_id_3"]  {
+
+label[id="color_3"]  span  {
     background:#FB966E;
 }
-label[for="calendar_color_id_3"]:hover {
-    background-color: #E2EDF9;
-}
-label[for="calendar_color_id_4"]  {
+
+label[id="color_4"]  span  {
     background:#F7C242;
 }
-label[for="calendar_color_id_4"]:hover {
-    background-color: #E2EDF9;
-}
-label[for="calendar_color_id_5"]  {
+
+label[id="color_5"]  span {
     background:#B5CAA0;
 }
-label[for="calendar_color_id_5"]:hover {
-    background-color: #E2EDF9;
-}
-label[for="calendar_color_id_6"]  {
+
+label[id="color_6"]  span  {
     background:#58B2DC;
 }
-label[for="calendar_color_id_6"]:hover {
-    background-color: #E2EDF9;
-}
-label[for="calendar_color_id_7"]  {
+
+label[id="color_7"]  span  {
     background:#9B90C2;
 }
-label[for="calendar_color_id_7"]:hover {
-    background-color: #E2EDF9;
-}
-label[for="calendar_color_id_8"]  {
+
+label[id="color_8"]  span  {
     background:#0C0C0C;
 }
-label[for="calendar_color_id_8"]:hover {
-    background-color: #E2EDF9;
-}
-label[for="calendar_color_id_9"]  {
+
+label[id="color_9"]  span  {
     background:#B481BB;
 }
-label[for="calendar_color_id_9"]:hover {
-    background-color: #E2EDF9;
-}
-label[for="calendar_color_id_10"]  {
+
+label[id="color_10"]  span  {
     background:#A8D8B9;
 }
-label[for="calendar_color_id_10"]:hover {
-    background-color: #E2EDF9;
-}
-label[for="calendar_color_id_1"],label[for="calendar_color_id_2"],label[for="calendar_color_id_3"],label[for="calendar_color_id_4"],label[for="calendar_color_id_5"],label[for="calendar_color_id_6"],label[for="calendar_color_id_7"],label[for="calendar_color_id_8"],label[for="calendar_color_id_9"],label[for="calendar_color_id_10"] {
-    display: block; 
-    float: left;
-    margin: 5px;
-    width: 20px;
-    height: 20px;
-    padding-left: 5px; 
-    padding-right: 5px;
-    cursor: pointer; 
-    border-radius: 5px; 
-}
+
 
 .checkedcolor {
     background-color: rgba(255, 255, 255, 0.5);
@@ -345,13 +313,7 @@ label[for="calendar_color_id_1"],label[for="calendar_color_id_2"],label[for="cal
     border: 2px solid #ddd;
 }
 
-input[name="calendar[color_id]"]:checked + label {
-    background-color: #d1ff8c;
-}
 
-input[value="3"]:checked + label {
-    background-color: #ddd;
-}
 // calendar-index ------------------------
 .calendar-table {
     width: 100%;
@@ -389,4 +351,14 @@ float: right;
 .left-sidebar ul {
     height: 400px;
     overflow: scroll;
+}
+
+.checkbox ul li label {
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.checkbox ul li label:hover {
+    background-color: #ddd;
 }

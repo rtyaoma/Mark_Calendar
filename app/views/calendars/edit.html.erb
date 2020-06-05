@@ -18,9 +18,11 @@
               <div class="form-group">
                 <p class="calendar-text">カレンダーの色を決めよう</p>
               </div>
-              <div class="form-group">
-                <%= f.collection_radio_buttons(:color_id, @colors, :id, :color_type, include_hidden: false) do |b| %>
-                  <%= b.label {b.radio_button} %>
+              <div class="form-group radio btn-group btn-group-vertical" data-toggle="buttons">
+                <% @colors.each do |c| %>
+                    <label class="btn" id="color_<%= c.id %>">
+                      <input type="radio" name="calendar[color_id]" value="<%= c.id %>" ><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-dot-circle-o fa-2x"></i><span class="radio-color"></span>
+                    </label>
                 <% end %>
               </div>
             </div>

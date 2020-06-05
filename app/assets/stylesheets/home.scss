@@ -137,3 +137,12 @@ header {
   border-radius: 0 0 2px 2px;
   font-size: 14px;
 }
+
+.group-text::placeholder {
+  color: #ddd;
+  font-size: 14px;
+}
+
+.radio {
+height: 100px;
+}

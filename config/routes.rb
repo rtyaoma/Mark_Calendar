@@ -1,19 +1,17 @@
 Rails.application.routes.draw do
-  namespace :admin do
-    resources :users
-  end
-  get 'home/top'
+
   namespace :api, { format: 'json' } do
     namespace :v1 do
         resources :events
-        post 'events/index' => 'events#index'
-
     end
   end
+
   format 'json' do
     resources :events
   end
 
+  get 'home/top'
+  
   resources :colors
   get 'new_select' => 'events#new_select'
   get 'filter' => 'tasks#filter'

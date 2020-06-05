@@ -27,7 +27,7 @@ $(document).on('turbolinks:load', function() {
     var end_day = $("select[name='event[end(3i)]']").val();
     var end_hour = $("select[name='event[end(4i)]']").val();
     var end_min = $("select[name='event[end(5i)]']").val();
-    var  check_end = end_year + "-" + end_month + "-" + end_day + " " + end_hour + ":" + end_min 
+    var check_end = end_year + "-" + end_month + "-" + end_day + " " + end_hour + ":" + end_min 
     var date_start = new Date(check_start)
     var date_end = new Date(check_end)
     value = $input.val();
@@ -36,7 +36,6 @@ $(document).on('turbolinks:load', function() {
     }).get();
     var checked =  $("input[name='event[calendar_id]']:checked").val();
     var set = $.inArray(checked, check);
-    console.log(value + " " + date_start + " " + date_end  + " " + set )
     if (value != '' && date_start <= date_end && set != -1  ) {
       $('.event_sub').addClass('check_submit');
     } else {
@@ -44,12 +43,10 @@ $(document).on('turbolinks:load', function() {
     }
   });
 
-  // calendarでcolorを選択した時に、背景を変更する ------------------------------------------------
- 
-  $('input[name="calendar[color_id]"]').on('click', function() {
-    $('input[name="calendar[color_id]"]:checked').css('backbround-color','#ddd');
-  });
-
+  $('.inner-right').on('click','.show_hide_row i',function(){
+     $('.select-description').toggle();
+    });
+   
 
 
   $('.chart_link').on('click', function (){
@@ -70,7 +67,7 @@ $(document).on('turbolinks:load', function() {
     var m = (new Date(v)).getMonth() + 2;
     var sr = y + "-" + m + "-" + 1;
     var tr = new Date(sr);
-    var chart_vals = $('input[class="chart-select"]:checked').map(function() {
+    var chart_vals = $('input[class="chart-select"]:checked').map( function() {
       return $(this).val();
     }).get();
     console.log(ss + "  " + tr);

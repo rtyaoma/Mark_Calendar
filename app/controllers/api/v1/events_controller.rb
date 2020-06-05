@@ -24,14 +24,9 @@ require "#{Rails.root}/app/controllers/application_controller.rb"
 
                 def update
                     @event = Event.find(params[:id])
-                    #event_params.require(:title)
-                    #event_params.require(:start)
-                    #event_params.require(:end)
-                    #event_params.require(:color)
-                    #event_params.require(:allDay)
                     respond_to do |format|
                         format.any
-                        if @event.update!(event_params)
+                        if @event.update(event_params)
                             @event.save
                             render json: @event.to_json
                         else
@@ -47,11 +42,6 @@ require "#{Rails.root}/app/controllers/application_controller.rb"
                 
 
                 def create
-                    #event_params.require(:title)
-                    #event_params.require(:start)
-                    #event_params.require(:end)
-                    #event_params.require(:color)
-                    #event_params.require(:allDay)
                     @event = Event.new(event_params)
                     respond_to do |format|
                         format.any
@@ -77,6 +67,7 @@ require "#{Rails.root}/app/controllers/application_controller.rb"
                         :start,
                         :end,
                         :color,
+                        :calendar_id,
                         :allDay
                     )
                     end
