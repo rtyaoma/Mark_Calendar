@@ -1,0 +1,20 @@
+    <canvas id="myChart" width="400" height="400"></canvas>
+    <script>
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var myPieChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: <%= @calendar_titles.to_json.html_safe %>,
+                datasets: [{
+                    backgroundColor: <%= @color_types.to_json.html_safe %>,
+                    data: <%= @a %>
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'カレンダー別の割合'
+                }
+            }
+        });
+    </script>

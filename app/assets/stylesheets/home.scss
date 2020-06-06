@@ -146,3 +146,23 @@ header {
 .radio {
 height: 100px;
 }
+
+.login-form-signup {
+  color: white;
+  width: 200px;
+  padding: 10px;
+  border-radius: 5px;
+  opacity: 0.8;
+}
+
+.login-form-signup:hover,.login-form:hover {
+  opacity: 1;
+}
+
+.login-form {
+  float: left;
+  padding: 10px;
+  color: white;
+  border-radius: 5px;
+  opacity: 0.8;
+}

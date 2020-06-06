@@ -19,6 +19,7 @@ class Event < ApplicationRecord
         return Calendar.find_by(id: self.calendar_id)
     end
 
+
     before_save do
         start_on = self.start.strftime('%d') 
         end_on = self.end.strftime('%d') 
@@ -27,20 +28,5 @@ class Event < ApplicationRecord
           self.end = self.end.tomorrow.beginning_of_day
         end
       end
-    #def calendar
-        #return Calendar.where(id: session[:calendar_id])
-    #end
-
-    #before_save do 
-        #if allDay?
-            #self.start = 'start'.beginning_of_day if start_on
-            #self.end = 'end'.tomorrow.beginning_of_day if end_on
-        #else
-            #self.start_on = nil
-            #self.end_on = nil
-        #end
-    #end
-
-    
 
 end
