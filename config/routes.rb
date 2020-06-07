@@ -39,6 +39,7 @@ Rails.application.routes.draw do
 
   resources :events
 
+  get 'filter_index' => 'events#filter_index'
   get 'chart_filter' => 'events#chart_filter'
   get 'chart' => 'events#chart'
   get 'events_show' => 'events#events_show'

@@ -1,13 +1,19 @@
     <canvas id="myChart" width="400" height="400"></canvas>
     <script>
+        var data1 = <%= @events_key.to_json.html_safe %>
+        var data2 = data1.sort(([a], [b]) => a - b).map(([k, v]) => v);
+        var data3 = <%= @calendar_group.to_json.html_safe %>
+        var data4 = data3.sort(([a],[b]) => a - b).map(([k, v]) => v);
+
+
         var ctx = document.getElementById("myChart").getContext('2d');
         var myPieChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: <%= @calendar_titles.to_json.html_safe %>,
+                labels: data4,
                 datasets: [{
-                    backgroundColor: <%= @color_types.to_json.html_safe %>,
-                    data: <%= @a %>
+                    backgroundColor: data2,
+                    data: <%= @events_count %>
                 }]
             },
             options: {
@@ -18,3 +24,10 @@
             }
         });
     </script>
+    <div class="select_calendar">
+        <% @calendar_group.each do |e| %>
+            <div class="select_calendar_inner">
+                <button data-id="<%= e[0] %>", class="calendar_button"><%= e[1] %></button>
+            </div>
+        <% end %>
+    </div>

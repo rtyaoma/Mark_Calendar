@@ -1,0 +1,12 @@
+<div class="events-select filter_table">
+<% @calendar_events.each do |event| %>
+<table class="event-select filter_select">
+    <tr>
+      <td class="event-time"><%= event.start.strftime('%m/%d') %></td>
+      <td><span>〜</span></td>
+      <td><%= event.end.strftime('%m/%d') %></td>
+      <td class="event-title" style="border-left-color: <%= event.color %>;"><%= link_to(event.title, event) %></td>
+    </tr>
+</table>
+<% end %>
+</div>

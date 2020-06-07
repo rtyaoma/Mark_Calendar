@@ -550,26 +550,8 @@ label.btn span {
   }
   
   div[data-toggle="buttons"] label {
-  //display: inline-block;
   padding: 6px 12px;
-  //margin-bottom: 0;
-  //font-size: 14px;
-  //font-weight: normal;
-  //line-height: 2em;
-  //text-align: left;
-  //white-space: nowrap;
-  //vertical-align: top;
-  //cursor: pointer;
-  //background-color: none;
-  //border: 0px solid 
-  //#c8c8c8;
-  //border-radius: 3px;
   color: #ddd;
-  //-webkit-user-select: none;
-  //-moz-user-select: none;
-  //-ms-user-select: none;
-  //-o-user-select: none;
-  //user-select: none;
   }
   
   div[data-toggle="buttons"] label:hover {
@@ -587,4 +569,42 @@ label.btn span {
 
   input {
     text-indent: 1em;
+  }
+
+  .select_month {
+      width: 400px;
+      margin: 0 auto;
+  }
+
+  .select_month input {
+      width: 160px;
+  }
+
+  .select_calendar {
+      margin: 10px auto 0 auto;
+  }
+
+  .select_calendar_inner {
+      float: left;
+      padding: 5px;
+  }
+
+  .select_calendar_inner button:hover {
+      cursor: pointer;
+  }
+
+
+  .filter_select {
+      height: 50px;;
+  }
+
+  .filter_table {
+      height: 500px;
+      overflow: scroll;
+  }
+
+  .filter-select.event-title a {
+      height: 50px;
+      line-height: 50px;
+      padding-left: 20px;
   }

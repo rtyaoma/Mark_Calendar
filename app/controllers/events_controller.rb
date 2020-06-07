@@ -142,42 +142,23 @@ class EventsController < ApplicationController
 
 
   def chart_filter
-    month = ((params[:chart][:start]).to_date).beginning_of_day
+    @month = ((params[:chart][:start]).to_date).beginning_of_day
     next_month = ((params[:chart][:end]).to_date).beginning_of_day
-    @events = Event.where('"start" >=? AND "end" <=?',month, next_month)
-    @events.order(:calendar_id)
-    @color_types = @events.distinct.pluck(:color)
-    @calendar_ids = @events.pluck(:calendar_id)
-    @calendar_titles = Calendar.where(id: @calendar_ids).pluck(:title)
-
-    @sksk = @events.distinct.pluck(:color,:calendar_id)
-    #@calendars = Calendar.where(id: @calendar_ids)
-    #@color_ids = @calendars.pluck(:color_id)
-    #@color = Color.where(id: @color_ids).pluck(:color_type)
-    @iii = @events.group(:calendar_id, :color).count
-    @iii.each do |key, value|
-      @calendar_ida = @iii.keys
-      @a = @iii.values
+    @events = Event.where('"start" >=? AND "end" <=?',@month, next_month)
+    calendar_ids = @events.pluck(:calendar_id)
+    @calendar_group = Calendar.where(id: calendar_ids).pluck(:id, :title)
+    @events_group = @events.group(:calendar_id, :color).order(:calendar_id).count
+    @events_group.each do |key, value|
+      @events_key = @events_group.keys
+      @events_count = @events_group.values
     end
+  end
 
-    #@colors = Color.where(id: @calendar)
-    #@color_typess = @colors.pluck(&:color_type)
-    #@mix = @events.joins(:calendars).pluck(:title)
-
-    #@chart_date = @calendar_events.size
-    logger.info "@colorの中身が見たい #{@color.inspect}"
-    logger.info "@wwの中身が見たい #{@calendars.inspect}"
-    logger.info "@colorsの中身が見たい #{@color_ids.inspect}"
-    logger.info "@iの中身が見たい #{@i.inspect}"
-    logger.info "@color_typesの中身が見たい #{@a.inspect}"
-    logger.info "@eventsの中身が見たい #{@events.inspect}"
-    logger.info "@color_typesの中身が見たい #{@color_types.inspect}"
-    logger.info "@typessの中身が見たい #{@color_typess.inspect}"
-    logger.info "@calendar_idaの中身が見たい #{@calendar_ida.inspect}"
-    logger.info "@iiiの中身が見たい #{@iii.inspect}"
-    logger.info "@calendar_titlesの中身が見たい #{@calendar_titles.inspect}"
-    logger.info "@mixの中身が見たい #{@wd.inspect}"
-
+  def filter_index
+    @month = ((params[:chart][:start]).to_date).beginning_of_day
+    next_month = ((params[:chart][:end]).to_date).beginning_of_day
+    @events = Event.where('"start" >=? AND "end" <=?',@month, next_month)
+    @calendar_events = @events.where(calendar_id: params[:chart][:calendar_id])
   end
 
     private
@@ -225,6 +206,11 @@ class EventsController < ApplicationController
       wd = %w[日 月 火 水 木 金 土]
       @todaydayofweek = "(" + "" + wd[@today.wday] + ")"
     end
+
+    def chart_event
+
+    end
+
 
     
 end

@@ -19,7 +19,6 @@ class Event < ApplicationRecord
         return Calendar.find_by(id: self.calendar_id)
     end
 
-
     before_save do
         start_on = self.start.strftime('%d') 
         end_on = self.end.strftime('%d') 

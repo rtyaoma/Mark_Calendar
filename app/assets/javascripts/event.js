@@ -14,7 +14,7 @@ $(document).on('turbolinks:load', function() {
   });
 
   // event作成時に、バリテーションを設定 --------------------------
-  $(".inner-right").on('input',function (event){
+  $(".inner-right").on('change',function (){
     var $input = $("input[name='event[title]']");
     var start_year = $("select[name='event[start(1i)]']").val();
     var start_month = $("select[name='event[start(2i)]']").val();
@@ -60,29 +60,47 @@ $(document).on('turbolinks:load', function() {
   })
 
   $('.chart_btn').on('click', function(){
-    var v = $('input[type="month"]').val();
-    var tt = v + "-" + "1";
-    var ss = new Date(tt);
-    var y = (new Date(v)).getFullYear();
-    var m = (new Date(v)).getMonth() + 2;
-    var sr = y + "-" + m + "-" + 1;
-    var tr = new Date(sr);
-    var chart_vals = $('input[class="chart-select"]:checked').map( function() {
-      return $(this).val();
-    }).get();
-    console.log(ss + "  " + tr);
+    var get_month = $('input[type="month"]').val();
+    var create_day = get_month + "-" + "1";
+    var start_day = new Date(create_day);
+    var year = (new Date(get_month)).getFullYear();
+    var month = (new Date(get_month)).getMonth() + 2;
+    var create_end = year + "-" + month + "-" + 1;
+    var end_day = new Date(create_end);
     var data = {
       chart: {
-        start: ss,
-        end: tr,
-        calendar_id: chart_vals,
+        start: start_day,
+        end: end_day
       }
     };
     $.ajax ({
       type: 'GET',
       data: data,
       url: '/chart_filter',
-    })
+    });
+  });
+
+  $('.inner-right').on('click', '.calendar_button', function(){
+    var calendar_id = $(this).data('id');
+    var get_month = $('input[type="month"]').val();
+    var create_day = get_month + "-" + "1";
+    var start_day = new Date(create_day);
+    var year = (new Date(get_month)).getFullYear();
+    var month = (new Date(get_month)).getMonth() + 2;
+    var create_end = year + "-" + month + "-" + 1;
+    var end_day = new Date(create_end);
+    var data = {
+      chart: {
+        calendar_id: calendar_id,
+        start: start_day,
+        end: end_day
+      }
+    };
+    $.ajax ({
+      type: 'GET',
+      data: data,
+      url: '/filter_index',
+    });
   })
 
 });
