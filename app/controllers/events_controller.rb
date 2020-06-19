@@ -1,21 +1,15 @@
 class EventsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :set_event, {only: [:show, :edit, :update, :destroy, :click_show, :ensure_correct_user]} #パラメータのidからレコードを特定するメソッド
+  before_action :set_event, {only: [:show, :edit, :update, :destroy, :click_show, :ensure_correct_user]} 
   before_action :authenticate_user
+  before_action :chart_event, {only: [:chart_filter, :filter_index]}
+  before_action :index_display, {only: [:index, :display]}
   before_action :set_current_calendars, {only: [:new, :click_new, :edit, :create,:update, :new_select]}
-  before_action :ensure_correct_user, {only: [:edit, :update, :destroy]} #ログインしているユーザーのみ権限がある
+  before_action :ensure_correct_user, {only: [:edit, :update, :destroy]} 
   before_action :set_time, {only: [:index, :display]}
   before_action :set_new,{only: [:new, :click_new, :new_select]}
 
   def index
-    @events = Event.where(user_id: @current_user.id, calendar_id: session[:calendar_id]).order(:start)
-    @allday_events = @events.where('"start" = ? AND "end" = ?' , @t0, @t1).order(:start)
-    @today_events = @events.where('"start" > ? AND "end" < ?' , @t0, @t1).order(:start)
-    @after_events = @events.where(start: @t0...@t1).where('"end" >?',@t1)
-    @before_events = @events.where('"start" <?',@t0).where(end: @form...@t1)
-    @continued_events = @events.where('"start" < ? AND "end" >= ?', @form_to, @t1).order(:start)
-    @am_events = @today_events.where(start: @t0...@half)
-    @pm_events = @today_events.where(start: @half...@t1)
     respond_to do |format|
     format.html
     format.xml { render :xml => @events }
@@ -118,14 +112,6 @@ class EventsController < ApplicationController
   end
 
   def display
-    @events = Event.where(user_id: @current_user.id, calendar_id: session[:calendar_id]).order(:start)
-    @allday_events = @events.where('"start" = ? AND "end" = ?' , @t0, @t1).order(:start)
-    @today_events = @events.where('"start" > ? AND "end" < ?' , @t0, @t1).order(:start)
-    @after_events = @events.where(start: @t0...@t1).where('"end" >?',@t1)
-    @before_events = @events.where('"start" <?',@t0).where(end: @form...@t1)
-    @continued_events = @events.where('"start" < ? AND "end" > ?', @form_to, @t1).order(:start)
-    @am_events = @today_events.where(end: @t0...@half)
-    @pm_events = @today_events.where(end: @half...@t1)
   end
 
 
@@ -142,12 +128,9 @@ class EventsController < ApplicationController
 
 
   def chart_filter
-    @month = ((params[:chart][:start]).to_date).beginning_of_day
-    next_month = ((params[:chart][:end]).to_date).beginning_of_day
-    @events = Event.where('"start" >=? AND "end" <=?',@month, next_month)
-    calendar_ids = @events.pluck(:calendar_id)
+    calendar_ids = @month_events.pluck(:calendar_id)
     @calendar_group = Calendar.where(id: calendar_ids).pluck(:id, :title)
-    @events_group = @events.group(:calendar_id, :color).order(:calendar_id).count
+    @events_group = @month_events.group(:calendar_id, :color).order(:calendar_id).count
     @events_group.each do |key, value|
       @events_key = @events_group.keys
       @events_count = @events_group.values
@@ -155,11 +138,9 @@ class EventsController < ApplicationController
   end
 
   def filter_index
-    @month = ((params[:chart][:start]).to_date).beginning_of_day
-    next_month = ((params[:chart][:end]).to_date).beginning_of_day
-    @events = Event.where('"start" >=? AND "end" <=?',@month, next_month)
-    @calendar_events = @events.where(calendar_id: params[:chart][:calendar_id])
+    @calendar_events = @month_events.where(calendar_id: params[:chart][:calendar_id]).order(:start)
   end
+
 
     private
 
@@ -208,7 +189,21 @@ class EventsController < ApplicationController
     end
 
     def chart_event
+      @month = ((params[:chart][:start]).to_date).beginning_of_day
+      next_month = ((params[:chart][:end]).to_date).beginning_of_day
+      @events = Event.where(user_id: @current_user.id)
+      @month_events = @events.where('"start" >=? AND "end" <=?',@month, next_month)
+    end
 
+    def index_display
+      @events = Event.where(user_id: @current_user.id, calendar_id: session[:calendar_id]).order(:start)
+      @allday_events = @events.where('"start" = ? AND "end" = ?' , @t0, @t1).order(:start)
+      @today_events = @events.where('"start" > ? AND "end" < ?' , @t0, @t1).order(:start)
+      @after_events = @events.where(start: @t0...@t1).where('"end" >?',@t1)
+      @before_events = @events.where('"start" <?',@t0).where(end: @form...@t1)
+      @continued_events = @events.where('"start" < ? AND "end" > ?', @form_to, @t1).order(:start)
+      @am_events = @today_events.where(end: @t0...@half)
+      @pm_events = @today_events.where(end: @half...@t1)
     end
 
 

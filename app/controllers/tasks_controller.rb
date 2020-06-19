@@ -1,10 +1,9 @@
 class TasksController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :set_task, {only: [:show, :edit, :update, :destroy, :ensure_correct_user, :done, :begin]} #パラメータのidからレコードを特定するメソッド
+  before_action :set_task, {only: [:show, :edit, :update, :destroy, :ensure_correct_user, :done, :begin]}
   before_action :set_sub_tasks, {only: [:done]}
   before_action :authenticate_user
-  #before_action :set_current_calendars, {only: [:new]}
-  before_action :ensure_correct_user, {only: [:edit, :update, :destroy]} #ログインしているユーザーのみ権限がある
+  before_action :ensure_correct_user, {only: [:edit, :update, :destroy]} 
 
   def index
     t0 = Time.current.beginning_of_day
@@ -83,12 +82,10 @@ class TasksController < ApplicationController
 
   def done
     @task.update(status: true)
-    @tasks= Task.where(user_id: @current_user.id)
   end
 
   def begin
     @task.update(status: false)
-    @tasks= Task.where(user_id: @current_user.id)
   end
 
 
@@ -106,6 +103,7 @@ class TasksController < ApplicationController
     def set_sub_tasks
       @sub_tasks = SubTask.where(task_id: params[:id])
     end
+
 
     def task_params
       params.require(:task).permit(

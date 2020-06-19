@@ -16,6 +16,7 @@ class Task < ApplicationRecord
         !exists && empty
       end
 
+
     
 
 

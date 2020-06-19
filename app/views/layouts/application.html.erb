@@ -6,6 +6,7 @@
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link href="https://fonts.googleapis.com/css?family=Caveat&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Noto+Sans+JP:400,700" rel="stylesheet">
     <script src="https://kit.fontawesome.com/e442e2cc3b.js" crossorigin="anonymous"></script>
   </head>
@@ -13,31 +14,25 @@
   <header>
     <div class="header-container">
       <div class="header-left">
-        <% if @current_user %>
-          <li><%= link_to("Mark_Calender", events_path) %></li>
-        <% else %>
           <li class="logo"><p>Mark_Calendar</p></li>
-        <% end %>
       </div>
       <span id="menu-icon" class="fa fa-bars"></span>
       <div class="header-right">
-      <% if @current_user %>
-      <% if @current_user.admin? %>
-      <li><%= link_to("color", colors_path) %></li>
-      <% end %>
-       <li><%= link_to("calendar", events_path) %></li>
-       <li><%= link_to("task", tasks_path) %></li>
-       <li><%= link_to("logout", "/logout", {method: :post}) %></li>
-     <% else %>
-       <li id="login-show"><%= link_to("login","/login") %></li>
-       <li><%= link_to("signup","/signup",class:"signup-show") %></li>
-     <% end %>
         <% if @current_user %>
+          <% if @current_user.admin? %>
+            <li><%= link_to("color", colors_path) %></li>
+          <% end %>
+          <li><%= link_to("calendar", events_path) %></li>
+          <li><%= link_to("task", tasks_path) %></li>
+          <li><%= link_to("logout", "/logout", {method: :post}) %></li>
           <% if @current_user.image.attached? %>
             <li><%= link_to(image_tag(@current_user.image), edit_user_path(@current_user.id)) %></li>
           <% else %>
             <li><%= link_to(image_tag("/user_images/default_user.jpg"),edit_user_path(@current_user.id)) %></li>
           <% end %>
+        <% else %>
+          <li id="login-show"><%= link_to("login","/login") %></li>
+          <li><%= link_to("signup","/signup",class:"signup-show") %></li>
         <% end %>
       </div>
     </div>

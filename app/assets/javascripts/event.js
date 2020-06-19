@@ -101,6 +101,6 @@ $(document).on('turbolinks:load', function() {
       data: data,
       url: '/filter_index',
     });
-  })
+  });
 
 });
